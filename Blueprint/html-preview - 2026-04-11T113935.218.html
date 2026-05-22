@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+
+<html lang="zh-CN" class="scroll-smooth">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ready Crew LMS | SaaS 演进蓝图</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<style>
+.chart-container {
+position: relative;
+width: 100%;
+max-width: 900px;
+margin-left: auto;
+margin-right: auto;
+height: 350px;
+max-height: 400px;
+}
+@media (max-width: 768px) {
+.chart-container {
+height: 280px;
+}
+}
+.hide-scrollbar::-webkit-scrollbar {
+display: none;
+}
+.hide-scrollbar {
+-ms-overflow-style: none;
+scrollbar-width: none;
+}
+.timeline-line {
+position: absolute;
+top: 50%;
+left: 0;
+right: 0;
+height: 4px;
+background-color: #cbd5e1;
+z-index: 0;
+transform: translateY(-50%);
+}
+.timeline-progress {
+position: absolute;
+top: 50%;
+left: 0;
+height: 4px;
+background-color: #4f46e5;
+z-index: 0;
+transform: translateY(-50%);
+transition: width 0.3s ease;
+}
+.nav-glass {
+background: rgba(255, 255, 255, 0.85);
+backdrop-filter: blur(12px);
+border-bottom: 1px solid rgba(226, 232, 240, 0.8);
+}
+</style>
+</head>
+<body class="bg-slate-50 text-slate-800 font-sans antialiased overflow-x-hidden">
+
+<nav class="fixed w-full z-50 nav-glass">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex justify-between h-16 items-center">
+            <div class="flex items-center gap-2">
+                <span class="text-2xl">🌐</span>
+                <span class="font-bold text-xl tracking-tight text-indigo-900">Ready Crew LMS <span class="text-xs align-top bg-indigo-100 text-indigo-700 px-1.5 py-0.5 rounded-full ml-1">V8.5</span></span>
+            </div>
+            <div class="hidden md:flex space-x-8">
+                <a href="#vision" class="text-sm font-medium text-slate-600 hover:text-indigo-600 transition-colors">转型愿景</a>
+                <a href="#engine" class="text-sm font-medium text-slate-600 hover:text-indigo-600 transition-colors">核心系统引擎</a>
+                <a href="#roadmap" class="text-sm font-medium text-slate-600 hover:text-indigo-600 transition-colors">SaaS 演进蓝图</a>
+                <a href="#business" class="text-sm font-medium text-slate-600 hover:text-indigo-600 transition-colors">商业与架构</a>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<header id="vision" class="pt-32 pb-20 px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto text-center">
+    <div class="inline-block mb-4 px-3 py-1 rounded-full bg-teal-50 border border-teal-200 text-teal-800 text-sm font-semibold tracking-wide">
+        跨境 IT 协作中台
+    </div>
+    <h1 class="text-4xl md:text-6xl font-extrabold text-slate-900 tracking-tight leading-tight mb-6">
+        从内部提效工具到 <br class="hidden md:block" />
+        <span class="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-teal-500">双语资产协作 SaaS 平台</span>
+    </h1>
+    <p class="mt-4 text-lg md:text-xl text-slate-600 max-w-3xl mx-auto leading-relaxed">
+        旨在消除中日跨境协作中的信息不对称，加速决策速度。打动 Frontia（上游公司）及其最终客户，展现其在跨境 IT 项目中的核心生态价值。
+    </p>
+</header>
+
+<section id="engine" class="py-20 bg-white border-y border-slate-200">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="mb-12 md:text-center max-w-3xl mx-auto">
+            <h2 class="text-3xl font-bold text-slate-900 mb-4">V8.2+ 核心系统引擎与协同工作流</h2>
+            <p class="text-slate-600 text-lg">
+                此区域展示了目前系统如何将业务工作流（左侧）与底层核心技术模块（右侧）紧密结合。请点击左侧的工作流步骤，探索背后驱动该步骤的 AI 与自动化模块详情，了解一条线索如何被高效流转。
+            </p>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+            <div class="lg:col-span-5 flex flex-col gap-3" id="workflow-container">
+                <button class="workflow-btn w-full text-left p-5 rounded-xl border-2 border-indigo-600 bg-indigo-50 transition-all flex items-center gap-4 relative overflow-hidden group" data-step="1">
+                    <div class="text-3xl z-10">📥</div>
+                    <div class="z-10">
+                        <div class="text-xs font-bold text-indigo-600 mb-1 uppercase tracking-wider">Step 1</div>
+                        <div class="font-bold text-slate-900 text-lg">线索入库</div>
+                    </div>
+                </button>
+                <button class="workflow-btn w-full text-left p-5 rounded-xl border-2 border-slate-100 bg-white hover:border-slate-300 transition-all flex items-center gap-4 relative overflow-hidden group" data-step="2">
+                    <div class="text-3xl z-10">🧠</div>
+                    <div class="z-10">
+                        <div class="text-xs font-bold text-slate-500 mb-1 uppercase tracking-wider group-hover:text-indigo-500 transition-colors">Step 2</div>
+                        <div class="font-bold text-slate-900 text-lg">深度查阅</div>
+                    </div>
+                </button>
+                <button class="workflow-btn w-full text-left p-5 rounded-xl border-2 border-slate-100 bg-white hover:border-slate-300 transition-all flex items-center gap-4 relative overflow-hidden group" data-step="3">
+                    <div class="text-3xl z-10">⚖️</div>
+                    <div class="z-10">
+                        <div class="text-xs font-bold text-slate-500 mb-1 uppercase tracking-wider group-hover:text-indigo-500 transition-colors">Step 3</div>
+                        <div class="font-bold text-slate-900 text-lg">决策投票</div>
+                    </div>
+                </button>
+                <button class="workflow-btn w-full text-left p-5 rounded-xl border-2 border-slate-100 bg-white hover:border-slate-300 transition-all flex items-center gap-4 relative overflow-hidden group" data-step="4">
+                    <div class="text-3xl z-10">📊</div>
+                    <div class="z-10">
+                        <div class="text-xs font-bold text-slate-500 mb-1 uppercase tracking-wider group-hover:text-indigo-500 transition-colors">Step 4</div>
+                        <div class="font-bold text-slate-900 text-lg">商务推进</div>
+                    </div>
+                </button>
+            </div>
+
+            <div class="lg:col-span-7 h-full">
+                <div class="bg-slate-50 rounded-2xl p-8 border border-slate-200 h-full shadow-inner flex flex-col justify-center" id="module-display">
+                    <h3 class="text-2xl font-extrabold text-slate-900 mb-2 flex items-center gap-3">
+                        <span id="mod-icon">🎣</span> <span id="mod-title">案件线索获取 (Lead Intake)</span>
+                    </h3>
+                    <p id="mod-desc" class="text-slate-600 mb-6 pb-6 border-b border-slate-200 text-lg">Agent 自动抓取或成员手动粘贴。通过自动化监听确保线索零遗漏进入系统。</p>
+                    
+                    <div class="space-y-4" id="mod-features">
+                        <div class="bg-white p-4 rounded-lg border border-slate-100 shadow-sm">
+                            <h4 class="font-bold text-indigo-900 text-sm mb-1">手动智能录入</h4>
+                            <p class="text-sm text-slate-600">支持粘贴 Ready Crew 原文。AI 提取法人信息、咨询背景、预算、决策链等 20+ 核心字段。</p>
+                        </div>
+                        <div class="bg-white p-4 rounded-lg border border-slate-100 shadow-sm">
+                            <h4 class="font-bold text-indigo-900 text-sm mb-1">邮件 Agent 自动抓取</h4>
+                            <p class="text-sm text-slate-600">后台每 15 分钟自动扫描 Gmail 目标邮箱。符合条件的邮件自动触发 AI 解析、存入数据库并标注已读。</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="roadmap" class="py-24 bg-slate-900 text-slate-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="mb-16 md:text-center max-w-3xl mx-auto">
+            <h2 class="text-3xl font-bold text-white mb-4">SaaS 演进三阶段规划</h2>
+            <p class="text-slate-400 text-lg">
+                探索系统如何从基础的双语底座，逐步升级为支撑跨境生态的商业级 SaaS 产品。点击时间轴节点，查看每个阶段的核心战略与技术支撑。
+            </p>
+        </div>
+
+        <div class="relative w-full max-w-4xl mx-auto mb-16 h-24">
+            <div class="timeline-line"></div>
+            <div class="timeline-progress" id="tl-progress" style="width: 0%;"></div>
+            
+            <div class="absolute w-full top-1/2 transform -translate-y-1/2 flex justify-between z-10 px-2 sm:px-8">
+                <button class="tl-node flex flex-col items-center group focus:outline-none" data-phase="1">
+                    <div class="w-12 h-12 rounded-full bg-indigo-600 border-4 border-slate-900 flex items-center justify-center text-xl shadow-[0_0_15px_rgba(79,70,229,0.5)] transition-all duration-300">🌐</div>
+                    <div class="mt-4 font-bold text-indigo-300 group-hover:text-indigo-200 transition-colors">第一阶段</div>
+                    <div class="text-xs text-slate-400 mt-1">产品化基石</div>
+                </button>
+                <button class="tl-node flex flex-col items-center group focus:outline-none" data-phase="2">
+                    <div class="w-12 h-12 rounded-full bg-slate-700 border-4 border-slate-900 flex items-center justify-center text-xl text-slate-400 group-hover:bg-slate-600 transition-all duration-300">🗺️</div>
+                    <div class="mt-4 font-bold text-slate-400 group-hover:text-slate-300 transition-colors">第二阶段</div>
+                    <div class="text-xs text-slate-500 mt-1">SaaS 原型</div>
+                </button>
+                <button class="tl-node flex flex-col items-center group focus:outline-none" data-phase="3">
+                    <div class="w-12 h-12 rounded-full bg-slate-700 border-4 border-slate-900 flex items-center justify-center text-xl text-slate-400 group-hover:bg-slate-600 transition-all duration-300">🚀</div>
+                    <div class="mt-4 font-bold text-slate-400 group-hover:text-slate-300 transition-colors">第三阶段</div>
+                    <div class="text-xs text-slate-500 mt-1">未来蓝图</div>
+                </button>
+            </div>
+        </div>
+
+        <div class="max-w-4xl mx-auto bg-slate-800 rounded-2xl p-8 border border-slate-700 shadow-2xl min-h-[300px] transition-all duration-500" id="phase-content">
+            <div class="flex items-center gap-4 mb-6">
+                <span class="text-4xl bg-slate-900 p-3 rounded-xl border border-slate-700">🌐</span>
+                <div>
+                    <h3 class="text-2xl font-bold text-white">产品化基石 (当前方向)</h3>
+                    <p class="text-teal-400 text-sm mt-1">建立无摩擦的跨国沟通底座</p>
+                </div>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="bg-slate-900/50 p-6 rounded-xl border border-slate-700/50 hover:border-indigo-500/50 transition-colors">
+                    <h4 class="font-bold text-indigo-300 mb-2 flex items-center gap-2"><span>1</span> 智能双语自适应 UI</h4>
+                    <p class="text-slate-300 text-sm mb-3">检测浏览器语言，自动切换中日文界面文字、按钮及提示。</p>
+                    <div class="bg-slate-950 p-3 rounded text-xs text-slate-400 border-l-2 border-teal-500">
+                        <strong>商业价值：</strong> 实现“跨国协作零摩擦”，让日本负责人与中国开发团队在母语环境下无缝协作。
+                    </div>
+                </div>
+                <div class="bg-slate-900/50 p-6 rounded-xl border border-slate-700/50 hover:border-indigo-500/50 transition-colors">
+                    <h4 class="font-bold text-indigo-300 mb-2 flex items-center gap-2"><span>2</span> 内容双语化存储与生成</h4>
+                    <p class="text-slate-300 text-sm mb-3">AI 解析时生成中日双语对照的关键字段信息。一键生成 PDF 格式的“案件画像简报”。</p>
+                    <div class="bg-slate-950 p-3 rounded text-xs text-slate-400 border-l-2 border-teal-500">
+                        <strong>商业价值：</strong> 作为提供给 Frontia 客户的增值服务，直接驱动前端业务转化。
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="business" class="py-20 bg-slate-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        
+        <div class="mb-16 md:text-center max-w-3xl mx-auto">
+            <h2 class="text-3xl font-bold text-slate-900 mb-4">商业蓝图与企业架构</h2>
+            <p class="text-slate-600 text-lg">
+                此看板汇总了系统在不同阶段的商业模式跃迁，并通过互动图表展示其从内部工具向行业级生态平台演进过程中的价值增长模型，同时梳理了保障这一演进的底层架构控制。
+            </p>
+        </div>
+
+        <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden mb-12">
+            <div class="p-6 md:p-8 bg-slate-900 text-white flex flex-col md:flex-row items-center justify-between gap-6">
+                <div>
+                    <h3 class="text-xl font-bold mb-2">商业价值增长预测模型</h3>
+                    <p class="text-slate-400 text-sm">展示短期、中期、长期阶段，系统在用户覆盖度与功能深度上的协同增长。</p>
+                </div>
+                <div class="flex gap-4 text-sm">
+                    <div class="flex items-center gap-2"><span class="w-3 h-3 rounded-full bg-teal-500"></span> 商业模式广度</div>
+                    <div class="flex items-center gap-2"><span class="w-3 h-3 rounded-full bg-indigo-500"></span> 平台价值深度</div>
+                </div>
+            </div>
+            <div class="p-4 md:p-8">
+                <div class="chart-container">
+                    <canvas id="businessChart"></canvas>
+                </div>
+            </div>
+            
+            <div class="border-t border-slate-100">
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left text-sm">
+                        <thead class="bg-slate-50 text-slate-600 uppercase">
+                            <tr>
+                                <th class="px-6 py-4 font-semibold">阶段</th>
+                                <th class="px-6 py-4 font-semibold">目标用户</th>
+                                <th class="px-6 py-4 font-semibold">商业模式</th>
+                                <th class="px-6 py-4 font-semibold">核心功能</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-100">
+                            <tr class="hover:bg-indigo-50/50 transition-colors cursor-default">
+                                <td class="px-6 py-4 font-bold text-slate-900">短期 (Beta)</td>
+                                <td class="px-6 py-4 text-slate-700">我们团队自用</td>
+                                <td class="px-6 py-4 text-slate-600">内部提效，降低评估成本</td>
+                                <td class="px-6 py-4 text-indigo-700 font-medium bg-indigo-50/30">自动解析 + 双语 UI + 邮件抓取</td>
+                            </tr>
+                            <tr class="hover:bg-indigo-50/50 transition-colors cursor-default">
+                                <td class="px-6 py-4 font-bold text-slate-900">中期 (Partner)</td>
+                                <td class="px-6 py-4 text-slate-700">Frontia 专用版</td>
+                                <td class="px-6 py-4 text-slate-600">赋能上游，收取出租费或管理费</td>
+                                <td class="px-6 py-4 text-indigo-700 font-medium bg-indigo-50/30">生命周期管理 + 多公司协同评审</td>
+                            </tr>
+                            <tr class="hover:bg-indigo-50/50 transition-colors cursor-default">
+                                <td class="px-6 py-4 font-bold text-slate-900">长期 (Market)</td>
+                                <td class="px-6 py-4 text-slate-700">全行业 SaaS</td>
+                                <td class="px-6 py-4 text-slate-600">向所有供应商销售，抽佣或席位费</td>
+                                <td class="px-6 py-4 text-indigo-700 font-medium bg-indigo-50/30">智能匹配 + 跨境项目管理 + 翻译资产库</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <h3 class="text-2xl font-bold text-slate-900 mb-8 text-center">系统护城河：企业级管控与未来架构</h3>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div class="bg-white p-8 rounded-2xl shadow-sm border border-slate-200">
+                <div class="w-12 h-12 bg-slate-100 rounded-xl flex items-center justify-center text-2xl mb-6">🔒</div>
+                <h4 class="text-xl font-bold text-slate-900 mb-4">当前管控体系 (Current)</h4>
+                <ul class="space-y-4">
+                    <li class="flex items-start gap-3">
+                        <span class="text-teal-600 mt-1">▪</span>
+                        <div>
+                            <strong class="block text-slate-800">企业域名锁</strong>
+                            <span class="text-sm text-slate-600">锁定公司邮箱后缀，确保商业机密不外泄。</span>
+                        </div>
+                    </li>
+                    <li class="flex items-start gap-3">
+                        <span class="text-teal-600 mt-1">▪</span>
+                        <div>
+                            <strong class="block text-slate-800">零代码配置</strong>
+                            <span class="text-sm text-slate-600">通过 Prompt_Config 灵活控制 AI 逻辑与 Agent 行为，降低运维门槛。</span>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="bg-indigo-900 p-8 rounded-2xl shadow-lg border border-indigo-800 text-white relative overflow-hidden">
+                <div class="absolute -right-10 -top-10 text-9xl opacity-5">🏗️</div>
+                <div class="w-12 h-12 bg-indigo-800 rounded-xl flex items-center justify-center text-2xl mb-6">🏗️</div>
+                <h4 class="text-xl font-bold mb-4">未来架构建议 (Future)</h4>
+                <ul class="space-y-4 relative z-10">
+                    <li class="flex items-start gap-3">
+                        <span class="text-indigo-400 mt-1">▪</span>
+                        <div>
+                            <strong class="block text-indigo-100">多租户架构 (Multi-tenancy)</strong>
+                            <span class="text-sm text-indigo-300">支持严格的数据隔离，确保不同机构仅能看到授权内的案件数据。</span>
+                        </div>
+                    </li>
+                    <li class="flex items-start gap-3">
+                        <span class="text-indigo-400 mt-1">▪</span>
+                        <div>
+                            <strong class="block text-indigo-100">API 开放性</strong>
+                            <span class="text-sm text-indigo-300">预留标准接口，方便与 Frontia 等外部商业系统进行无缝数据对接。</span>
+                        </div>
+                    </li>
+                    <li class="flex items-start gap-3">
+                        <span class="text-indigo-400 mt-1">▪</span>
+                        <div>
+                            <strong class="block text-indigo-100">Prompt 品牌化</strong>
+                            <span class="text-sm text-indigo-300">将中日跨境 IT 解析提示词沉淀为“行业标准”，打造系统不可替代的核心技术壁垒。</span>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+<footer class="bg-slate-900 py-12 border-t border-slate-800 text-center">
+    <div class="max-w-7xl mx-auto px-4">
+        <div class="text-2xl mb-4">🌐</div>
+        <p class="text-slate-400 font-medium">Ready Crew LMS Interactive Blueprint</p>
+        <p class="text-slate-500 text-sm mt-2">Translating Source Report Content into Interactive Experiences.</p>
+    </div>
+</footer>
+
+<script>
+    const workflowData = {
+        1: {
+            title: "案件线索获取 (Lead Intake)",
+            icon: "🎣",
+            desc: "确保所有高价值线索能够零遗漏、低成本地进入系统流转池，建立高效的输入管道。",
+            features: [
+                { name: "手动智能录入", desc: "支持粘贴 Ready Crew 原文。AI 提取法人信息、咨询背景、预算、决策链等 20+ 核心字段。" },
+                { name: "邮件 Agent 自动抓取", desc: "后台每 15 分钟自动扫描 Gmail 目标邮箱。符合条件的邮件自动触发 AI 解析、存入数据库并标注已读。" }
+            ]
+        },
+        2: {
+            title: "AI 智能引擎 & 文件自动化",
+            icon: "🧠",
+            desc: "系统的大脑与自动文员。负责非结构化数据的处理、专业架构分析及资料的自动归档整理。",
+            features: [
+                { name: "技术分析预判 (B3 配置)", desc: "AI 扮演资深架构师，生成中日双语对照的技术路径、难点预判及风险提示。" },
+                { name: "Drive 附件同步", desc: "自动在 Google Drive 创建项目文件夹，并同步邮件中的 RFP、图纸等附件。" }
+            ]
+        },
+        3: {
+            title: "协同决策与意图识别",
+            icon: "⚖️",
+            desc: "辅助团队快速对线索价值进行判断，形成决策共识，并过滤无效干扰。",
+            features: [
+                { name: "会前资料预警", desc: "前端评审页实时提醒资料就绪情况，确保面谈前团队充分研读。" },
+                { name: "Agent 意图识别", desc: "自动判断邮件线索有效性，记录日志并提醒人工干预异常情况。" }
+            ]
+        },
+        4: {
+            title: "数据可视化看板 (BI)",
+            icon: "📊",
+            desc: "提供宏观业务视角，指导商务团队的资源倾斜与推进策略。",
+            features: [
+                { name: "多维联动统计", desc: "按行业分类、月份及案件类型进行联动过滤，实时监控业务动态。" },
+                { name: "动态状态追踪", desc: "底层与 Project_Discussion 实时互联，自动识别案件处于“待处理”还是“已评审”状态。" }
+            ]
+        }
+    };
+
+    const phaseData = {
+        1: {
+            title: "产品化基石 (当前方向)",
+            icon: "🌐",
+            subtitle: "建立无摩擦的跨国沟通底座",
+            cards: [
+                { title: "智能双语自适应 UI", desc: "检测浏览器语言，自动切换中日文界面文字、按钮及提示。", val: "实现“跨国协作零摩擦”，让日本负责人与中国开发团队在母语环境下无缝协作。" },
+                { title: "内容双语化存储与生成", desc: "AI 解析时生成中日双语对照的关键字段信息。一键生成 PDF 格式的“案件画像简报”。", val: "作为提供给 Frontia 客户的增值服务，直接驱动前端业务转化。" }
+            ]
+        },
+        2: {
+            title: "系统功能全景图 (SaaS Prototype)",
+            icon: "🗺️",
+            subtitle: "构建端到端的自动化协同闭环",
+            cards: [
+                { title: "自动化线索工厂 & AI 大脑", desc: "多渠道（邮件、插件、API）抓取与智能清洗。根据历史项目库进行技术可行性评分与方案自动建议。", val: "仅保留高价值硬核数据，缩短面谈前的预研周期，大幅提升评估效率。" },
+                { title: "协同决策空间", desc: "建立多方评审系统，让 Frontia、开发公司及客户在受限视图下共同协作，资料云端归档。", val: "打破企业边界，建立透明、高效的在线联合办公环境。" }
+            ]
+        },
+        3: {
+            title: "未来蓝图与商业路径 (The Blue Ocean)",
+            icon: "🚀",
+            subtitle: "打造跨境 IT 咨询协作生态网络",
+            cards: [
+                { title: "数据化看板 (Market BI)", desc: "聚合跨企业数据，观察日本市场整体的技术需求热点分布趋势。", val: "系统成为项目的“翻译官”和“催化剂”，提供行业宏观决策依据。" },
+                { title: "反向匹配分发系统", desc: "根据开发公司的“举手记录”分析技术擅长点，当有新案件进入时定向推送。", val: "从被动管理转变为主动撮合，重塑跨境 IT 产业链上下游关系。" }
+            ]
+        }
+    };
+
+    document.addEventListener('DOMContentLoaded', () => {
+        const wfButtons = document.querySelectorAll('.workflow-btn');
+        wfButtons.forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                wfButtons.forEach(b => {
+                    b.classList.remove('border-indigo-600', 'bg-indigo-50');
+                    b.classList.add('border-slate-100', 'bg-white');
+                    b.querySelector('div:last-child > div:first-child').classList.remove('text-indigo-600');
+                    b.querySelector('div:last-child > div:first-child').classList.add('text-slate-500');
+                    b.querySelector('.text-3xl').classList.remove('scale-110');
+                });
+
+                const currentBtn = e.currentTarget;
+                currentBtn.classList.remove('border-slate-100', 'bg-white');
+                currentBtn.classList.add('border-indigo-600', 'bg-indigo-50');
+                currentBtn.querySelector('div:last-child > div:first-child').classList.remove('text-slate-500');
+                currentBtn.querySelector('div:last-child > div:first-child').classList.add('text-indigo-600');
+                currentBtn.querySelector('.text-3xl').classList.add('scale-110', 'transition-transform');
+
+                const step = currentBtn.getAttribute('data-step');
+                const data = workflowData[step];
+
+                document.getElementById('mod-icon').textContent = data.icon;
+                document.getElementById('mod-title').textContent = data.title;
+                document.getElementById('mod-desc').textContent = data.desc;
+
+                const featureContainer = document.getElementById('mod-features');
+                featureContainer.innerHTML = '';
+                
+                data.features.forEach(f => {
+                    const div = document.createElement('div');
+                    div.className = 'bg-white p-4 rounded-lg border border-slate-100 shadow-sm transition-all animate-[fadeIn_0.3s_ease-out]';
+                    div.innerHTML = `
+                        <h4 class="font-bold text-indigo-900 text-sm mb-1">${f.name}</h4>
+                        <p class="text-sm text-slate-600">${f.desc}</p>
+                    `;
+                    featureContainer.appendChild(div);
+                });
+            });
+        });
+
+        const tlNodes = document.querySelectorAll('.tl-node');
+        const tlProgress = document.getElementById('tl-progress');
+        tlNodes.forEach((node, index) => {
+            node.addEventListener('click', (e) => {
+                const phase = node.getAttribute('data-phase');
+                const percent = phase === '1' ? '0%' : (phase === '2' ? '50%' : '100%');
+                tlProgress.style.width = percent;
+
+                tlNodes.forEach((n, i) => {
+                    const iconDiv = n.querySelector('div:first-child');
+                    const textDiv = n.querySelector('div:nth-child(2)');
+                    if (i <= index) {
+                        iconDiv.classList.remove('bg-slate-700', 'text-slate-400');
+                        iconDiv.classList.add('bg-indigo-600', 'text-white', 'shadow-[0_0_15px_rgba(79,70,229,0.5)]');
+                        textDiv.classList.remove('text-slate-400');
+                        textDiv.classList.add('text-indigo-300');
+                    } else {
+                        iconDiv.classList.remove('bg-indigo-600', 'text-white', 'shadow-[0_0_15px_rgba(79,70,229,0.5)]');
+                        iconDiv.classList.add('bg-slate-700', 'text-slate-400');
+                        textDiv.classList.remove('text-indigo-300');
+                        textDiv.classList.add('text-slate-400');
+                    }
+                });
+
+                const data = phaseData[phase];
+                const contentDiv = document.getElementById('phase-content');
+                
+                contentDiv.style.opacity = '0';
+                contentDiv.style.transform = 'translateY(10px)';
+                
+                setTimeout(() => {
+                    contentDiv.innerHTML = `
+                        <div class="flex items-center gap-4 mb-6">
+                            <span class="text-4xl bg-slate-900 p-3 rounded-xl border border-slate-700">${data.icon}</span>
+                            <div>
+                                <h3 class="text-2xl font-bold text-white">${data.title}</h3>
+                                <p class="text-teal-400 text-sm mt-1">${data.subtitle}</p>
+                            </div>
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            ${data.cards.map((c, i) => `
+                                <div class="bg-slate-900/50 p-6 rounded-xl border border-slate-700/50 hover:border-indigo-500/50 transition-colors">
+                                    <h4 class="font-bold text-indigo-300 mb-2 flex items-center gap-2"><span>${i+1}</span> ${c.title}</h4>
+                                    <p class="text-slate-300 text-sm mb-3">${c.desc}</p>
+                                    <div class="bg-slate-950 p-3 rounded text-xs text-slate-400 border-l-2 border-teal-500">
+                                        <strong class="text-teal-500">商业赋能：</strong> ${c.val}
+                                    </div>
+                                </div>
+                            `).join('')}
+                        </div>
+                    `;
+                    contentDiv.style.opacity = '1';
+                    contentDiv.style.transform = 'translateY(0)';
+                }, 300);
+            });
+        });
+
+        const ctx = document.getElementById('businessChart').getContext('2d');
+        Chart.defaults.font.family = 'system-ui, -apple-system, sans-serif';
+        
+        new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: ['短期 (Beta)', '中期 (Partner)', '长期 (Market)'],
+                datasets: [
+                    {
+                        type: 'line',
+                        label: '平台生态覆盖度 (商业宽度)',
+                        data: [15, 55, 100],
+                        borderColor: '#14b8a6',
+                        backgroundColor: '#14b8a6',
+                        borderWidth: 3,
+                        tension: 0.4,
+                        pointRadius: 6,
+                        pointBackgroundColor: '#fff',
+                        pointBorderWidth: 2,
+                        yAxisID: 'y'
+                    },
+                    {
+                        type: 'bar',
+                        label: '系统功能完整度 (平台深度)',
+                        data: [35, 70, 100],
+                        backgroundColor: 'rgba(79, 70, 229, 0.8)',
+                        hoverBackgroundColor: 'rgba(79, 70, 229, 1)',
+                        borderRadius: 6,
+                        barPercentage: 0.5,
+                        yAxisID: 'y1'
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                interaction: {
+                    mode: 'index',
+                    intersect: false,
+                },
+                plugins: {
+                    legend: {
+                        display: false 
+                    },
+                    tooltip: {
+                        backgroundColor: 'rgba(15, 23, 42, 0.9)',
+                        titleFont: { size: 14 },
+                        bodyFont: { size: 13 },
+                        padding: 12,
+                        cornerRadius: 8,
+                        callbacks: {
+                            label: function(context) {
+                                return context.dataset.label + ': ' + context.parsed.y + '% 达成率';
+                            }
+                        }
+                    }
+                },
+                scales: {
+                    x: {
+                        grid: { display: false, drawBorder: false },
+                        ticks: { color: '#94a3b8', font: { weight: 'bold' } }
+                    },
+                    y: {
+                        display: false,
+                        min: 0,
+                        max: 120
+                    },
+                    y1: {
+                        display: false,
+                        min: 0,
+                        max: 120
+                    }
+                }
+            }
+        });
+    });
+</script>
+</body>
+</html>

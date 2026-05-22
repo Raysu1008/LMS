@@ -1,0 +1,2 @@
+# ローカルのみに置く秘密設定（リポジトリに含めない）
+config/local.settings.json

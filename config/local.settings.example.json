@@ -1,0 +1,11 @@
+{
+  "_comment": "コピーして local.settings.json にリネームし値を埋める。空文字のキーは Script Properties に書き込まれません。",
+  "ARK_API_KEY": "your-volces-ark-bearer-token",
+  "ARK_ENDPOINT": "deepseek-v3-2-251201",
+  "ARK_API_URL": "https://ark.cn-beijing.volces.com/api/v3/chat/completions",
+  "ALLOWED_DOMAIN": "@terabox.jp",
+  "DEFAULT_TZ": "GMT+9",
+  "YEEFLOW_API_KEY": "",
+  "YEEFLOW_APP_ID": "41",
+  "YEEFLOW_LIST_ID": ""
+}

@@ -1,0 +1,6 @@
+# clasp 推送时忽略这些文件
+**/*.txt
+**/*.xlsx
+**/*.pdf
+.DS_Store
+node_modules/

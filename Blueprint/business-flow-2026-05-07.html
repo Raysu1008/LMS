@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ready Crew CRM — 業務フロー図 V10.5.0</title>
+<script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Segoe UI', 'Hiragino Sans', 'Yu Gothic', sans-serif;
+    background: #f1f5f9;
+    color: #1e293b;
+    padding: 2rem;
+  }
+  header {
+    background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+    color: #fff;
+    border-radius: 1.25rem;
+    padding: 2rem 2.5rem;
+    margin-bottom: 2rem;
+    box-shadow: 0 4px 24px rgba(0,0,0,.18);
+  }
+  header h1 { font-size: 1.7rem; font-weight: 800; letter-spacing: .02em; }
+  header p  { margin-top: .4rem; font-size: .9rem; color: #94a3b8; }
+  .toc {
+    background: #fff;
+    border-radius: 1rem;
+    padding: 1.2rem 1.8rem;
+    margin-bottom: 2rem;
+    box-shadow: 0 2px 12px rgba(0,0,0,.07);
+    display: flex; flex-wrap: wrap; gap: .5rem;
+  }
+  .toc a {
+    display: inline-block;
+    background: #e0f2fe;
+    color: #0369a1;
+    border-radius: 9999px;
+    padding: .3rem .9rem;
+    font-size: .82rem;
+    font-weight: 700;
+    text-decoration: none;
+    transition: background .15s;
+  }
+  .toc a:hover { background: #bae6fd; }
+
+  .section {
+    background: #fff;
+    border-radius: 1.25rem;
+    margin-bottom: 2rem;
+    box-shadow: 0 2px 16px rgba(0,0,0,.08);
+    overflow: hidden;
+  }
+  .section-header {
+    padding: 1.2rem 2rem;
+    display: flex;
+    align-items: center;
+    gap: .8rem;
+    border-bottom: 1px solid #e2e8f0;
+  }
+  .section-num {
+    width: 2.2rem; height: 2.2rem;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: .95rem; font-weight: 900; color: #fff; flex-shrink: 0;
+  }
+  .section-title { font-size: 1.1rem; font-weight: 800; }
+  .section-body {
+    padding: 2rem;
+    overflow-x: auto;
+    display: flex;
+    justify-content: center;
+  }
+  .section-body .mermaid { max-width: 100%; }
+
+  /* color palette per section */
+  .c1 { background: #6366f1; }
+  .c2 { background: #0ea5e9; }
+  .c3 { background: #8b5cf6; }
+  .c4 { background: #f59e0b; }
+  .c5 { background: #10b981; }
+  .c6 { background: #ef4444; }
+  .c7 { background: #64748b; }
+  .c8 { background: #ec4899; }
+
+  .version-table {
+    padding: 1.5rem 2rem 2rem;
+  }
+  .version-table h2 {
+    font-size: 1rem; font-weight: 800; margin-bottom: 1rem; color: #475569;
+    text-transform: uppercase; letter-spacing: .06em;
+  }
+  table { width: 100%; border-collapse: collapse; font-size: .88rem; }
+  th {
+    background: #f8fafc; padding: .6rem 1rem;
+    text-align: left; font-weight: 700; color: #64748b;
+    border-bottom: 2px solid #e2e8f0;
+  }
+  td { padding: .6rem 1rem; border-bottom: 1px solid #f1f5f9; }
+  tr:last-child td { border-bottom: none; }
+  .badge {
+    display: inline-block;
+    padding: .15rem .6rem;
+    border-radius: 9999px;
+    font-size: .75rem;
+    font-weight: 800;
+    background: #e0f2fe;
+    color: #0369a1;
+  }
+
+  footer {
+    text-align: center;
+    font-size: .8rem;
+    color: #94a3b8;
+    padding: 1.5rem 0 .5rem;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>⚙️ Ready Crew CRM — 業務フロー図</h1>
+  <p>Version 10.5.0 &nbsp;|&nbsp; 最終更新: 2026-05-07 &nbsp;|&nbsp; AI Engine: DeepSeek-V3-2</p>
+</header>
+
+<div class="toc">
+  <span style="font-size:.82rem;font-weight:700;color:#64748b;align-self:center;">目次：</span>
+  <a href="#s1">1. 全体フロー</a>
+  <a href="#s2">2. Gmail 自動同期</a>
+  <a href="#s3">3. AI メール解析</a>
+  <a href="#s4">4. 顧問裁決</a>
+  <a href="#s5">5. AIメール下書き</a>
+  <a href="#s6">6. Dashboard</a>
+  <a href="#s7">7. データシート関係</a>
+  <a href="#s8">8. アクセス制御</a>
+</div>
+
+<!-- 1 -->
+<div class="section" id="s1">
+  <div class="section-header">
+    <div class="section-num c1">1</div>
+    <div class="section-title">全体フロー概要</div>
+  </div>
+  <div class="section-body">
+    <div class="mermaid">
+flowchart TD
+    A(["\U0001F4E7 顧客からメール着信"]) --> B["Gmail 受信トレイ"]
+    B --> C{"gmailAgentRunner\n自動同期"}
+    C -->|"重複チェック\nMsgID / CaseID / Subject"| D{"重複あり?"}
+    D -->|Yes| E["スキップ・ログ記録"]
+    D -->|No| F["AI解析\nparseBodyToStructured\nDeepSeek-V3-2"]
+    F --> G[("Review_Buffer\n一時保管シート")]
+    G --> H["Review Center\n顧問が一覧確認"]
+    H --> I["詳細パネルを開く\nopenDetail"]
+    I --> J{"顧問裁決\nsubmitConsultantDecision"}
+    J -->|"GO ✅"| K["Case_infor に保存\nsaveOrUpdateLead"]
+    J -->|"HOLD ⏸"| K
+    J -->|"SKIP ⏭"| L["Buffer行を AUDITED に\n更新してクローズ"]
+    K --> M["会議結論記録\nsaveMeetingConclusion"]
+    M --> N{"最終判断"}
+    N -->|"BID SENT"| O["AIメール下書き生成\ngenerateOutreachEmail"]
+    N -->|"ON HOLD"| O
+    O --> P["顧問が文面確認・編集"]
+    P --> Q["Gmail で顧客へ送付"]
+    Q --> R(["顧客返信待ち → 正式対応へ"])
+    K --> S[("Dashboard\n統計・アーカイブ")]
+    L --> S
+
+    style A fill:#6366f1,color:#fff,stroke:none
+    style R fill:#10b981,color:#fff,stroke:none
+    style J fill:#f59e0b,color:#fff,stroke:none
+    style N fill:#f59e0b,color:#fff,stroke:none
+    style D fill:#0ea5e9,color:#fff,stroke:none
+    style G fill:#e0f2fe,color:#0369a1,stroke:#bae6fd
+    style S fill:#e0f2fe,color:#0369a1,stroke:#bae6fd
+    </div>
+  </div>
+</div>
+
+<!-- 2 -->
+<div class="section" id="s2">
+  <div class="section-header">
+    <div class="section-num c2">2</div>
+    <div class="section-title">Gmail 自動同期フロー</div>
+  </div>
+  <div class="section-body">
+    <div class="mermaid">
+flowchart LR
+    A(["定期トリガー / 手動実行"]) --> B["gmailAgentRunner\nmaxEmails=100"]
+    B --> C["Prompt_Config B2\nSystemPrompt キャッシュ読込"]
+    C --> D["buildDuplicateSet\nReview_Buffer + Case_infor 参照"]
+    D --> E{"対象メール\n1件ずつ処理"}
+    E --> F{"重複チェック 3段階"}
+    F -->|"MsgID 重複"| G["スキップ"]
+    F -->|"CaseID 重複"| G
+    F -->|"Subject 重複"| G
+    F -->|"新規"| H["parseBodyToStructured\nAI解析"]
+    H --> I{"解析品質チェック\n非空フィールド数 >= 5?"}
+    I -->|"OK"| J["Review_Buffer に追加\nStatus=Pending"]
+    I -->|"NG"| K["正規表現兜底\nID・法人名のみ抽出"]
+    K --> J
+    J --> L["Agent_Logs に記録"]
+    G --> L
+    L --> M(["同期完了\nB10 に最終同期日時書込"])
+
+    style A fill:#0ea5e9,color:#fff,stroke:none
+    style M fill:#10b981,color:#fff,stroke:none
+    style F fill:#f59e0b,color:#fff,stroke:none
+    style I fill:#f59e0b,color:#fff,stroke:none
+    style G fill:#ef4444,color:#fff,stroke:none
+    </div>
+  </div>
+</div>
+
+<!-- 3 -->
+<div class="section" id="s3">
+  <div class="section-header">
+    <div class="section-num c3">3</div>
+    <div class="section-title">AI メール解析フロー（parseBodyToStructured）</div>
+  </div>
+  <div class="section-body">
+    <div class="mermaid">
+flowchart TD
+    A(["メール本文 rawBody"]) --> B{"Prompt_Config B2\nに値あり?"}
+    B -->|"Yes"| C["B2 の SystemPrompt を使用"]
+    B -->|"No"| D["FALLBACK_PARSE_PROMPT を使用"]
+    C --> E["callAIText\nDeepSeek-V3-2 API 呼び出し"]
+    D --> E
+    E --> F["safeJsonParse\nMarkdown ブロック除去 + JSON.parse"]
+    F --> G{"パース成功?"}
+    G -->|"Yes"| H["キー名マッピング\n売上→売上高 / 必須機能→核心需求 etc."]
+    G -->|"No"| I["正規表現兜底\n案件ID + 法人名のみ抽出"]
+    H --> J(["構造化 JSON を返す"])
+    I --> J
+
+    style A fill:#8b5cf6,color:#fff,stroke:none
+    style J fill:#10b981,color:#fff,stroke:none
+    style G fill:#f59e0b,color:#fff,stroke:none
+    style B fill:#f59e0b,color:#fff,stroke:none
+    style E fill:#6366f1,color:#fff,stroke:none
+    </div>
+  </div>
+</div>
+
+<!-- 4 -->
+<div class="section" id="s4">
+  <div class="section-header">
+    <div class="section-num c4">4</div>
+    <div class="section-title">顧問裁決フロー（Review Center）</div>
+  </div>
+  <div class="section-body">
+    <div class="mermaid">
+flowchart TD
+    A(["顧問がレビューセンターを開く"]) --> B["loadReviewBuffer\nStatus=Pending 一覧表示"]
+    B --> C["openDetail\n詳細パネルを開く"]
+    C --> D["ParsedJSON 読み込み\n顧問名・前回判断 自動復元"]
+    D --> E{"サブタブ選択"}
+    E --> F["顧問裁決タブ\nGO / HOLD / SKIP + 理由記入"]
+    E --> G["顧問意見一覧タブ"]
+    E --> H["会議結論タブ\n会議日 + 参加者 + 結論"]
+    E --> I["Todoタブ\n次アクション管理"]
+    F --> J["Commit Verdict\nsubmitConsultantDecision"]
+    J --> K{"ParsedJSON\n使えるか?"}
+    K -->|"Yes"| L["saveOrUpdateLead\nCase_infor に登録/更新"]
+    K -->|"No"| M["AI 再解析 実行"]
+    M --> L
+    L --> N["Review_Buffer → AUDITED 更新"]
+    N --> O["Decisions シートに追記\n判断ログ"]
+    O --> P(["完了"])
+
+    style A fill:#f59e0b,color:#fff,stroke:none
+    style P fill:#10b981,color:#fff,stroke:none
+    style E fill:#0ea5e9,color:#fff,stroke:none
+    style K fill:#f59e0b,color:#fff,stroke:none
+    style J fill:#6366f1,color:#fff,stroke:none
+    </div>
+  </div>
+</div>
+
+<!-- 5 -->
+<div class="section" id="s5">
+  <div class="section-header">
+    <div class="section-num c5">5</div>
+    <div class="section-title">AI メール下書き生成フロー</div>
+  </div>
+  <div class="section-body">
+    <div class="mermaid">
+flowchart LR
+    A(["顧問が Todo タブを開く"]) --> B{"テンプレート選択"}
+    B -->|"初回接触 GO"| C["initial_contact テンプレート"]
+    B -->|"現状確認 HOLD"| D["hold_check テンプレート"]
+    C --> E["generateOutreachEmail\ncaseId + action + templateType"]
+    D --> E
+    E --> F["Case_infor から案件情報取得\n法人名/相談内容/予算感/核心需求"]
+    F --> G{"Prompt_Config\nB11/B12 にプロンプトあり?"}
+    G -->|"Yes"| H["シートのプロンプトを使用"]
+    G -->|"No"| I["コード内蔵テンプレートを使用"]
+    H --> J["callAIText\nDeepSeek-V3-2 メール文面生成"]
+    I --> J
+    J --> K["件名 + 本文 を返す"]
+    K --> L["フロントエンドで\nプレビュー表示 (編集可)"]
+    L --> M{"顧問操作"}
+    M -->|"コピー"| N["クリップボードへ"]
+    M -->|"Gmail で開く"| O["Gmail 作成画面へ"]
+    N --> P(["顧客へ送付"])
+    O --> P
+
+    style A fill:#10b981,color:#fff,stroke:none
+    style P fill:#6366f1,color:#fff,stroke:none
+    style B fill:#f59e0b,color:#fff,stroke:none
+    style G fill:#f59e0b,color:#fff,stroke:none
+    style M fill:#0ea5e9,color:#fff,stroke:none
+    style J fill:#8b5cf6,color:#fff,stroke:none
+    </div>
+  </div>
+</div>
+
+<!-- 6 -->
+<div class="section" id="s6">
+  <div class="section-header">
+    <div class="section-num c6">6</div>
+    <div class="section-title">Dashboard & 統計フロー</div>
+  </div>
+  <div class="section-body">
+    <div class="mermaid">
+flowchart LR
+    A(["Dashboard タブを開く"]) --> B["getDashboardData\nCase_infor + Agent_Logs"]
+    B --> C["getStatisticsData\n集計処理"]
+    C --> D{"レンダリング"}
+    D --> E["統計カード 4枚\nTotal / BID SENT / ON HOLD / SKIP"]
+    D --> F["Case Archive テーブル\n法人名 / 業界 / Decision / Status"]
+    D --> G["統計グラフ 3本\n案件分類 / 業界分布 / AI種別"]
+    D --> H["重複チェックパネル"]
+    E --> I{"フィルタークリック"}
+    I --> J["filterArchive\nテーブル絞り込み"]
+    H --> K["getDuplicateReport\n重複スキャン"]
+    K --> L{"削除操作"}
+    L --> M["deleteDuplicates\nbuffer / caseInfor / both"]
+
+    style A fill:#ef4444,color:#fff,stroke:none
+    style D fill:#0ea5e9,color:#fff,stroke:none
+    style I fill:#f59e0b,color:#fff,stroke:none
+    style L fill:#f59e0b,color:#fff,stroke:none
+    </div>
+  </div>
+</div>
+
+<!-- 7 -->
+<div class="section" id="s7">
+  <div class="section-header">
+    <div class="section-num c7">7</div>
+    <div class="section-title">データシート関係図（ER）</div>
+  </div>
+  <div class="section-body">
+    <div class="mermaid">
+erDiagram
+    Case_infor {
+        string CaseID PK
+        string CorpName
+        datetime RecordedAt
+        string Category
+        string Status
+        string AI_Type
+        string AI_Action
+        string YeeflowSyncTime
+    }
+    Review_Buffer {
+        string MsgID PK
+        string CaseID FK
+        string CorpName
+        string Subject
+        string ParsedJSON
+        string Status
+        datetime MailDate
+        datetime SyncTime
+    }
+    Meeting_Records {
+        string MeetingDate
+        string CaseID FK
+        string Participants
+        string Decision
+        string Conclusion
+    }
+    Case_Todo {
+        string TodoID PK
+        string CaseID FK
+        string Action
+        string AssignedTo
+        string DueDate
+        string Status
+    }
+    Decisions {
+        datetime Timestamp
+        string CaseID FK
+        string Decision
+        string ConsultantName
+    }
+    Agent_Logs {
+        datetime Timestamp
+        string Subject
+        string Status
+        string Info
+    }
+    Prompt_Config {
+        string B2_ParsePrompt
+        string B8_Whitelist
+        string B11_InitialMailPrompt
+        string B12_HoldMailPrompt
+    }
+
+    Case_infor ||--o{ Meeting_Records : "1件 : N会議"
+    Case_infor ||--o{ Case_Todo : "1件 : N Todo"
+    Case_infor ||--o{ Decisions : "1件 : N判断"
+    Review_Buffer ||--|| Case_infor : "審査後に登録"
+    </div>
+  </div>
+</div>
+
+<!-- 8 -->
+<div class="section" id="s8">
+  <div class="section-header">
+    <div class="section-num c8">8</div>
+    <div class="section-title">システム権限・アクセス制御</div>
+  </div>
+  <div class="section-body">
+    <div class="mermaid">
+flowchart TD
+    A(["ユーザーがアクセス"]) --> B["checkAccess\nGAS doGet"]
+    B --> C{"getActiveUser\nメール取得"}
+    C -->|"失敗 execute-as-me"| D["放行 anonymous"]
+    C -->|"成功"| E{"ドメイン確認\n@terabox.jp ?"}
+    E -->|"No"| F["🔒 Access Denied 画面"]
+    E -->|"Yes"| G{"Prompt_Config B8\n白名単あり?"}
+    G -->|"なし"| H["ドメイン認証のみで通過"]
+    G -->|"あり"| I{"メールが\n白名単に含まれる?"}
+    I -->|"No"| F
+    I -->|"Yes"| H
+    H --> J["index.html を返す\nReady Crew CRM"]
+
+    style A fill:#ec4899,color:#fff,stroke:none
+    style J fill:#10b981,color:#fff,stroke:none
+    style F fill:#ef4444,color:#fff,stroke:none
+    style C fill:#f59e0b,color:#fff,stroke:none
+    style E fill:#f59e0b,color:#fff,stroke:none
+    style G fill:#f59e0b,color:#fff,stroke:none
+    style I fill:#f59e0b,color:#fff,stroke:none
+    </div>
+  </div>
+</div>
+
+<!-- Version Table -->
+<div class="section">
+  <div class="version-table">
+    <h2>📋 主要バージョン変遷</h2>
+    <table>
+      <tr><th>バージョン</th><th>主な変更内容</th></tr>
+      <tr><td><span class="badge">V9.8.x</span></td><td>AI解析品質向上・重複検出3段階強化・Re-parse機能追加・兜底プロンプト最適化</td></tr>
+      <tr><td><span class="badge">V9.9.8</span></td><td>Yeeflow CRM 一括同期機能追加（AG列に同期タイムスタンプ自動記録）</td></tr>
+      <tr><td><span class="badge">V10.4.1</span></td><td>会議結論をメール生成に統合・HOLD選択時のバグ修正</td></tr>
+      <tr><td><span class="badge">V10.5.0</span></td><td>Yeeflow 直接 API シンク・会議結論 → Case_infor AF列 自動反映・履歴補正パネル追加</td></tr>
+    </table>
+  </div>
+</div>
+
+<footer>Ready Crew CRM Business Flow — Generated 2026-05-07</footer>
+
+<script>
+  mermaid.initialize({
+    startOnLoad: true,
+    theme: 'base',
+    themeVariables: {
+      primaryColor:       '#e0f2fe',
+      primaryTextColor:   '#0f172a',
+      primaryBorderColor: '#bae6fd',
+      lineColor:          '#64748b',
+      secondaryColor:     '#f0fdf4',
+      tertiaryColor:      '#fefce8',
+      background:         '#ffffff',
+      mainBkg:            '#f8fafc',
+      nodeBorder:         '#cbd5e1',
+      clusterBkg:         '#f8fafc',
+      titleColor:         '#1e293b',
+      edgeLabelBackground:'#ffffff',
+      fontFamily:         "'Segoe UI', 'Hiragino Sans', sans-serif",
+      fontSize:           '14px'
+    },
+    flowchart: { curve: 'basis', padding: 20 },
+    er: { diagramPadding: 30 }
+  });
+</script>
+</body>
+</html>

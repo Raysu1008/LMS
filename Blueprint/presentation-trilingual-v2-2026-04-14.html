@@ -1,0 +1,897 @@
+<!DOCTYPE html>
+<html lang="ja" class="scroll-smooth">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ready Crew LMS V2 | 三言語 / 三语 / Trilingual Presentation</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<style>
+  /* ── 语言显隐 ── */
+  .lang-ja .zh,.lang-ja .en{display:none}
+  .lang-zh .ja,.lang-zh .en{display:none}
+  .lang-en .ja,.lang-en .zh{display:none}
+
+  /* ── 基础排版：字体放大 ── */
+  html{font-size:18px}
+  body{font-size:1rem;line-height:1.75}
+
+  /* ── slide ── */
+  .slide{min-height:100vh;display:flex;flex-direction:column;justify-content:center}
+
+  /* ── 背景 ── */
+  .bg-hero{background:linear-gradient(135deg,#0f172a 0%,#1e1b4b 55%,#0f172a 100%)}
+  .bg-cost{background:linear-gradient(135deg,#1c1917 0%,#0f172a 100%)}
+  .bg-fly {background:linear-gradient(135deg,#052e16 0%,#0f172a 100%)}
+  .bg-ins {background:#f1f5f9}
+  .bg-sys {background:linear-gradient(135deg,#0d9488 0%,#0f766e 100%)}
+  .bg-road{background:#0f172a}
+  .bg-val {background:linear-gradient(135deg,#312e81 0%,#1e1b4b 100%)}
+  .bg-end {background:linear-gradient(135deg,#0f172a 0%,#1e293b 100%)}
+
+  /* ── 动画 ── */
+  .fade-in{animation:fu .7s ease both}
+  @keyframes fu{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:translateY(0)}}
+
+  /* ── 卡片 ── */
+  .ch{transition:transform .25s,box-shadow .25s}
+  .ch:hover{transform:translateY(-5px);box-shadow:0 24px 48px rgba(0,0,0,.22)}
+
+  /* ── 语言按钮 ── */
+  .lb{padding:7px 20px;border-radius:9999px;font-size:.8rem;font-weight:700;cursor:pointer;
+      border:2px solid transparent;transition:all .2s;background:rgba(255,255,255,.12);
+      color:rgba(255,255,255,.75)}
+  .lb.active{background:#fff;color:#1e1b4b;border-color:#fff}
+  .lb:not(.active):hover{background:rgba(255,255,255,.22);color:#fff}
+
+  /* ── nav ── */
+  nav{background:rgba(15,23,42,.93);backdrop-filter:blur(18px);border-bottom:1px solid rgba(255,255,255,.08)}
+  .nl{font-size:.75rem;color:rgba(255,255,255,.6);text-decoration:none;transition:color .2s;
+      border-bottom:2px solid transparent;padding-bottom:2px}
+  .nl:hover{color:#fff;border-bottom-color:#818cf8}
+
+  /* ── 流程箭头 ── */
+  .dn{text-align:center;font-size:1.6rem;color:rgba(255,255,255,.22);margin:4px 0}
+  .dn-h{font-size:1.6rem;color:rgba(255,255,255,.22);line-height:1;margin:0 4px;
+        display:flex;align-items:center}
+
+  /* ── roadmap 左边框卡 ── */
+  .pl{border-left:4px solid #818cf8;background:rgba(255,255,255,.04);
+      border-radius:0 14px 14px 0;transition:background .2s;padding:24px 24px 24px 32px}
+  .pl:hover{background:rgba(255,255,255,.08)}
+
+  /* ── 图表容器 ── */
+  .cc{position:relative;width:100%;height:260px}
+
+  /* ── 流程块（核心价值 S1/S3 用） ── */
+  .flow-box{
+    background:rgba(255,255,255,.08);
+    border:1px solid rgba(255,255,255,.16);
+    border-radius:16px;
+    padding:20px 18px;
+    display:flex;flex-direction:column;align-items:center;
+    text-align:center;flex:1;
+  }
+  .flow-box.highlight{
+    background:rgba(99,102,241,.25);
+    border-color:rgba(99,102,241,.6);
+    box-shadow:0 0 24px rgba(99,102,241,.3);
+  }
+  .flow-row{display:flex;align-items:stretch;gap:0;width:100%}
+
+  /* ── 需求原子标签 ── */
+  .atom-tag{
+    display:inline-flex;align-items:center;gap:6px;
+    padding:8px 16px;border-radius:99px;font-size:.72rem;font-weight:700;
+  }
+
+  @media print{nav{display:none}.slide{page-break-after:always}}
+</style>
+</head>
+<body class="lang-ja font-sans antialiased">
+
+<!-- ═══════════════════ NAV ═══════════════════ -->
+<nav class="fixed top-0 left-0 right-0 z-50">
+  <div class="max-w-7xl mx-auto px-5 h-16 flex items-center justify-between gap-4">
+    <div class="flex items-center gap-2 flex-shrink-0">
+      <span class="text-2xl">🌐</span>
+      <span class="text-white font-bold tracking-tight" style="font-size:1rem">Ready Crew LMS</span>
+      <span class="bg-indigo-700 text-indigo-200 px-2 py-0.5 rounded-full ml-1" style="font-size:.7rem;font-weight:700">V8.5</span>
+    </div>
+    <div class="hidden lg:flex items-center gap-5">
+      <a href="#s1" class="nl ja">概要</a><a href="#s1" class="nl zh">概览</a><a href="#s1" class="nl en">Overview</a>
+      <a href="#s2" class="nl ja">隠コスト</a><a href="#s2" class="nl zh">沉没成本</a><a href="#s2" class="nl en">Hidden Cost</a>
+      <a href="#s3" class="nl ja">飛輪</a><a href="#s3" class="nl zh">飞轮</a><a href="#s3" class="nl en">Flywheel</a>
+      <a href="#s4" class="nl ja">市場洞察</a><a href="#s4" class="nl zh">市场洞察</a><a href="#s4" class="nl en">Market Intel</a>
+      <a href="#s5" class="nl ja">システム</a><a href="#s5" class="nl zh">系统</a><a href="#s5" class="nl en">System</a>
+      <a href="#s6" class="nl ja">路線図</a><a href="#s6" class="nl zh">路线图</a><a href="#s6" class="nl en">Roadmap</a>
+    </div>
+    <div class="flex gap-2 flex-shrink-0">
+      <button class="lb active" id="btn-ja" onclick="setLang('ja')">日本語</button>
+      <button class="lb" id="btn-zh" onclick="setLang('zh')">中文</button>
+      <button class="lb" id="btn-en" onclick="setLang('en')">EN</button>
+    </div>
+  </div>
+</nav>
+
+
+<!-- ═══════════════════ S1: HERO ═══════════════════ -->
+<section id="s1" class="slide bg-hero pt-16">
+  <div class="max-w-5xl mx-auto px-6 py-20 text-center fade-in">
+    <!-- badge -->
+    <div class="inline-flex items-center gap-2 mb-8 px-5 py-2 rounded-full bg-white/10 border border-white/20 font-semibold text-indigo-200" style="font-size:.85rem">
+      <span>🧠</span>
+      <span class="ja">日中クロスボーダー IT ナレッジ協業基盤</span>
+      <span class="zh">中日跨境 IT 知识资产协作中台</span>
+      <span class="en">JP–CN Cross-Border IT Knowledge Collaboration Platform</span>
+    </div>
+
+    <!-- title -->
+    <h1 class="font-black text-white tracking-tight leading-tight mb-6" style="font-size:clamp(2rem,5vw,3.5rem)">
+      <span class="ja">会社の「判断知識」を<br><span class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-300 to-violet-400">AI エージェントへ継承する</span></span>
+      <span class="zh">将公司「判断经验」<br><span class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-300 to-violet-400">工程化为 AI Agent</span></span>
+      <span class="en">Transform Your Firm's Judgment<br><span class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-300 to-violet-400">into Living AI Agents</span></span>
+    </h1>
+
+    <!-- subtitle -->
+    <p class="text-indigo-200 max-w-3xl mx-auto leading-relaxed mb-12" style="font-size:1.05rem">
+      <span class="ja">案件経験・技術リソース・意思決定ロジックを整理し、Prompt Engineering で AI Agent に継承。Agent の判断はコンサルタントの評価で継続的に強化され、組織知識が自律的に成長します。</span>
+      <span class="zh">整理案件经验、技术资源、决策逻辑，通过 Prompt 工程化赋予 AI Agent。Agent 的判断由顾问评价持续强化，组织知识自主生长。</span>
+      <span class="en">Organize case experience, resources, and decision logic — then transfer them to AI Agents via Prompt Engineering. Agent judgment is continuously strengthened by consultant evaluations, enabling autonomous knowledge growth.</span>
+    </p>
+
+    <!-- ── 核心价值流程图（最直观的可视化）── -->
+    <div class="mb-10 bg-white/5 border border-white/12 rounded-2xl p-6">
+      <p class="text-white/40 mb-5" style="font-size:.78rem;letter-spacing:.12em;text-transform:uppercase;font-weight:700">
+        <span class="ja">コア価値メカニズム</span><span class="zh">核心价值机制</span><span class="en">Core Value Mechanism</span>
+      </p>
+      <!-- 流程主体 -->
+      <div class="flex flex-col lg:flex-row items-center justify-center gap-2 lg:gap-0 w-full">
+
+        <!-- BOX 1 -->
+        <div class="flow-box ch" style="max-width:180px">
+          <div style="font-size:2rem;margin-bottom:10px">🗂️</div>
+          <div class="font-bold text-white" style="font-size:.88rem;margin-bottom:6px">
+            <span class="ja">自社の「資産」整理</span><span class="zh">整理自身「资产」</span><span class="en">Organize Assets</span>
+          </div>
+          <div class="text-indigo-300" style="font-size:.72rem;line-height:1.5">
+            <span class="ja">案件履歴・技術リソース・人材スキル・判断基準</span>
+            <span class="zh">案件记录 · 技术资源 · 人才技能 · 判断标准</span>
+            <span class="en">Cases · Resources · Skills · Decision Criteria</span>
+          </div>
+        </div>
+
+        <!-- arrow -->
+        <div class="dn-h">→</div>
+
+        <!-- BOX 2 highlight -->
+        <div class="flow-box highlight ch" style="max-width:200px">
+          <div style="font-size:2rem;margin-bottom:10px">⚙️</div>
+          <div class="font-bold text-white" style="font-size:.88rem;margin-bottom:6px">
+            <span class="ja">Prompt 工学化</span><span class="zh">Prompt 工程化</span><span class="en">Prompt Engineering</span>
+          </div>
+          <div class="text-indigo-200" style="font-size:.72rem;line-height:1.5">
+            <span class="ja">判断ロジックを自然言語の指示文に構造化。コードではなく「判断の言語化」</span>
+            <span class="zh">将判断逻辑结构化为自然语言指令。不是写代码，而是「将判断语言化」</span>
+            <span class="en">Structure judgment logic into natural language instructions — not code, but "verbalizing judgment"</span>
+          </div>
+        </div>
+
+        <!-- arrow -->
+        <div class="dn-h">→</div>
+
+        <!-- BOX 3 -->
+        <div class="flow-box ch" style="max-width:180px">
+          <div style="font-size:2rem;margin-bottom:10px">🤖</div>
+          <div class="font-bold text-white" style="font-size:.88rem;margin-bottom:6px">
+            <span class="ja">AI Agent 高速評価</span><span class="zh">AI Agent 快速评估</span><span class="en">AI Agent Rapid Eval</span>
+          </div>
+          <div class="text-indigo-300" style="font-size:.72rem;line-height:1.5">
+            <span class="ja">技術実現性・難易度・リスクを数分で解析・分類</span>
+            <span class="zh">技术可行性、难度、风险数分钟内解析分类</span>
+            <span class="en">Feasibility, difficulty, risk analyzed in minutes</span>
+          </div>
+        </div>
+
+        <!-- arrow -->
+        <div class="dn-h">→</div>
+
+        <!-- BOX 4 -->
+        <div class="flow-box ch" style="max-width:180px;border-color:rgba(16,185,129,.45);background:rgba(16,185,129,.12)">
+          <div style="font-size:2rem;margin-bottom:10px">🧑‍💼</div>
+          <div class="font-bold text-white" style="font-size:.88rem;margin-bottom:6px">
+            <span class="ja">顧問の意思決定＋フィードバック</span><span class="zh">顾问决策 + 反馈</span><span class="en">Consultant Decision + Feedback</span>
+          </div>
+          <div class="text-emerald-300" style="font-size:.72rem;line-height:1.5">
+            <span class="ja">評価理由を記録 → Agent の次の判断根拠に自動補充</span>
+            <span class="zh">记录评估理由 → 自动补充 Agent 下次的判断依据</span>
+            <span class="en">Recorded reasoning auto-feeds Agent's next judgment basis</span>
+          </div>
+        </div>
+
+        <!-- 飞轮回环箭头 -->
+        <div class="dn-h text-emerald-400" style="font-size:1.4rem">↺</div>
+
+      </div>
+
+      <!-- 飞轮说明 -->
+      <div class="mt-5 text-center">
+        <span class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-emerald-900/50 border border-emerald-700/50 text-emerald-300" style="font-size:.78rem;font-weight:600">
+          <span>🔄</span>
+          <span class="ja">このループが回るほど、Agent の精度が上がり組織の競争力が高まる</span>
+          <span class="zh">这个循环越转，Agent 精度越高，组织竞争力越强</span>
+          <span class="en">The more this loop spins, the smarter the Agent and the stronger the org</span>
+        </span>
+      </div>
+    </div>
+
+    <!-- 三个核心概念 -->
+    <div class="grid grid-cols-3 gap-4 max-w-2xl mx-auto">
+      <div class="bg-white/8 border border-white/15 rounded-2xl p-5 ch text-center">
+        <div style="font-size:1.8rem;margin-bottom:8px">🗂️</div>
+        <div class="font-bold text-white" style="font-size:.85rem;margin-bottom:4px"><span class="ja">経験の資産化</span><span class="zh">经验资产化</span><span class="en">Experience → Asset</span></div>
+        <div class="text-indigo-300" style="font-size:.72rem"><span class="ja">属人知識をシステムへ</span><span class="zh">个人知识变组织资产</span><span class="en">Personal → Org knowledge</span></div>
+      </div>
+      <div class="bg-white/8 border border-white/15 rounded-2xl p-5 ch text-center">
+        <div style="font-size:1.8rem;margin-bottom:8px">🔄</div>
+        <div class="font-bold text-white" style="font-size:.85rem;margin-bottom:4px"><span class="ja">人 × AI 飛輪</span><span class="zh">人 × AI 飞轮</span><span class="en">Human × AI Flywheel</span></div>
+        <div class="text-indigo-300" style="font-size:.72rem"><span class="ja">判断が AI を育てる</span><span class="zh">每次决策训练 AI</span><span class="en">Decisions train AI</span></div>
+      </div>
+      <div class="bg-white/8 border border-white/15 rounded-2xl p-5 ch text-center">
+        <div style="font-size:1.8rem;margin-bottom:8px">📡</div>
+        <div class="font-bold text-white" style="font-size:.85rem;margin-bottom:4px"><span class="ja">市場需要の可視化</span><span class="zh">市场需求可视化</span><span class="en">Market Demand Map</span></div>
+        <div class="text-indigo-300" style="font-size:.72rem"><span class="ja">業界 AI ニーズを解明</span><span class="zh">洞察行业 AI 需求分布</span><span class="en">Decode industry AI needs</span></div>
+      </div>
+    </div>
+
+    <div class="mt-12 text-white/25" style="font-size:2rem" class="animate-bounce">↓</div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════ S2: HIDDEN COST ═══════════════════ -->
+<section id="s2" class="slide bg-cost">
+  <div class="max-w-5xl mx-auto px-6 py-20 fade-in">
+    <div class="text-center mb-12">
+      <div class="inline-block mb-3 px-4 py-1.5 rounded-full bg-amber-900/60 text-amber-300 font-bold uppercase tracking-widest" style="font-size:.72rem">
+        <span class="ja">見えないコスト</span><span class="zh">看不见的成本</span><span class="en">The Hidden Cost</span>
+      </div>
+      <h2 class="font-black text-white mb-4" style="font-size:clamp(1.6rem,3.5vw,2.8rem)">
+        <span class="ja">知識が「人」に依存するとき、組織は何を失うか</span>
+        <span class="zh">当知识只存在于「人的脑子里」，组织究竟在失去什么</span>
+        <span class="en">What Organizations Lose When Knowledge Lives Only in People's Heads</span>
+      </h2>
+      <p class="text-slate-400 max-w-2xl mx-auto" style="font-size:.92rem">
+        <span class="ja">日々の判断コスト・機会損失・組織知の消失——これらは請求書に載らない「沈没コスト」です。</span>
+        <span class="zh">日常判断成本、机会损失、组织知识消散——从不出现在账单上，却是真实存在的「沉没成本」。</span>
+        <span class="en">Daily judgment overhead, opportunity loss, knowledge decay — never on any invoice, yet very real sunk costs.</span>
+      </p>
+    </div>
+
+    <!-- 4 cost cards -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-5 mb-10">
+      <!-- card -->
+      <div class="ch bg-white/5 border border-amber-800/40 rounded-2xl p-6">
+        <div class="flex items-start gap-4">
+          <div style="font-size:2rem;flex-shrink:0">⏳</div>
+          <div>
+            <h3 class="font-bold text-white mb-2" style="font-size:1rem">
+              <span class="ja">毎回ゼロから始まる評価コスト</span><span class="zh">每次评估从零开始的时间成本</span><span class="en">Starting From Zero Every Time</span>
+            </h3>
+            <p class="text-slate-400 leading-relaxed" style="font-size:.85rem">
+              <span class="ja">新案件が来るたびに、担当者は同じ情報を読み直し、同じ判断軸で考え直す。過去の類似案件があっても参照できない。</span>
+              <span class="zh">每次新线索来临，顾问需要重新阅读、重新判断，即使过去有高度相似案件也无从参照。重复劳动，无复利。</span>
+              <span class="en">Every new lead means re-reading and re-evaluating from scratch — even when similar cases existed. Repeated cognitive labor with zero compounding return.</span>
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="ch bg-white/5 border border-amber-800/40 rounded-2xl p-6">
+        <div class="flex items-start gap-4">
+          <div style="font-size:2rem;flex-shrink:0">🧠</div>
+          <div>
+            <h3 class="font-bold text-white mb-2" style="font-size:1rem">
+              <span class="ja">退職とともに消えるノウハウ</span><span class="zh">随人员离职消失的经验积累</span><span class="en">Expertise Disappears With People</span>
+            </h3>
+            <p class="text-slate-400 leading-relaxed" style="font-size:.85rem">
+              <span class="ja">熟練コンサルタントの「どの案件が取れるか」という感覚は、体系化されなければ退職で永遠に失われる。</span>
+              <span class="zh">资深顾问「哪个项目能拿下」的直觉，如果没有被系统化，随人员流动就永久消失，下一个人从头学。</span>
+              <span class="en">A senior consultant's instinct for "which projects we can win" permanently vanishes when they leave. The next person starts from zero.</span>
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="ch bg-white/5 border border-amber-800/40 rounded-2xl p-6">
+        <div class="flex items-start gap-4">
+          <div style="font-size:2rem;flex-shrink:0">⚖️</div>
+          <div>
+            <h3 class="font-bold text-white mb-2" style="font-size:1rem">
+              <span class="ja">判断の属人化・不一致リスク</span><span class="zh">决策因人而异的一致性缺失</span><span class="en">Inconsistent Judgment Across Team</span>
+            </h3>
+            <p class="text-slate-400 leading-relaxed" style="font-size:.85rem">
+              <span class="ja">同じ案件でも、担当者によって評価が異なる。「なぜ断ったのか」の記録がなければ、同じミスを繰り返す。</span>
+              <span class="zh">同一案件不同顾问评，结论可能截然不同。「为什么放弃这个客户」没有记录，同样错误下次还会重演。</span>
+              <span class="en">Same lead, completely different evaluations. Without recorded reasoning, mistakes repeat indefinitely.</span>
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="ch bg-white/5 border border-amber-800/40 rounded-2xl p-6">
+        <div class="flex items-start gap-4">
+          <div style="font-size:2rem;flex-shrink:0">📉</div>
+          <div>
+            <h3 class="font-bold text-white mb-2" style="font-size:1rem">
+              <span class="ja">市場洞察の機会損失</span><span class="zh">市场洞察的机会缺失</span><span class="en">Missed Market Intelligence</span>
+            </h3>
+            <p class="text-slate-400 leading-relaxed" style="font-size:.85rem">
+              <span class="ja">「製造業の AI 案件が増えている」という変化は、データがなければ感覚でしか分からない。先手も打てない。</span>
+              <span class="zh">「制造业 AI 需求在增加」这种变化，没有数据只能靠感觉。没有量化就没有前瞻性战略布局。</span>
+              <span class="en">"Manufacturing AI demand is rising" — without data, just a gut feeling. No quantification, no proactive positioning.</span>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- before/after table -->
+    <div class="bg-white/5 border border-white/10 rounded-2xl overflow-hidden">
+      <div class="px-6 py-4 bg-amber-900/30 border-b border-white/10">
+        <h3 class="text-white font-bold" style="font-size:.9rem">
+          <span class="ja">💡 もし数字で置き換えると — コスト可視化フレームワーク</span>
+          <span class="zh">💡 如果用数字来衡量 — 成本可视化框架</span>
+          <span class="en">�� Cost Visibility Framework — If Measured in Numbers</span>
+        </h3>
+      </div>
+      <div class="overflow-x-auto">
+        <table class="w-full">
+          <thead>
+            <tr class="border-b border-white/10 bg-white/3">
+              <th class="px-5 py-3 text-left text-slate-400 font-semibold" style="font-size:.8rem"><span class="ja">コスト種別</span><span class="zh">成本类型</span><span class="en">Cost Type</span></th>
+              <th class="px-5 py-3 text-left text-red-400 font-semibold" style="font-size:.8rem"><span class="ja">従来（属人管理）</span><span class="zh">传统（人工管理）</span><span class="en">Before (Manual)</span></th>
+              <th class="px-5 py-3 text-left text-teal-400 font-semibold" style="font-size:.8rem"><span class="ja">LMS 導入後</span><span class="zh">LMS 之后</span><span class="en">After LMS</span></th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-white/8">
+            <tr class="hover:bg-white/3 transition-colors">
+              <td class="px-5 py-3.5 text-slate-300 font-medium" style="font-size:.82rem"><span class="ja">1案件の評価時間</span><span class="zh">单案评估耗时</span><span class="en">Per-lead eval time</span></td>
+              <td class="px-5 py-3.5 text-red-300" style="font-size:.82rem"><span class="ja">数時間（翻訳+調査+議論）</span><span class="zh">数小时（翻译+研读+讨论）</span><span class="en">Hours (translate+research+discuss)</span></td>
+              <td class="px-5 py-3.5 text-teal-300" style="font-size:.82rem"><span class="ja">分単位（AI 解析済）</span><span class="zh">分钟级（AI 预解析完毕）</span><span class="en">Minutes (AI pre-analyzed)</span></td>
+            </tr>
+            <tr class="hover:bg-white/3 transition-colors">
+              <td class="px-5 py-3.5 text-slate-300 font-medium" style="font-size:.82rem"><span class="ja">ベテランの知識継承</span><span class="zh">资深经验传承</span><span class="en">Senior expertise transfer</span></td>
+              <td class="px-5 py-3.5 text-red-300" style="font-size:.82rem"><span class="ja">退職で消滅・再構築に年単位</span><span class="zh">离职即消失，重建需数年</span><span class="en">Lost on exit, years to rebuild</span></td>
+              <td class="px-5 py-3.5 text-teal-300" style="font-size:.82rem"><span class="ja">Prompt に蓄積・永続継承</span><span class="zh">沉淀为 Prompt，永久传承</span><span class="en">Encoded in Prompts, persists forever</span></td>
+            </tr>
+            <tr class="hover:bg-white/3 transition-colors">
+              <td class="px-5 py-3.5 text-slate-300 font-medium" style="font-size:.82rem"><span class="ja">チームの判断一致率</span><span class="zh">团队判断一致性</span><span class="en">Team judgment consistency</span></td>
+              <td class="px-5 py-3.5 text-red-300" style="font-size:.82rem"><span class="ja">担当者依存・ブレ大</span><span class="zh">因人而异，偏差大</span><span class="en">Person-dependent, high variance</span></td>
+              <td class="px-5 py-3.5 text-teal-300" style="font-size:.82rem"><span class="ja">Prompt 標準化で一貫評価</span><span class="zh">Prompt 标准化保证一致性</span><span class="en">Prompt-standardized consistent evaluation</span></td>
+            </tr>
+            <tr class="hover:bg-white/3 transition-colors">
+              <td class="px-5 py-3.5 text-slate-300 font-medium" style="font-size:.82rem"><span class="ja">市場動向の把握</span><span class="zh">市场趋势感知</span><span class="en">Market trend awareness</span></td>
+              <td class="px-5 py-3.5 text-red-300" style="font-size:.82rem"><span class="ja">感覚頼み・後追い対応</span><span class="zh">靠感觉、被动应对</span><span class="en">Gut feeling, reactive only</span></td>
+              <td class="px-5 py-3.5 text-teal-300" style="font-size:.82rem"><span class="ja">BI 看板でリアルタイム定量把握</span><span class="zh">BI 看板实时定量洞察</span><span class="en">Real-time quantified BI dashboard</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════ S3: FLYWHEEL ═══════════════════ -->
+<section id="s3" class="slide bg-fly">
+  <div class="max-w-5xl mx-auto px-6 py-20 fade-in">
+    <div class="text-center mb-12">
+      <div class="inline-block mb-3 px-4 py-1.5 rounded-full bg-emerald-900/60 text-emerald-300 font-bold uppercase tracking-widest" style="font-size:.72rem">
+        <span class="ja">コア価値メカニズム</span><span class="zh">核心价值机制</span><span class="en">Core Value Mechanism</span>
+      </div>
+      <h2 class="font-black text-white mb-4" style="font-size:clamp(1.6rem,3.5vw,2.8rem)">
+        <span class="ja">人 × AI「判断飛輪」の仕組み</span>
+        <span class="zh">人 × AI「判断飞轮」运转机制</span>
+        <span class="en">The Human × AI "Judgment Flywheel"</span>
+      </h2>
+      <p class="text-emerald-200/70 max-w-2xl mx-auto" style="font-size:.92rem">
+        <span class="ja">AI がコンサルタントを代替するのではなく、コンサルタントの判断が AI を育て、AI がコンサルタントの次の判断を高速化する。ループが回るほど組織が強くなる。</span>
+        <span class="zh">AI 不是替代顾问，而是顾问的每次决策在训练 AI，AI 又在加速顾问的下次决策。这个循环越转，组织越强。</span>
+        <span class="en">AI doesn't replace consultants — every consultant decision trains AI, and AI accelerates the next decision. The faster this loop spins, the stronger the organization.</span>
+      </p>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
+      <!-- 左：4步飞轮 -->
+      <div class="flex flex-col items-center gap-0.5">
+        <div class="w-full max-w-sm bg-white/8 border border-emerald-700/50 rounded-2xl p-5 text-center ch">
+          <div style="font-size:1.8rem;margin-bottom:8px">📥</div>
+          <div class="font-bold text-white mb-1" style="font-size:.95rem"><span class="ja">① 案件・リード入庫</span><span class="zh">① 案件线索入库</span><span class="en">① Lead Intake</span></div>
+          <div class="text-emerald-300" style="font-size:.78rem"><span class="ja">Gmail Agent 自動取込 + 手動貼付</span><span class="zh">Gmail Agent 自动抓取 + 手动粘贴</span><span class="en">Gmail Agent auto-capture + manual paste</span></div>
+        </div>
+        <div class="dn">↓</div>
+        <div class="w-full max-w-sm bg-white/8 border border-emerald-700/50 rounded-2xl p-5 text-center ch">
+          <div style="font-size:1.8rem;margin-bottom:8px">🤖</div>
+          <div class="font-bold text-white mb-1" style="font-size:.95rem"><span class="ja">② AI Agent が初期評価</span><span class="zh">② AI Agent 初步评估</span><span class="en">② AI Agent Initial Assessment</span></div>
+          <div class="text-emerald-300" style="font-size:.78rem"><span class="ja">Prompt 工学に基づく技術実現性・難易度・リスク分析</span><span class="zh">基于 Prompt 工程化的技术可行性、难度、风险分析</span><span class="en">Prompt-engineered feasibility, difficulty, risk analysis</span></div>
+        </div>
+        <div class="dn">↓</div>
+        <div class="w-full max-w-sm bg-emerald-900/50 border-2 border-emerald-500/60 rounded-2xl p-5 text-center ch">
+          <div style="font-size:1.8rem;margin-bottom:8px">🧑‍💼</div>
+          <div class="font-bold text-white mb-1" style="font-size:.95rem"><span class="ja">③ コンサルタントが意思決定＋記録</span><span class="zh">③ 顾问决策 + 留存记录</span><span class="en">③ Consultant Decides + Records</span></div>
+          <div class="text-emerald-300" style="font-size:.78rem"><span class="ja">投票＋評価理由を記録 → 次の AI 判断の根拠に自動補充</span><span class="zh">投票+评估理由记录 → 自动补充 AI 下次判断依据</span><span class="en">Vote + reasoning recorded → auto-feeds next AI judgment basis</span></div>
+        </div>
+        <div class="dn">↓</div>
+        <div class="w-full max-w-sm bg-white/8 border border-emerald-700/50 rounded-2xl p-5 text-center ch">
+          <div style="font-size:1.8rem;margin-bottom:8px">📈</div>
+          <div class="font-bold text-white mb-1" style="font-size:.95rem"><span class="ja">④ AI 判断精度向上 → ② へ戻る</span><span class="zh">④ AI 精度提升 → 回到②</span><span class="en">④ AI Improves → Back to ②</span></div>
+          <div class="text-emerald-300" style="font-size:.78rem"><span class="ja">Prompt が洗練され飛輪が加速する</span><span class="zh">Prompt 不断精炼，飞轮加速</span><span class="en">Refined Prompts accelerate the flywheel</span></div>
+        </div>
+      </div>
+
+      <!-- 右：说明框 -->
+      <div class="flex flex-col gap-5">
+        <div class="bg-white/5 border border-white/10 rounded-2xl p-6">
+          <h4 class="font-bold text-emerald-300 mb-3 flex items-center gap-2" style="font-size:.92rem">
+            <span>💡</span>
+            <span class="ja">「Prompt の工学化」とは何か</span><span class="zh">什么是「Prompt 工程化」</span><span class="en">What Is "Prompt Engineering" Here?</span>
+          </h4>
+          <p class="text-slate-300 leading-relaxed" style="font-size:.88rem">
+            <span class="ja">コンサルタントの判断軸（「この規模の製造業 AI 案件は技術的に難しい」「この予算感では SES が現実的」）を、自然言語の指示文（Prompt）として構造化し、AI に与えること。コードではなく「判断の言語化」です。</span>
+            <span class="zh">将顾问的判断逻辑（「这个规模制造业 AI 项目技术难度高」「这个预算更适合 SES」）结构化为自然语言指令（Prompt），赋予 AI。不是写代码，是「将判断语言化」。</span>
+            <span class="en">Structuring a consultant's judgment logic into natural language instructions given to AI. Not code — it's "verbalizing judgment."</span>
+          </p>
+        </div>
+        <div class="bg-white/5 border border-white/10 rounded-2xl p-6">
+          <h4 class="font-bold text-emerald-300 mb-3 flex items-center gap-2" style="font-size:.92rem">
+            <span>🔄</span>
+            <span class="ja">飛輪が生み出す複利効果</span><span class="zh">飞轮产生的复利效应</span><span class="en">Compounding Returns From the Flywheel</span>
+          </h4>
+          <div class="space-y-2.5" style="font-size:.88rem;color:#cbd5e1">
+            <div class="flex items-start gap-2"><span class="text-emerald-400 flex-shrink-0">▶</span><span class="ja">案件が増えるほど AI の判断根拠が増える</span><span class="zh">案件越多，AI 判断依据越丰富</span><span class="en">More leads = richer AI judgment basis</span></div>
+            <div class="flex items-start gap-2"><span class="text-emerald-400 flex-shrink-0">▶</span><span class="ja">AI が精度を上げるほど、コンサルタントは深い判断に集中できる</span><span class="zh">AI 越准确，顾问越能专注深度判断</span><span class="en">Better AI accuracy → consultants focus on deep judgment</span></div>
+            <div class="flex items-start gap-2"><span class="text-emerald-400 flex-shrink-0">▶</span><span class="ja">組織全体の「集合知」が時間とともに資産として積み上がる</span><span class="zh">组织「集体智慧」随时间持续积累为资产</span><span class="en">Organizational "collective intelligence" compounds over time</span></div>
+          </div>
+        </div>
+        <div class="bg-emerald-900/30 border border-emerald-700/40 rounded-2xl p-6">
+          <h4 class="font-bold text-white mb-2" style="font-size:.92rem">
+            <span class="ja">🌐 日中越境でこそ、この飛輪が生きる</span><span class="zh">🌐 中日跨境场景，飞轮效应尤其关键</span><span class="en">🌐 Especially Powerful in JP–CN Context</span>
+          </h4>
+          <p class="text-emerald-200/70 leading-relaxed" style="font-size:.82rem">
+            <span class="ja">日本語 RFP を中国語の技術視点で評価する「越境判断」は属人的に蓄積するのが最も難しい知識。LMS はこの判断を双言語 Prompt として蓄積し、チーム全員が活用できるようにします。</span>
+            <span class="zh">用中文技术视角评估日文 RFP 的「跨境判断」，是最难靠人来积累的知识。LMS 将其以双语 Prompt 沉淀，让全团队复用。</span>
+            <span class="en">Evaluating Japanese RFPs from a Chinese technical perspective — the hardest expertise to accumulate person-by-person. LMS crystallizes it into bilingual Prompts reusable by the entire team.</span>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════ S4: MARKET INSIGHT ═══════════════════ -->
+<section id="s4" class="slide bg-ins">
+  <div class="max-w-6xl mx-auto px-6 py-20 fade-in">
+    <div class="text-center mb-12">
+      <div class="inline-block mb-3 px-4 py-1.5 rounded-full bg-indigo-100 text-indigo-700 font-bold uppercase tracking-widest" style="font-size:.72rem">
+        <span class="ja">市場インテリジェンス & 需要モデリング</span><span class="zh">市场洞察与需求建模</span><span class="en">Market Intelligence & Demand Modeling</span>
+      </div>
+      <h2 class="font-black text-slate-900 mb-4" style="font-size:clamp(1.6rem,3.5vw,2.8rem)">
+        <span class="ja">案件データが「業界の AI ニーズ地図」になる</span>
+        <span class="zh">案件数据变成「行业 AI 需求地图」</span>
+        <span class="en">Lead Data Becomes an "Industry AI Demand Map"</span>
+      </h2>
+      <p class="text-slate-500 max-w-3xl mx-auto" style="font-size:.92rem">
+        <span class="ja">蓄積した案件データを分析することで、どの業種がどの AI 領域に需要を持ち、割合・難易度・技術傾向はどうか——定量的に把握し、需要の最小単位から「需要モデル」と「実装モデル」を構築します。</span>
+        <span class="zh">分析积累的案件数据，定量掌握哪个行业在哪些 AI 方向有需求、占比多少、难度如何——从中提炼「最小需求单元」，构建「需求模型」与「实现模型」。</span>
+        <span class="en">Analyzing accumulated lead data reveals which industries have AI demand, at what proportion and difficulty — extracting the "minimum demand unit" to build reusable Demand Models and Implementation Models.</span>
+      </p>
+    </div>
+
+    <!-- charts row -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-10">
+      <div class="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm">
+        <h3 class="font-bold text-slate-800 mb-1" style="font-size:.92rem"><span class="ja">📊 業種別 AI 案件分布（サンプル）</span><span class="zh">📊 行业 AI 案件分布（示意数据）</span><span class="en">📊 AI Lead Distribution by Industry (Sample)</span></h3>
+        <p class="text-slate-400 mb-4" style="font-size:.75rem"><span class="ja">実際のデータはシステム導入後に自動蓄積されます</span><span class="zh">实际数据在系统投入使用后自动积累</span><span class="en">Real data auto-accumulates after deployment</span></p>
+        <div class="cc"><canvas id="iChart"></canvas></div>
+      </div>
+      <div class="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm">
+        <h3 class="font-bold text-slate-800 mb-1" style="font-size:.92rem"><span class="ja">📈 実装難易度 × 需要頻度マトリクス</span><span class="zh">📈 需求频率 × 实现难度矩阵</span><span class="en">📈 Demand Frequency × Difficulty Matrix</span></h3>
+        <p class="text-slate-400 mb-4" style="font-size:.75rem"><span class="ja">高頻度・低難易度の領域が「最小実装単位」の候補</span><span class="zh">高频率 + 低难度的需求就是「最小实现单元」候选</span><span class="en">High-frequency + low-difficulty = minimum implementation unit candidates</span></p>
+        <div class="cc"><canvas id="qChart"></canvas></div>
+      </div>
+    </div>
+
+    <!-- ── 需求最小化拆解 & 模型构建（新增核心模块）── -->
+    <div class="bg-slate-900 rounded-2xl p-8 text-white mb-6">
+      <h3 class="font-bold text-white mb-2 text-center" style="font-size:1.1rem">
+        <span class="ja">🔬 需要の最小化分解から「モデル」を構築するプロセス</span>
+        <span class="zh">🔬 从需求最小化拆解到「模型」构建的过程</span>
+        <span class="en">🔬 From Minimum Demand Decomposition to Model Building</span>
+      </h3>
+      <p class="text-slate-400 text-center mb-8" style="font-size:.82rem">
+        <span class="ja">大きな案件を分解し、繰り返し現れるパターンを「需要原子」として定義。原子を組み合わせて再利用可能な「実装モデル」を構築する。</span>
+        <span class="zh">将大型案件拆解，找出反复出现的需求模式定义为「需求原子」。将原子组合形成可复用的「实现模型」。</span>
+        <span class="en">Decompose complex leads, find recurring demand patterns — define them as "demand atoms." Combine atoms into reusable "implementation models."</span>
+      </p>
+
+      <!-- 3步流程 -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+        <div class="bg-white/5 border border-white/12 rounded-xl p-5 text-center">
+          <div style="font-size:2rem;margin-bottom:10px">🔍</div>
+          <div class="font-bold text-indigo-300 mb-2" style="font-size:.88rem">
+            <span class="ja">STEP 1：需要の最小単位を分解</span><span class="zh">STEP 1：拆解最小需求单元</span><span class="en">STEP 1: Decompose to Minimum Demand Units</span>
+          </div>
+          <p class="text-slate-400 leading-relaxed" style="font-size:.78rem">
+            <span class="ja">案件を AI 機能単位で分解。「製造業の生産ライン異常検知」「小売業の在庫予測」など繰り返し出現するパターンを「需要原子」として定義。</span>
+            <span class="zh">将案件按 AI 功能拆解，找出「制造业生产线异常检测」「零售库存预测」等反复出现的需求模式，定义为「需求原子」。</span>
+            <span class="en">Decompose by AI function, identify recurring patterns like "manufacturing anomaly detection" or "retail inventory prediction" as "demand atoms."</span>
+          </p>
+        </div>
+        <div class="bg-white/5 border border-white/12 rounded-xl p-5 text-center">
+          <div style="font-size:2rem;margin-bottom:10px">🏗️</div>
+          <div class="font-bold text-indigo-300 mb-2" style="font-size:.88rem">
+            <span class="ja">STEP 2：実装モデルを対応付け</span><span class="zh">STEP 2：对应实现模型</span><span class="en">STEP 2: Map to Implementation Models</span>
+          </div>
+          <p class="text-slate-400 leading-relaxed" style="font-size:.78rem">
+            <span class="ja">同じ需要原子に対し、最小工数で実現できる技術スタック・アーキテクチャを定型化。「この需要にはこの型で答えられる」というレシピ集を構築。</span>
+            <span class="zh">针对相同需求原子，固化最小工期可实现的技术栈和架构方案，构建「这个需求用这套方案」的配方库。</span>
+            <span class="en">For each demand atom, standardize the minimum-effort tech stack and architecture — build a recipe book: "this demand answered by this pattern."</span>
+          </p>
+        </div>
+        <div class="bg-white/5 border border-white/12 rounded-xl p-5 text-center">
+          <div style="font-size:2rem;margin-bottom:10px">🚀</div>
+          <div class="font-bold text-indigo-300 mb-2" style="font-size:.88rem">
+            <span class="ja">STEP 3：戦略的先手を打つ</span><span class="zh">STEP 3：实现战略前瞻布局</span><span class="en">STEP 3: Enable Proactive Strategy</span>
+          </div>
+          <p class="text-slate-400 leading-relaxed" style="font-size:.78rem">
+            <span class="ja">BI 看板で「製造業の AI 案件が増加傾向」を察知した時点で、すでに実装モデルと事例を持っていれば競合より先に提案できる。</span>
+            <span class="zh">当 BI 显示「制造业 AI 需求上升」时，如果已有实现模型和项目案例，就能比竞争对手更早提出方案。</span>
+            <span class="en">When BI shows "manufacturing AI demand is rising," having ready models and cases means you propose before competitors.</span>
+          </p>
+        </div>
+      </div>
+
+      <!-- 需求原子 × 实现模型 对照表 -->
+      <div class="bg-white/4 border border-white/10 rounded-xl p-6">
+        <h4 class="font-bold text-white mb-5 flex items-center gap-2" style="font-size:.92rem">
+          <span>⚛️</span>
+          <span class="ja">需要原子 × 実装モデル 対照例</span>
+          <span class="zh">需求原子 × 实现模型 对照示例</span>
+          <span class="en">Demand Atom × Implementation Model Examples</span>
+        </h4>
+        <div class="overflow-x-auto">
+          <table class="w-full">
+            <thead>
+              <tr class="border-b border-white/12">
+                <th class="px-4 py-2.5 text-left text-indigo-300 font-semibold" style="font-size:.78rem"><span class="ja">需要原子</span><span class="zh">需求原子</span><span class="en">Demand Atom</span></th>
+                <th class="px-4 py-2.5 text-left text-cyan-300 font-semibold" style="font-size:.78rem"><span class="ja">業種</span><span class="zh">行业</span><span class="en">Industry</span></th>
+                <th class="px-4 py-2.5 text-left text-emerald-300 font-semibold" style="font-size:.78rem"><span class="ja">難易度</span><span class="zh">难度</span><span class="en">Difficulty</span></th>
+                <th class="px-4 py-2.5 text-left text-amber-300 font-semibold" style="font-size:.78rem"><span class="ja">実装モデル</span><span class="zh">实现模型</span><span class="en">Implementation Model</span></th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-white/8">
+              <tr class="hover:bg-white/4 transition-colors">
+                <td class="px-4 py-3" style="font-size:.8rem"><span class="atom-tag bg-teal-900/60 text-teal-300">⚙️ <span class="ja">生産ライン異常検知</span><span class="zh">生产线异常检测</span><span class="en">Anomaly Detection</span></span></td>
+                <td class="px-4 py-3 text-slate-300" style="font-size:.8rem"><span class="ja">製造業</span><span class="zh">制造业</span><span class="en">Manufacturing</span></td>
+                <td class="px-4 py-3" style="font-size:.8rem"><span class="text-orange-400 font-bold">★★★★☆</span></td>
+                <td class="px-4 py-3 text-slate-300" style="font-size:.78rem"><span class="ja">時系列 AI + Edge デプロイ + アラート</span><span class="zh">时序 AI + Edge 部署 + 告警</span><span class="en">Time-series AI + Edge deploy + alert</span></td>
+              </tr>
+              <tr class="hover:bg-white/4 transition-colors">
+                <td class="px-4 py-3" style="font-size:.8rem"><span class="atom-tag bg-indigo-900/60 text-indigo-300">🛒 <span class="ja">在庫・需要予測</span><span class="zh">库存/需求预测</span><span class="en">Demand Forecasting</span></span></td>
+                <td class="px-4 py-3 text-slate-300" style="font-size:.8rem"><span class="ja">小売・EC</span><span class="zh">零售/电商</span><span class="en">Retail / EC</span></td>
+                <td class="px-4 py-3" style="font-size:.8rem"><span class="text-yellow-400 font-bold">★★★☆☆</span></td>
+                <td class="px-4 py-3 text-slate-300" style="font-size:.78rem"><span class="ja">ML 予測モデル + BigQuery + BI 出力</span><span class="zh">ML 预测模型 + BigQuery + BI 输出</span><span class="en">ML forecast + BigQuery + BI output</span></td>
+              </tr>
+              <tr class="hover:bg-white/4 transition-colors">
+                <td class="px-4 py-3" style="font-size:.8rem"><span class="atom-tag bg-violet-900/60 text-violet-300">👥 <span class="ja">人材マッチング自動化</span><span class="zh">人才匹配自动化</span><span class="en">Talent Matching</span></span></td>
+                <td class="px-4 py-3 text-slate-300" style="font-size:.8rem"><span class="ja">SES・人材</span><span class="zh">SES/人才</span><span class="en">SES / Staffing</span></td>
+                <td class="px-4 py-3" style="font-size:.8rem"><span class="text-green-400 font-bold">★★☆☆☆</span></td>
+                <td class="px-4 py-3 text-slate-300" style="font-size:.78rem"><span class="ja">LLM + スキルベクトル検索 + Sheets API</span><span class="zh">LLM + 技能向量检索 + Sheets API</span><span class="en">LLM + skill vector search + Sheets API</span></td>
+              </tr>
+              <tr class="hover:bg-white/4 transition-colors">
+                <td class="px-4 py-3" style="font-size:.8rem"><span class="atom-tag bg-sky-900/60 text-sky-300">📄 <span class="ja">書類・文書 AI 処理</span><span class="zh">单据/文档 AI 处理</span><span class="en">Document AI</span></span></td>
+                <td class="px-4 py-3 text-slate-300" style="font-size:.8rem"><span class="ja">全業種</span><span class="zh">全行业</span><span class="en">Cross-industry</span></td>
+                <td class="px-4 py-3" style="font-size:.8rem"><span class="text-green-400 font-bold">★★☆☆☆</span></td>
+                <td class="px-4 py-3 text-slate-300" style="font-size:.78rem"><span class="ja">OCR + LLM 抽出 + GAS 自動フロー</span><span class="zh">OCR + LLM 提取 + GAS 自动流程</span><span class="en">OCR + LLM extract + GAS auto-flow</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="mt-4 text-slate-500 text-center" style="font-size:.75rem">
+          <span class="ja">※ 需要原子が積み重なるほど、実装モデルのライブラリが充実し、新案件への対応速度が上がる</span>
+          <span class="zh">※ 需求原子积累越多，实现模型库越丰富，应对新案件的速度越快</span>
+          <span class="en">※ The more demand atoms accumulate, the richer the implementation library, and the faster new leads are handled</span>
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════ S5: SYSTEM ═══════════════════ -->
+<section id="s5" class="slide bg-sys">
+  <div class="max-w-5xl mx-auto px-6 py-20 fade-in">
+    <div class="text-center mb-12">
+      <div class="inline-block mb-3 px-4 py-1.5 rounded-full bg-white/20 text-white font-bold uppercase tracking-widest" style="font-size:.72rem">
+        <span class="ja">システム実装</span><span class="zh">系统实现</span><span class="en">System Implementation</span>
+      </div>
+      <h2 class="font-black text-white mb-4" style="font-size:clamp(1.6rem,3.5vw,2.8rem)">
+        <span class="ja">V8.5 — 現在稼働中のコア機能</span><span class="zh">V8.5 — 当前已实现的核心功能</span><span class="en">V8.5 — Core Features Currently Running</span>
+      </h2>
+      <p class="text-teal-100 max-w-2xl mx-auto" style="font-size:.92rem">
+        <span class="ja">Google Apps Script + Gmail + AI の組み合わせで、ゼロインフラ・低コストで稼働。</span>
+        <span class="zh">基于 Google Apps Script + Gmail + AI，零基础设施、低成本运行。</span>
+        <span class="en">Running on Google Apps Script + Gmail + AI — zero infrastructure, low cost.</span>
+      </p>
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+      <div class="ch bg-white/15 border border-white/25 rounded-2xl p-6 backdrop-blur-sm">
+        <div class="flex items-center gap-3 mb-4"><span style="font-size:1.8rem">🎣</span><div><h3 class="font-bold text-white" style="font-size:.95rem"><span class="ja">案件リード自動取込</span><span class="zh">案件自动抓取</span><span class="en">Auto Lead Capture</span></h3><p class="text-teal-200" style="font-size:.72rem">Lead Intake</p></div></div>
+        <ul class="space-y-2 text-teal-100" style="font-size:.82rem">
+          <li class="flex gap-2"><span class="opacity-50">▸</span><span class="ja">Gmail Agent が15分ごとに自動スキャン・解析・入庫</span><span class="zh">Gmail Agent 每15分钟自动扫描、解析、入库</span><span class="en">Gmail Agent scans, parses, ingests every 15 min</span></li>
+          <li class="flex gap-2"><span class="opacity-50">▸</span><span class="ja">手動貼付でも AI が20+ フィールドを即抽出</span><span class="zh">手动粘贴时 AI 即刻提取20+字段</span><span class="en">Manual paste: AI extracts 20+ fields instantly</span></li>
+          <li class="flex gap-2"><span class="opacity-50">▸</span><span class="ja">メール発信時刻を mail-sent time として正確記録・回填対応</span><span class="zh">邮件发送时间作为 mail-sent time 准确记录与回填</span><span class="en">Email sent-time accurately recorded; backfill supported</span></li>
+        </ul>
+      </div>
+      <div class="ch bg-white/15 border border-white/25 rounded-2xl p-6 backdrop-blur-sm">
+        <div class="flex items-center gap-3 mb-4"><span style="font-size:1.8rem">🧠</span><div><h3 class="font-bold text-white" style="font-size:.95rem"><span class="ja">AI 解析 & 双言語出力</span><span class="zh">AI 解析 & 双语输出</span><span class="en">AI Analysis & Bilingual Output</span></h3><p class="text-teal-200" style="font-size:.72rem">Intelligence Engine</p></div></div>
+        <ul class="space-y-2 text-teal-100" style="font-size:.82rem">
+          <li class="flex gap-2"><span class="opacity-50">▸</span><span class="ja">Prompt_Config でノーコードに AI 動作を制御</span><span class="zh">Prompt_Config 零代码控制 AI 行为</span><span class="en">No-code AI behavior control via Prompt_Config</span></li>
+          <li class="flex gap-2"><span class="opacity-50">▸</span><span class="ja">技術実現性・難易度・リスクを日中双言語で自動生成</span><span class="zh">技术可行性、难度、风险以中日双语自动生成</span><span class="en">Feasibility, difficulty, risk auto-generated in JP+CN</span></li>
+          <li class="flex gap-2"><span class="opacity-50">▸</span><span class="ja">ブラウザ言語検出で UI が自動切替</span><span class="zh">浏览器语言检测 UI 自动切换</span><span class="en">Browser language detection for auto UI switch</span></li>
+        </ul>
+      </div>
+      <div class="ch bg-white/15 border border-white/25 rounded-2xl p-6 backdrop-blur-sm">
+        <div class="flex items-center gap-3 mb-4"><span style="font-size:1.8rem">⚖️</span><div><h3 class="font-bold text-white" style="font-size:.95rem"><span class="ja">協同意思決定 & 記録蓄積</span><span class="zh">协同决策与记录沉淀</span><span class="en">Collaborative Decision & Record</span></h3><p class="text-teal-200" style="font-size:.72rem">Decision Engine</p></div></div>
+        <ul class="space-y-2 text-teal-100" style="font-size:.82rem">
+          <li class="flex gap-2"><span class="opacity-50">▸</span><span class="ja">正面/中立/負面の投票＋評価理由を防篡改で記録 → Prompt 進化の燃料</span><span class="zh">正面/中立/负面投票+评估理由防篡改记录 → Prompt 进化的原料</span><span class="en">Tamper-proof vote + reasoning → raw fuel for Prompt evolution</span></li>
+          <li class="flex gap-2"><span class="opacity-50">▸</span><span class="ja">会前資料準備チェック（Drive 同期状況のリアルタイム表示）</span><span class="zh">会前资料准备检查（Drive 同步状态实时显示）</span><span class="en">Pre-meeting material check (Drive sync real-time)</span></li>
+        </ul>
+      </div>
+      <div class="ch bg-white/15 border border-white/25 rounded-2xl p-6 backdrop-blur-sm">
+        <div class="flex items-center gap-3 mb-4"><span style="font-size:1.8rem">📊</span><div><h3 class="font-bold text-white" style="font-size:.95rem"><span class="ja">BI 看板 & 市場可視化</span><span class="zh">BI 看板 & 市场可视化</span><span class="en">BI Dashboard & Market Visibility</span></h3><p class="text-teal-200" style="font-size:.72rem">Business Intelligence</p></div></div>
+        <ul class="space-y-2 text-teal-100" style="font-size:.82rem">
+          <li class="flex gap-2"><span class="opacity-50">▸</span><span class="ja">業種・月別・難易度別の多次元フィルタリング</span><span class="zh">行业、月份、难度多维联动过滤</span><span class="en">Multi-dimensional filtering: industry, month, difficulty</span></li>
+          <li class="flex gap-2"><span class="opacity-50">▸</span><span class="ja">需要頻度・難易度を定量可視化 → 需要原子の抽出を支援</span><span class="zh">定量可视化需求频率与难度 → 支持需求原子提炼</span><span class="en">Quantified demand frequency & difficulty → supports demand atom extraction</span></li>
+        </ul>
+      </div>
+    </div>
+    <div class="mt-8 bg-white/8 border border-white/15 rounded-xl px-6 py-4 flex flex-wrap gap-3 items-center justify-center">
+      <span class="text-white/50 font-semibold" style="font-size:.8rem"><span class="ja">技術スタック</span><span class="zh">技术栈</span><span class="en">Tech Stack</span>:</span>
+      <span class="bg-white/10 text-teal-200 px-3 py-1 rounded-full" style="font-size:.78rem">Google Apps Script</span>
+      <span class="bg-white/10 text-teal-200 px-3 py-1 rounded-full" style="font-size:.78rem">Gmail API</span>
+      <span class="bg-white/10 text-teal-200 px-3 py-1 rounded-full" style="font-size:.78rem">Google Sheets (CRM)</span>
+      <span class="bg-white/10 text-teal-200 px-3 py-1 rounded-full" style="font-size:.78rem">Google Drive</span>
+      <span class="bg-white/10 text-teal-200 px-3 py-1 rounded-full" style="font-size:.78rem">AI / LLM (Prompt-driven)</span>
+      <span class="bg-white/10 text-teal-200 px-3 py-1 rounded-full" style="font-size:.78rem">clasp + deploy.sh</span>
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════ S6: ROADMAP ═══════════════════ -->
+<section id="s6" class="slide bg-road">
+  <div class="max-w-5xl mx-auto px-6 py-20 fade-in">
+    <div class="text-center mb-12">
+      <div class="inline-block mb-3 px-4 py-1.5 rounded-full bg-indigo-900 text-indigo-300 font-bold uppercase tracking-widest" style="font-size:.72rem">
+        <span class="ja">進化ロードマップ</span><span class="zh">演进路线图</span><span class="en">Evolution Roadmap</span>
+      </div>
+      <h2 class="font-black text-white mb-4" style="font-size:clamp(1.6rem,3.5vw,2.8rem)">
+        <span class="ja">内部ツール → 業界標準 SaaS の3フェーズ</span>
+        <span class="zh">内部工具 → 行业标准 SaaS 的三阶段</span>
+        <span class="en">Internal Tool → Industry-Standard SaaS in 3 Phases</span>
+      </h2>
+    </div>
+    <div class="space-y-5">
+      <div class="pl" style="border-left-color:#818cf8">
+        <div class="flex flex-col md:flex-row md:items-start gap-5">
+          <div class="flex-shrink-0" style="min-width:190px">
+            <div class="text-indigo-400 font-bold uppercase tracking-wider mb-1" style="font-size:.72rem"><span class="ja">フェーズ 1 — 現在</span><span class="zh">第一阶段 — 当前</span><span class="en">Phase 1 — Now</span></div>
+            <h3 class="font-black text-white" style="font-size:1.1rem"><span class="ja">判断知識の資産化基盤</span><span class="zh">判断知识资产化底座</span><span class="en">Judgment Knowledge Foundation</span></h3>
+            <span class="inline-block mt-2 bg-teal-900 text-teal-300 px-3 py-1 rounded-full font-bold" style="font-size:.7rem"><span class="ja">社内利用・提効</span><span class="zh">内部自用、提效</span><span class="en">Internal use, efficiency</span></span>
+          </div>
+          <div class="flex-1 grid grid-cols-1 md:grid-cols-2 gap-3">
+            <div class="bg-white/5 rounded-xl p-4" style="font-size:.82rem;color:#cbd5e1;line-height:1.65">
+              <span class="block font-bold text-indigo-300 mb-1" style="font-size:.78rem"><span class="ja">✅ 達成済み</span><span class="zh">✅ 已完成</span><span class="en">✅ Achieved</span></span>
+              <span class="ja">自動リード取込・AI 解析・双言語 UI・協同投票・BI 看板・mail-sent time 記録・回填</span>
+              <span class="zh">自动线索抓取、AI 解析、双语 UI、协同投票、BI 看板、mail-sent time 记录与回填</span>
+              <span class="en">Auto intake, AI analysis, bilingual UI, voting, BI, mail-sent time record & backfill</span>
+            </div>
+            <div class="bg-white/5 rounded-xl p-4" style="font-size:.82rem;color:#cbd5e1;line-height:1.65">
+              <span class="block font-bold text-teal-300 mb-1" style="font-size:.78rem"><span class="ja">🎯 次のマイルストーン</span><span class="zh">🎯 下一里程碑</span><span class="en">🎯 Next Milestone</span></span>
+              <span class="ja">需要原子の分類タグ付け・Prompt バージョン管理・BI 難易度軸の追加</span>
+              <span class="zh">需求原子分类标签、Prompt 版本管理、BI 增加 AI 难度维度</span>
+              <span class="en">Demand-atom tags, Prompt version control, BI AI-difficulty axis</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="pl" style="border-left-color:#8b5cf6">
+        <div class="flex flex-col md:flex-row md:items-start gap-5">
+          <div class="flex-shrink-0" style="min-width:190px">
+            <div class="text-violet-400 font-bold uppercase tracking-wider mb-1" style="font-size:.72rem"><span class="ja">フェーズ 2 — 中期</span><span class="zh">第二阶段 — 中期</span><span class="en">Phase 2 — Mid-Term</span></div>
+            <h3 class="font-black text-white" style="font-size:1.1rem"><span class="ja">パートナー展開 SaaS</span><span class="zh">合作伙伴 SaaS 版</span><span class="en">Partner SaaS Deployment</span></h3>
+            <span class="inline-block mt-2 bg-violet-900 text-violet-300 px-3 py-1 rounded-full font-bold" style="font-size:.7rem"><span class="ja">Frontia 専用版</span><span class="zh">Frontia 专用版</span><span class="en">Frontia edition</span></span>
+          </div>
+          <div class="flex-1 space-y-2" style="font-size:.85rem;color:#cbd5e1">
+            <div class="flex gap-2"><span class="text-violet-400">▸</span><span class="ja">マルチテナント：Frontia・開発会社・エンドクライアントが権限別に協業</span><span class="zh">多租户：Frontia、开发公司、终端客户按权限分层协作</span><span class="en">Multi-tenant: permission-layered collaboration across Frontia, devcos, clients</span></div>
+            <div class="flex gap-2"><span class="text-violet-400">▸</span><span class="ja">Prompt ライブラリの「組織資産化」と Frontia への移管</span><span class="zh">Prompt 库「组织资产化」并向 Frontia 移交</span><span class="en">Prompt library "organizational assetization" and transfer to Frontia</span></div>
+            <div class="flex gap-2"><span class="text-violet-400">▸</span><span class="ja">需要モデル × 実装モデルの標準 API 開放</span><span class="zh">需求模型 × 实现模型标准 API 开放</span><span class="en">Standard API opening for Demand Model × Implementation Model</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="pl" style="border-left-color:#06b6d4">
+        <div class="flex flex-col md:flex-row md:items-start gap-5">
+          <div class="flex-shrink-0" style="min-width:190px">
+            <div class="text-cyan-400 font-bold uppercase tracking-wider mb-1" style="font-size:.72rem"><span class="ja">フェーズ 3 — 長期</span><span class="zh">第三阶段 — 长期</span><span class="en">Phase 3 — Long-Term</span></div>
+            <h3 class="font-black text-white" style="font-size:1.1rem"><span class="ja">業界 AI ナレッジエコシステム</span><span class="zh">行业 AI 知识生态</span><span class="en">Industry AI Knowledge Ecosystem</span></h3>
+            <span class="inline-block mt-2 bg-cyan-900 text-cyan-300 px-3 py-1 rounded-full font-bold" style="font-size:.7rem"><span class="ja">全業者 SaaS</span><span class="zh">全行业 SaaS</span><span class="en">All-vendor SaaS</span></span>
+          </div>
+          <div class="flex-1 space-y-2" style="font-size:.85rem;color:#cbd5e1">
+            <div class="flex gap-2"><span class="text-cyan-400">▸</span><span class="ja">クロスカンパニーデータで日本市場 AI 需要トレンドを可視化・予測</span><span class="zh">跨企业数据可视化并预测日本市场 AI 需求趋势</span><span class="en">Cross-company data to visualize and predict Japan AI market trends</span></div>
+            <div class="flex gap-2"><span class="text-cyan-400">▸</span><span class="ja">「需要原子 × 実装モデル」をマーケットプレイスで提供・収益化</span><span class="zh">「需求原子 × 实现模型」在市场中提供和变现</span><span class="en">"Demand atom × implementation model" marketplace monetization</span></div>
+            <div class="flex gap-2"><span class="text-cyan-400">▸</span><span class="ja">リバースマッチング：新案件に最適な開発パートナーを自動提案</span><span class="zh">反向匹配：新案件自动推荐最合适的开发合作伙伴</span><span class="en">Reverse matching: auto-recommend best dev partner for incoming leads</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════ S7: VALUE ═══════════════════ -->
+<section id="s7" class="slide bg-val">
+  <div class="max-w-5xl mx-auto px-6 py-20 fade-in">
+    <div class="text-center mb-12">
+      <div class="inline-block mb-3 px-4 py-1.5 rounded-full bg-white/15 text-indigo-200 font-bold uppercase tracking-widest" style="font-size:.72rem">
+        <span class="ja">価値提案の総括</span><span class="zh">价值提案总结</span><span class="en">Value Proposition Summary</span>
+      </div>
+      <h2 class="font-black text-white mb-4" style="font-size:clamp(1.6rem,3.5vw,2.8rem)">
+        <span class="ja">誰にとって、どんな価値か</span><span class="zh">对谁，有什么价值</span><span class="en">Value — For Whom, Of What Kind</span>
+      </h2>
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+      <div class="ch bg-white/10 border border-white/20 rounded-2xl p-7">
+        <div style="font-size:2.2rem;margin-bottom:12px">🏢</div>
+        <h3 class="font-bold text-white mb-3" style="font-size:.95rem"><span class="ja">自社への価値</span><span class="zh">对自身的价值</span><span class="en">Value to Your Own Firm</span></h3>
+        <ul class="space-y-2.5 text-indigo-200" style="font-size:.84rem;line-height:1.65">
+          <li class="flex gap-2"><span class="text-teal-400">▸</span><span class="ja">案件評価コストを大幅削減（時間・人的依存の解消）</span><span class="zh">大幅降低案件评估成本（时间与人员依赖）</span><span class="en">Dramatically reduce evaluation cost (time + human dependency)</span></li>
+          <li class="flex gap-2"><span class="text-teal-400">▸</span><span class="ja">経験ノウハウが「組織の資産」として永続</span><span class="zh">经验诀窍成为「组织资产」，永久留存</span><span class="en">Expertise becomes permanent organizational asset</span></li>
+          <li class="flex gap-2"><span class="text-teal-400">▸</span><span class="ja">戦略的な市場先手が可能になる</span><span class="zh">实现战略性的市场先发优势</span><span class="en">Enables strategic first-mover advantage</span></li>
+        </ul>
+      </div>
+      <div class="ch bg-white/10 border border-white/20 rounded-2xl p-7">
+        <div style="font-size:2.2rem;margin-bottom:12px">🤝</div>
+        <h3 class="font-bold text-white mb-3" style="font-size:.95rem"><span class="ja">Frontia への価値</span><span class="zh">对 Frontia 的价值</span><span class="en">Value to Frontia</span></h3>
+        <ul class="space-y-2.5 text-indigo-200" style="font-size:.84rem;line-height:1.65">
+          <li class="flex gap-2"><span class="text-teal-400">▸</span><span class="ja">案件の「見える化」でコミュニケーションコスト削減</span><span class="zh">案件「可视化」降低沟通成本</span><span class="en">Lead visualization reduces communication overhead</span></li>
+          <li class="flex gap-2"><span class="text-teal-400">▸</span><span class="ja">双言語レポートで日本担当者との摩擦ゼロに</span><span class="zh">双语报告让日本负责人沟通零摩擦</span><span class="en">Bilingual reports eliminate friction with Japanese managers</span></li>
+          <li class="flex gap-2"><span class="text-teal-400">▸</span><span class="ja">クライアントへの提案精度と速度が向上</span><span class="zh">提高对客户的提案精度与速度</span><span class="en">Higher accuracy and speed in client proposals</span></li>
+        </ul>
+      </div>
+      <div class="ch bg-white/10 border border-white/20 rounded-2xl p-7">
+        <div style="font-size:2.2rem;margin-bottom:12px">🌏</div>
+        <h3 class="font-bold text-white mb-3" style="font-size:.95rem"><span class="ja">業界全体への価値</span><span class="zh">对整个行业的价值</span><span class="en">Value to the Industry</span></h3>
+        <ul class="space-y-2.5 text-indigo-200" style="font-size:.84rem;line-height:1.65">
+          <li class="flex gap-2"><span class="text-teal-400">▸</span><span class="ja">日中 AI 需要マップを業界初で提供</span><span class="zh">首次提供中日 AI 需求地图</span><span class="en">First-ever JP–CN AI demand map</span></li>
+          <li class="flex gap-2"><span class="text-teal-400">▸</span><span class="ja">「需要原子 × 実装モデル」が業界標準になり得る</span><span class="zh">「需求原子 × 实现模型」有望成为行业标准</span><span class="en">"Demand atom × implementation model" can become industry standard</span></li>
+          <li class="flex gap-2"><span class="text-teal-400">▸</span><span class="ja">越境 IT の情報格差を体系的に解消</span><span class="zh">系统性消除跨境 IT 信息鸿沟</span><span class="en">Systematically eliminates the cross-border IT information gap</span></li>
+        </ul>
+      </div>
+    </div>
+    <div class="grid grid-cols-3 gap-4">
+      <div class="bg-white/8 border border-white/10 rounded-xl p-5 text-center ch"><div style="font-size:1.8rem;margin-bottom:8px">🔒</div><h4 class="font-bold text-white mb-1" style="font-size:.85rem"><span class="ja">エンタープライズ管控</span><span class="zh">企业级管控</span><span class="en">Enterprise Governance</span></h4><p class="text-indigo-300" style="font-size:.78rem"><span class="ja">ドメインロック・ゼロコード設定・監査ログ</span><span class="zh">域名锁+零代码配置+审计日志</span><span class="en">Domain lock + no-code config + audit logs</span></p></div>
+      <div class="bg-white/8 border border-white/10 rounded-xl p-5 text-center ch"><div style="font-size:1.8rem;margin-bottom:8px">🌐</div><h4 class="font-bold text-white mb-1" style="font-size:.85rem"><span class="ja">日中特化 Prompt 資産</span><span class="zh">中日专用 Prompt 资产</span><span class="en">JP–CN Prompt Assets</span></h4><p class="text-indigo-300" style="font-size:.78rem"><span class="ja">蓄積された判断 Prompt が参入障壁</span><span class="zh">积累的判断 Prompt 构成竞争壁垒</span><span class="en">Accumulated Prompts form competitive moat</span></p></div>
+      <div class="bg-white/8 border border-white/10 rounded-xl p-5 text-center ch"><div style="font-size:1.8rem;margin-bottom:8px">📊</div><h4 class="font-bold text-white mb-1" style="font-size:.85rem"><span class="ja">独自需要データベース</span><span class="zh">专属需求数据库</span><span class="en">Proprietary Demand DB</span></h4><p class="text-indigo-300" style="font-size:.78rem"><span class="ja">他社が持てない日中 AI ニーズ実績データ</span><span class="zh">竞争对手无法复制的中日 AI 需求数据</span><span class="en">JP–CN AI demand track record no competitor can replicate</span></p></div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════ S8: CLOSING ═══════════════════ -->
+<section id="s8" class="slide bg-end">
+  <div class="max-w-4xl mx-auto px-6 py-24 text-center fade-in">
+    <div style="font-size:3.5rem;margin-bottom:24px">🌐</div>
+    <h2 class="font-black text-white mb-6 leading-tight" style="font-size:clamp(2rem,5vw,3.2rem)">
+      <span class="ja">判断は消えない。<br><span class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-300 to-violet-400">経験は資産になる。</span></span>
+      <span class="zh">判断不会消失，<br><span class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-300 to-violet-400">经验变为资产。</span></span>
+      <span class="en">Judgment Never Disappears.<br><span class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-300 to-violet-400">Experience Becomes an Asset.</span></span>
+    </h2>
+    <p class="text-slate-400 max-w-2xl mx-auto mb-12 leading-relaxed" style="font-size:1rem">
+      <span class="ja">Ready Crew LMS は、チームが日々行う「判断」を Prompt として蓄積し、AI Agent を育て、市場の AI ニーズを可視化する——日中越境 IT 協業の「知的インフラ」を目指します。</span>
+      <span class="zh">Ready Crew LMS 将团队每天的「判断」沉淀为 Prompt，培育 AI Agent，可视化市场的 AI 需求——致力于成为中日跨境 IT 协作的「知识基础设施」。</span>
+      <span class="en">Ready Crew LMS accumulates every team "judgment" as Prompts, trains AI Agents, and visualizes market AI demand — aiming to be the "knowledge infrastructure" of JP–CN cross-border IT collaboration.</span>
+    </p>
+    <div class="flex flex-col md:flex-row justify-center gap-8 mb-14">
+      <div class="flex flex-col items-center">
+        <div class="font-black text-transparent bg-clip-text bg-gradient-to-b from-cyan-300 to-teal-500" style="font-size:2.8rem"><span class="ja">経験</span><span class="zh">经验</span><span class="en">Experience</span></div>
+        <div class="text-slate-400 mt-1" style="font-size:.88rem">→ Prompt</div>
+      </div>
+      <div class="text-slate-600 text-3xl flex items-center">×</div>
+      <div class="flex flex-col items-center">
+        <div class="font-black text-transparent bg-clip-text bg-gradient-to-b from-violet-300 to-indigo-500" style="font-size:2.8rem"><span class="ja">判断</span><span class="zh">判断</span><span class="en">Judgment</span></div>
+        <div class="text-slate-400 mt-1" style="font-size:.88rem">→ AI Agent</div>
+      </div>
+      <div class="text-slate-600 text-3xl flex items-center">×</div>
+      <div class="flex flex-col items-center">
+        <div class="font-black text-transparent bg-clip-text bg-gradient-to-b from-orange-300 to-pink-500" style="font-size:2.8rem"><span class="ja">洞察</span><span class="zh">洞察</span><span class="en">Insight</span></div>
+        <div class="text-slate-400 mt-1" style="font-size:.88rem">→ Market Model</div>
+      </div>
+    </div>
+    <div class="inline-flex items-center gap-3 bg-white/5 border border-white/10 rounded-full px-6 py-3" style="font-size:.88rem">
+      <span class="text-slate-500">Ready Crew LMS</span>
+      <span class="text-slate-700">|</span>
+      <span class="text-indigo-400 font-bold">V8.5</span>
+      <span class="text-slate-700">|</span>
+      <span class="text-slate-500">2026.04.14</span>
+    </div>
+  </div>
+</section>
+
+<footer class="bg-slate-950 py-6 text-center border-t border-white/5">
+  <p class="text-slate-600" style="font-size:.82rem">Ready Crew LMS Trilingual Presentation · <span class="ja">三言語版</span><span class="zh">三语版</span><span class="en">Trilingual</span> · V2 · 2026-04-14</p>
+</footer>
+
+<script>
+function setLang(l){
+  document.body.className=document.body.className.replace(/lang-\w+/g,'');
+  document.body.classList.add('lang-'+l);
+  ['ja','zh','en'].forEach(x=>document.getElementById('btn-'+x).classList.toggle('active',x===l));
+  document.documentElement.lang=l==='zh'?'zh-CN':l==='en'?'en':'ja';
+}
+document.addEventListener('DOMContentLoaded',()=>{setLang('ja');initCharts();});
+
+function initCharts(){
+  Chart.defaults.font.family='system-ui,-apple-system,sans-serif';
+  Chart.defaults.font.size=13;
+
+  // 行业分布圆环图
+  new Chart(document.getElementById('iChart').getContext('2d'),{
+    type:'doughnut',
+    data:{
+      labels:['製造業 / 制造业','小売・EC / 零售电商','SES / 人材','物流 / ロジスティクス','その他'],
+      datasets:[{
+        data:[38,22,18,12,10],
+        backgroundColor:['#0d9488','#6366f1','#f97316','#14b8a6','#64748b'],
+        borderWidth:0,hoverOffset:8
+      }]
+    },
+    options:{
+      responsive:true,maintainAspectRatio:false,
+      plugins:{
+        legend:{position:'right',labels:{boxWidth:12,padding:14,font:{size:12},color:'#64748b'}},
+        tooltip:{backgroundColor:'rgba(15,23,42,.92)',padding:12,cornerRadius:10,
+          callbacks:{label:c=>` ${c.label}: ${c.parsed}%`}}
+      },
+      cutout:'62%'
+    }
+  });
+
+  // 难度×频率气泡图
+  new Chart(document.getElementById('qChart').getContext('2d'),{
+    type:'bubble',
+    data:{datasets:[
+      {label:'製造AI / 制造AI',data:[{x:7,y:8,r:15}],backgroundColor:'rgba(13,148,136,.75)',borderColor:'#0d9488',borderWidth:2},
+      {label:'EC推薦 / 电商推荐',data:[{x:4,y:7,r:11}],backgroundColor:'rgba(99,102,241,.75)',borderColor:'#6366f1',borderWidth:2},
+      {label:'SES自動化 / SES自动化',data:[{x:3,y:9,r:10}],backgroundColor:'rgba(249,115,22,.75)',borderColor:'#f97316',borderWidth:2},
+      {label:'ロボット / 机器人制御',data:[{x:9,y:4,r:9}],backgroundColor:'rgba(20,184,166,.75)',borderColor:'#14b8a6',borderWidth:2},
+      {label:'文書AI / 文档AI',data:[{x:2,y:6,r:8}],backgroundColor:'rgba(139,92,246,.75)',borderColor:'#8b5cf6',borderWidth:2}
+    ]},
+    options:{
+      responsive:true,maintainAspectRatio:false,
+      plugins:{
+        legend:{position:'bottom',labels:{boxWidth:10,padding:10,font:{size:11},color:'#64748b'}},
+        tooltip:{backgroundColor:'rgba(15,23,42,.92)',padding:12,cornerRadius:10,
+          callbacks:{label:c=>` 難易度: ${c.parsed.x}  頻度: ${c.parsed.y}  規模: ${c.raw.r}`}}
+      },
+      scales:{
+        x:{title:{display:true,text:'← 実装難易度（低 → 高）→',color:'#94a3b8',font:{size:12}},
+           min:0,max:11,grid:{color:'rgba(100,116,139,.15)'},ticks:{color:'#94a3b8',font:{size:11}}},
+        y:{title:{display:true,text:'↑ 需要頻度',color:'#94a3b8',font:{size:12}},
+           min:0,max:11,grid:{color:'rgba(100,116,139,.15)'},ticks:{color:'#94a3b8',font:{size:11}}}
+      }
+    }
+  });
+}
+</script>
+</body>
+</html>

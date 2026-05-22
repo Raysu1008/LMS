@@ -1,0 +1,392 @@
+<!-- Chosen Palette: Sand & Slate (Warm neutral backgrounds like #faf9f8, text in deep slate #334155, subtle accents in muted teal #0f766e and terracotta #c2410c for highlights) -->
+<!-- Application Structure Plan: The SPA is structured as an interactive "Product Blueprint". It moves from high-level value proposition (Hero) to logical process flow (Workflow Steps), then allows deep-dive exploration of technical capabilities via an interactive Module Explorer, and finally grounds the capabilities in a simulated BI Dashboard. This structure was chosen to transform a technical specification (system_summary.md) into an engaging product tour, allowing stakeholders to understand the 'why' before exploring the 'how'. -->
+<!-- Visualization & Content Choices: 
+1. Value Proposition -> Big Number Display (8万日元) -> No interaction -> Establishes immediate context and system ROI.
+2. Workflow (协同流程) -> Horizontal Step Indicator (HTML/CSS) -> Clickable steps -> Guides user through the operational lifecycle without overwhelming text.
+3. Core Modules (核心功能模块) -> Interactive Master-Detail UI -> Click sidebar to reveal details -> Organizes dense technical specs (Agent, AI Engine, Drive Sync) into digestible chunks. NO SVG used (using Unicode icons).
+4. Business Intelligence (数据可视化看板) -> Doughnut Chart (Chart.js) & Bar Chart (Chart.js) -> Hover tooltips -> Demonstrates the "Real-time stats" and "Multi-dimensional filtering" capabilities described in the report. Charts are strictly constrained in .chart-container. 
+-->
+<!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ready Crew LMS (V8.2 Beta) 交互式全景图</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        sand: { 50: '#faf9f8', 100: '#f4f2ee', 200: '#e8e4db', 300: '#d5cec4' },
+                        slate: { 700: '#334155', 800: '#1e293b', 900: '#0f172a' },
+                        teal: { 600: '#0d9488', 700: '#0f766e' },
+                        terra: { 600: '#ea580c', 700: '#c2410c' }
+                    },
+                    fontFamily: {
+                        sans: ['system-ui', '-apple-system', 'Segoe UI', 'Roboto', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 320px;
+            max-height: 400px;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 380px;
+            }
+        }
+        .hide-scroll::-webkit-scrollbar {
+            display: none;
+        }
+        .hide-scroll {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+</head>
+<body class="bg-sand-50 text-slate-800 font-sans antialiased leading-relaxed">
+
+    <nav class="bg-white border-b border-sand-200 sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+            <div class="flex items-center gap-2">
+                <span class="text-2xl">⚙️</span>
+                <span class="font-bold text-slate-900 text-lg tracking-tight">Ready Crew LMS <span class="text-xs font-normal bg-sand-200 text-slate-700 px-2 py-1 rounded ml-1">V8.2 Beta</span></span>
+            </div>
+            <div class="hidden md:flex space-x-8 text-sm font-medium text-slate-600">
+                <a href="#value" class="hover:text-teal-700 transition-colors">核心价值</a>
+                <a href="#workflow" class="hover:text-teal-700 transition-colors">协同流程</a>
+                <a href="#modules" class="hover:text-teal-700 transition-colors">系统模块</a>
+                <a href="#dashboard" class="hover:text-teal-700 transition-colors">数据看板</a>
+            </div>
+        </div>
+    </nav>
+
+    <header id="value" class="py-20 px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto text-center">
+        <h1 class="text-4xl md:text-5xl font-extrabold text-slate-900 tracking-tight mb-6">
+            AI 驱动的线索协作中台
+        </h1>
+        <p class="text-xl text-slate-600 mb-10 max-w-3xl mx-auto">
+            本系统旨在通过自动化与 AI 技术，最大化利用高价值线索，降低技术评估门槛，辅助商务决策。
+        </p>
+        <div class="inline-flex flex-col items-center justify-center p-8 bg-white rounded-2xl shadow-sm border border-sand-200">
+            <span class="text-sm font-semibold text-terra-600 uppercase tracking-widest mb-2">单条线索核心价值</span>
+            <span class="text-5xl md:text-6xl font-black text-slate-800">80,000 <span class="text-2xl text-slate-500 font-medium">JPY</span></span>
+            <span class="mt-4 text-sm text-slate-500 max-w-md">系统通过全自动抓取与 AI 架构师预判，确保每一条高成本线索得到最精准、高效的流转与评估。</span>
+        </div>
+    </header>
+
+    <section id="workflow" class="py-16 bg-white border-y border-sand-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="mb-12 text-center">
+                <h2 class="text-3xl font-bold text-slate-900 mb-4">协同流程 (Workflow)</h2>
+                <p class="text-slate-600 max-w-2xl mx-auto">了解团队如何通过 LMS 系统完成从线索获取到最终商务推进的标准化闭环。点击下方步骤查看具体动作。</p>
+            </div>
+            
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-center relative gap-6">
+                <div class="hidden md:block absolute top-1/2 left-0 w-full h-1 bg-sand-200 -z-10 transform -translate-y-1/2"></div>
+                
+                <button onclick="updateWorkflow(0)" id="wf-btn-0" class="workflow-btn w-full md:w-1/4 bg-sand-50 border-2 border-teal-600 rounded-xl p-6 text-left md:text-center transition-all shadow-md transform scale-105 z-10 cursor-pointer">
+                    <div class="text-3xl mb-3">📥</div>
+                    <h3 class="font-bold text-slate-900 text-lg mb-1">1. 线索入库</h3>
+                    <p class="text-xs text-slate-500">Agent 抓取 / 手动粘贴</p>
+                </button>
+                
+                <button onclick="updateWorkflow(1)" id="wf-btn-1" class="workflow-btn w-full md:w-1/4 bg-white border-2 border-sand-200 rounded-xl p-6 text-left md:text-center transition-all hover:border-teal-300 z-10 cursor-pointer">
+                    <div class="text-3xl mb-3">🔍</div>
+                    <h3 class="font-bold text-slate-900 text-lg mb-1">2. 深度查阅</h3>
+                    <p class="text-xs text-slate-500">双语技术路径 / Drive附件</p>
+                </button>
+                
+                <button onclick="updateWorkflow(2)" id="wf-btn-2" class="workflow-btn w-full md:w-1/4 bg-white border-2 border-sand-200 rounded-xl p-6 text-left md:text-center transition-all hover:border-teal-300 z-10 cursor-pointer">
+                    <div class="text-3xl mb-3">⚖️</div>
+                    <h3 class="font-bold text-slate-900 text-lg mb-1">3. 决策投票</h3>
+                    <p class="text-xs text-slate-500">提交评审意见及记录</p>
+                </button>
+                
+                <button onclick="updateWorkflow(3)" id="wf-btn-3" class="workflow-btn w-full md:w-1/4 bg-white border-2 border-sand-200 rounded-xl p-6 text-left md:text-center transition-all hover:border-teal-300 z-10 cursor-pointer">
+                    <div class="text-3xl mb-3">🚀</div>
+                    <h3 class="font-bold text-slate-900 text-lg mb-1">4. 商务推进</h3>
+                    <p class="text-xs text-slate-500">基于看板匹配度跟进</p>
+                </button>
+            </div>
+
+            <div class="mt-8 bg-sand-100 rounded-xl p-6 md:p-8 min-h-[160px] flex items-center">
+                <p id="workflow-desc" class="text-slate-700 text-lg leading-relaxed">
+                    <strong class="text-teal-700">阶段说明：</strong> 无论是通过后台 Agent 自动扫描 Gmail，还是团队成员直接在 WebApp 粘贴网页原文，系统都会第一时间调用 AI 提取 20+ 核心字段完成结构化入库。
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <section id="modules" class="py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+        <div class="mb-12 md:text-center">
+            <h2 class="text-3xl font-bold text-slate-900 mb-4">系统核心模块解构</h2>
+            <p class="text-slate-600 max-w-3xl mx-auto">本区域深入剖析系统底层的技术架构与业务支撑能力。在左侧选择不同模块，右侧将展示该模块在 V8.2 版本中的具体功能清单与运作机制。</p>
+        </div>
+
+        <div class="flex flex-col lg:flex-row gap-8">
+            <div class="w-full lg:w-1/3 flex flex-col gap-3">
+                <button onclick="selectModule('intake')" id="mod-btn-intake" class="mod-btn flex items-center gap-4 p-4 rounded-xl text-left transition-all bg-teal-700 text-white shadow-md">
+                    <span class="text-2xl">🎣</span>
+                    <div>
+                        <div class="font-bold">案件线索获取</div>
+                        <div class="text-xs opacity-80">Lead Intake</div>
+                    </div>
+                </button>
+                <button onclick="selectModule('ai')" id="mod-btn-ai" class="mod-btn flex items-center gap-4 p-4 rounded-xl text-left transition-all bg-white text-slate-700 hover:bg-sand-100 border border-sand-200">
+                    <span class="text-2xl">🧠</span>
+                    <div>
+                        <div class="font-bold">AI 智能引擎</div>
+                        <div class="text-xs opacity-80">Intelligence Engine</div>
+                    </div>
+                </button>
+                <button onclick="selectModule('workflow')" id="mod-btn-workflow" class="mod-btn flex items-center gap-4 p-4 rounded-xl text-left transition-all bg-white text-slate-700 hover:bg-sand-100 border border-sand-200">
+                    <span class="text-2xl">⚙️</span>
+                    <div>
+                        <div class="font-bold">文件与商务自动化</div>
+                        <div class="text-xs opacity-80">Workflow Automation</div>
+                    </div>
+                </button>
+                <button onclick="selectModule('ops')" id="mod-btn-ops" class="mod-btn flex items-center gap-4 p-4 rounded-xl text-left transition-all bg-white text-slate-700 hover:bg-sand-100 border border-sand-200">
+                    <span class="text-2xl">🛡️</span>
+                    <div>
+                        <div class="font-bold">监控与企业管控</div>
+                        <div class="text-xs opacity-80">Ops & Security</div>
+                    </div>
+                </button>
+            </div>
+
+            <div class="w-full lg:w-2/3 bg-white border border-sand-200 rounded-2xl p-6 md:p-10 shadow-sm min-h-[400px]">
+                <div id="module-content">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="dashboard" class="py-20 bg-slate-900 text-sand-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="mb-12">
+                <h2 class="text-3xl font-bold text-white mb-4">商业智能 (BI) 看板模拟</h2>
+                <p class="text-slate-300 max-w-3xl">此区域直观展示了“数据可视化看板”模块的运作方式。通过图表交互，系统能按行业分类统计案件分布，并展示自动化抓取与人工录入的趋势对比，为商务推进提供量化依据。</p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <div class="bg-slate-800 rounded-2xl p-6 border border-slate-700">
+                    <div class="mb-6">
+                        <h3 class="text-xl font-bold text-white flex items-center gap-2"><span>📊</span> 案件行业分布</h3>
+                        <p class="text-sm text-slate-400 mt-1">系统自动解析提取行业标签并归类统计</p>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="industryChart"></canvas>
+                    </div>
+                </div>
+
+                <div class="bg-slate-800 rounded-2xl p-6 border border-slate-700">
+                    <div class="mb-6">
+                        <h3 class="text-xl font-bold text-white flex items-center gap-2"><span>📈</span> 录入来源趋势</h3>
+                        <p class="text-sm text-slate-400 mt-1">对比 Agent 自动抓取与人工处理的效率流转</p>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="trendChart"></canvas>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="mt-8 bg-slate-800 rounded-xl p-6 border border-slate-700 flex items-center gap-4">
+                <div class="text-3xl">💡</div>
+                <div>
+                    <h4 class="font-bold text-white mb-1">动态状态追踪</h4>
+                    <p class="text-sm text-slate-300">报表底层与 Project_Discussion 实时互联，自动识别案件处于“待处理”还是“已评审”状态，支持按月份和案件类型进行多维联动过滤。</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="bg-slate-950 py-8 text-center text-slate-500 text-sm">
+        <p>Ready Crew LMS System Documentation - Interactive View</p>
+    </footer>
+
+    <script>
+        const workflowData = [
+            "无论是通过后台 Agent 自动扫描 Gmail，还是团队成员直接在 WebApp 粘贴网页原文，系统都会第一时间调用 AI 提取 20+ 核心字段完成结构化入库。",
+            "团队成员进入专属评审页面。系统不仅展示结构化需求，更展示由 AI 生成的中日双语技术分析路径，并实时提醒查阅自动同步至 Google Drive 的客户 RFP/图纸附件。",
+            "成员结合 AI 技术分析与原文件，在页面下方直接输入评估理由并提交“正面/中立/负面”意见。所有决策数据防篡改并记录于底层讨论表中。",
+            "商务团队依据 BI 看板提供的多维度统计（匹配度、所属业务线、当月指标等），优先筛选高质量案件进行后续的 Zoom 会议邀约或方案跟进。"
+        ];
+
+        function updateWorkflow(index) {
+            document.querySelectorAll('.workflow-btn').forEach((btn, i) => {
+                if(i === index) {
+                    btn.classList.remove('bg-white', 'border-sand-200');
+                    btn.classList.add('bg-sand-50', 'border-teal-600', 'transform', 'scale-105', 'shadow-md');
+                } else {
+                    btn.classList.remove('bg-sand-50', 'border-teal-600', 'transform', 'scale-105', 'shadow-md');
+                    btn.classList.add('bg-white', 'border-sand-200');
+                }
+            });
+            document.getElementById('workflow-desc').innerHTML = `<strong class="text-teal-700">阶段说明：</strong> ${workflowData[index]}`;
+        }
+
+        const moduleData = {
+            intake: {
+                title: "案件线索获取 (Lead Intake)",
+                icon: "🎣",
+                desc: "确保所有高价值线索能够零遗漏、低成本地进入系统流转池。",
+                features: [
+                    { name: "手动智能录入", detail: "支持直接粘贴 Ready Crew 网页原文。AI 自动解析并提取包括法人信息、咨询背景、预算、决策链、技术需求在内的 20+ 个核心字段。" },
+                    { name: "后台监听器", detail: "Agent 后台每 15 分钟自动扫描 Gmail 收件箱。" },
+                    { name: "精准过滤机制", detail: "根据 Prompt_Config 中设定的目标邮箱地址进行发送方筛选。" },
+                    { name: "无人值守入库", detail: "符合条件的邮件自动触发 AI 解析并存入数据库（Sheet1），同时标记为已读。" }
+                ]
+            },
+            ai: {
+                title: "AI 智能引擎 (Intelligence Engine)",
+                icon: "🧠",
+                desc: "系统的大脑，负责非结构化数据的处理、专业架构分析及意图判断。",
+                features: [
+                    { name: "多模式解析", detail: "针对不同来源（手动/邮件）采用不同的Prompt处理策略以保证准确率。" },
+                    { name: "技术分析预判", detail: "在评审阶段，AI 扮演资深架构师角色。根据 B3 配置灵活调整焦点。" },
+                    { name: "中日双语输出", detail: "自动生成中日文对照的技术实现路径、难点预判及风险提示，消除跨国协作语言障碍。" },
+                    { name: "邮件意图识别", detail: "Agent 会判断抓取的邮件是否为有效线索，对于无法判断的邮件仅记录日志并提醒人工干预。" }
+                ]
+            },
+            workflow: {
+                title: "文件与商务自动化 (Workflow Automation)",
+                icon: "⚙️",
+                desc: "消除资料搬运等低价值劳动，将会前准备工作全盘自动化。",
+                features: [
+                    { name: "专属目录自动创建", detail: "新案件入库时，自动在 Google Drive 指定目录下创建 '[案件ID] 法人名' 格式的专属文件夹。" },
+                    { name: "附件无感同步", detail: "自动将邮件中携带的 RFP、CAD 图纸、PDF 资料等提取并同步至该案件文件夹。" },
+                    { name: "会前资料预警", detail: "前端评审页通过高亮提示框实时提醒评审员 '资料已在 Drive 就绪'，确保面谈前团队已充分研读原件。" }
+                ]
+            },
+            ops: {
+                title: "监控与企业管控 (Ops & Security)",
+                icon: "🛡️",
+                desc: "保障系统健康运行及商业情报绝对安全的基础设施层。",
+                features: [
+                    { name: "企业域名安全锁", detail: "锁定 @yourcompany.com 后缀，非公司员工的 Google 账号强行拦截，无法打开 WebApp。" },
+                    { name: "Agent 运行日志", detail: "专属面板记录每一次自动化运行的时间、邮件标题及处理结果状态。" },
+                    { name: "一键追溯原件", detail: "对于解析异常的邮件，日志列表中提供一键跳转至 Gmail 原件的链接，方便人工接管。" },
+                    { name: "零代码配置面板", detail: "通过 Prompt_Config 表格（B2/B3/B4-B6）即可灵活修改 AI 提示词、发件人白名单、Drive 路径及自动化开关，无需修改代码。" }
+                ]
+            }
+        };
+
+        function selectModule(key) {
+            document.querySelectorAll('.mod-btn').forEach(btn => {
+                btn.classList.remove('bg-teal-700', 'text-white', 'shadow-md');
+                btn.classList.add('bg-white', 'text-slate-700', 'hover:bg-sand-100');
+            });
+            document.getElementById(`mod-btn-${key}`).classList.remove('bg-white', 'text-slate-700', 'hover:bg-sand-100');
+            document.getElementById(`mod-btn-${key}`).classList.add('bg-teal-700', 'text-white', 'shadow-md');
+
+            const data = moduleData[key];
+            let html = `
+                <div class="flex items-center gap-3 mb-6 pb-4 border-b border-sand-200">
+                    <span class="text-4xl">${data.icon}</span>
+                    <div>
+                        <h3 class="text-2xl font-bold text-slate-900">${data.title}</h3>
+                        <p class="text-slate-500 mt-1">${data.desc}</p>
+                    </div>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
+            `;
+            
+            data.features.forEach(f => {
+                html += `
+                    <div class="bg-sand-50 p-5 rounded-xl border border-sand-200">
+                        <div class="font-bold text-slate-800 mb-2 flex items-center gap-2">
+                            <span class="w-2 h-2 bg-terra-600 rounded-full"></span>
+                            ${f.name}
+                        </div>
+                        <p class="text-sm text-slate-600 leading-relaxed">${f.detail}</p>
+                    </div>
+                `;
+            });
+            
+            html += `</div>`;
+            document.getElementById('module-content').innerHTML = html;
+        }
+
+        function initCharts() {
+            Chart.defaults.color = '#cbd5e1';
+            Chart.defaults.font.family = 'system-ui, -apple-system, sans-serif';
+
+            const ctxInd = document.getElementById('industryChart').getContext('2d');
+            new Chart(ctxInd, {
+                type: 'doughnut',
+                data: {
+                    labels: ['AI/Solution', 'SES', 'Robot', '其它'],
+                    datasets: [{
+                        data: [45, 25, 20, 10],
+                        backgroundColor: ['#0f766e', '#ea580c', '#3b82f6', '#475569'],
+                        borderWidth: 0,
+                        hoverOffset: 4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { position: 'right', labels: { boxWidth: 12, padding: 20 } },
+                        tooltip: { backgroundColor: 'rgba(15, 23, 42, 0.9)', padding: 12, cornerRadius: 8 }
+                    },
+                    cutout: '70%'
+                }
+            });
+
+            const ctxTrend = document.getElementById('trendChart').getContext('2d');
+            new Chart(ctxTrend, {
+                type: 'bar',
+                data: {
+                    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+                    datasets: [
+                        {
+                            label: 'Agent 自动抓取',
+                            data: [12, 19, 35, 45, 60, 85],
+                            backgroundColor: '#0f766e',
+                            borderRadius: 4
+                        },
+                        {
+                            label: '人工手动录入',
+                            data: [40, 35, 20, 15, 10, 5],
+                            backgroundColor: '#ea580c',
+                            borderRadius: 4
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        x: { stacked: true, grid: { display: false, drawBorder: false } },
+                        y: { stacked: true, grid: { color: 'rgba(255,255,255,0.05)', borderDash: [5, 5] }, beginAtZero: true }
+                    },
+                    plugins: {
+                        legend: { position: 'top', labels: { usePointStyle: true, boxWidth: 8 } },
+                        tooltip: { backgroundColor: 'rgba(15, 23, 42, 0.9)', padding: 12, cornerRadius: 8 }
+                    }
+                }
+            });
+        }
+
+        window.onload = () => {
+            selectModule('intake');
+            initCharts();
+        };
+    </script>
+</body>
+</html>

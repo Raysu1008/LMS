@@ -1,0 +1,1043 @@
+<!DOCTYPE html>
+<html lang="ja" class="scroll-smooth">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ready Crew LMS | 三言語プレゼンテーション / 三语介绍 / Trilingual Presentation</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+  /* ===== 语言切换 ===== */
+  .lang-ja .zh, .lang-ja .en { display: none; }
+  .lang-zh .ja, .lang-zh .en { display: none; }
+  .lang-en .ja, .lang-en .zh { display: none; }
+
+  /* ===== 幻灯片全屏 ===== */
+  .slide {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  /* ===== 渐变背景 ===== */
+  .bg-hero {
+    background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 50%, #0f172a 100%);
+  }
+  .bg-problem {
+    background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+  }
+  .bg-solution {
+    background: #f8fafc;
+  }
+  .bg-workflow {
+    background: linear-gradient(135deg, #0d9488 0%, #0f766e 100%);
+  }
+  .bg-roadmap {
+    background: #0f172a;
+  }
+  .bg-value {
+    background: linear-gradient(135deg, #312e81 0%, #1e1b4b 100%);
+  }
+  .bg-closing {
+    background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+  }
+
+  /* ===== 动效 ===== */
+  .fade-in {
+    animation: fadeUp 0.7s ease both;
+  }
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .card-hover {
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+  }
+  .card-hover:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+  }
+
+  /* ===== 语言按钮 ===== */
+  .lang-btn {
+    padding: 6px 16px;
+    border-radius: 9999px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    border: 2px solid transparent;
+    transition: all 0.2s;
+    background: rgba(255,255,255,0.1);
+    color: rgba(255,255,255,0.7);
+  }
+  .lang-btn.active {
+    background: white;
+    color: #1e1b4b;
+    border-color: white;
+  }
+  .lang-btn:not(.active):hover {
+    background: rgba(255,255,255,0.2);
+    color: white;
+  }
+
+  /* ===== 导航 ===== */
+  nav {
+    background: rgba(15, 23, 42, 0.92);
+    backdrop-filter: blur(16px);
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+  }
+  .nav-link {
+    font-size: 13px;
+    color: rgba(255,255,255,0.6);
+    text-decoration: none;
+    transition: color 0.2s;
+    padding: 4px 0;
+    border-bottom: 2px solid transparent;
+  }
+  .nav-link:hover { color: white; border-bottom-color: #818cf8; }
+
+  /* ===== 数字展示 ===== */
+  .stat-num {
+    font-size: 3.5rem;
+    font-weight: 900;
+    line-height: 1;
+    background: linear-gradient(135deg, #a5f3fc, #818cf8);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  /* ===== 流程步骤 ===== */
+  .step-number {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #14b8a6, #818cf8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 900;
+    font-size: 15px;
+    color: white;
+    flex-shrink: 0;
+  }
+
+  /* ===== 时间线 ===== */
+  .phase-card {
+    border-left: 4px solid #818cf8;
+    background: rgba(255,255,255,0.04);
+    border-radius: 0 12px 12px 0;
+    transition: background 0.2s;
+  }
+  .phase-card:hover { background: rgba(255,255,255,0.08); }
+
+  /* ===== 打印 ===== */
+  @media print {
+    nav { display: none; }
+    .slide { page-break-after: always; min-height: 100vh; }
+  }
+
+  /* scroll smooth nav highlight */
+  html { scroll-behavior: smooth; }
+</style>
+</head>
+<body class="lang-ja font-sans antialiased">
+
+<!-- ============================================================ STICKY NAV -->
+<nav class="fixed top-0 left-0 right-0 z-50">
+  <div class="max-w-7xl mx-auto px-4 h-14 flex items-center justify-between gap-6">
+    <div class="flex items-center gap-2 flex-shrink-0">
+      <span class="text-xl">🌐</span>
+      <span class="text-white font-bold text-sm tracking-tight">Ready Crew LMS</span>
+      <span class="text-xs bg-indigo-700 text-indigo-200 px-2 py-0.5 rounded-full ml-1">V8.5</span>
+    </div>
+
+    <!-- 页内锚点导航 -->
+    <div class="hidden lg:flex items-center gap-6">
+      <a href="#slide-hero" class="nav-link ja">概要</a>
+      <a href="#slide-hero" class="nav-link zh">概览</a>
+      <a href="#slide-hero" class="nav-link en">Overview</a>
+
+      <a href="#slide-problem" class="nav-link ja">課題</a>
+      <a href="#slide-problem" class="nav-link zh">痛点</a>
+      <a href="#slide-problem" class="nav-link en">Problem</a>
+
+      <a href="#slide-solution" class="nav-link ja">ソリューション</a>
+      <a href="#slide-solution" class="nav-link zh">解决方案</a>
+      <a href="#slide-solution" class="nav-link en">Solution</a>
+
+      <a href="#slide-workflow" class="nav-link ja">ワークフロー</a>
+      <a href="#slide-workflow" class="nav-link zh">工作流</a>
+      <a href="#slide-workflow" class="nav-link en">Workflow</a>
+
+      <a href="#slide-roadmap" class="nav-link ja">ロードマップ</a>
+      <a href="#slide-roadmap" class="nav-link zh">路线图</a>
+      <a href="#slide-roadmap" class="nav-link en">Roadmap</a>
+
+      <a href="#slide-value" class="nav-link ja">価値提案</a>
+      <a href="#slide-value" class="nav-link zh">商业价值</a>
+      <a href="#slide-value" class="nav-link en">Value</a>
+    </div>
+
+    <!-- 语言切换 -->
+    <div class="flex gap-2 flex-shrink-0">
+      <button class="lang-btn active" id="btn-ja" onclick="setLang('ja')">日本語</button>
+      <button class="lang-btn" id="btn-zh" onclick="setLang('zh')">中文</button>
+      <button class="lang-btn" id="btn-en" onclick="setLang('en')">EN</button>
+    </div>
+  </div>
+</nav>
+
+
+<!-- ============================================================ SLIDE 1: HERO -->
+<section id="slide-hero" class="slide bg-hero pt-14">
+  <div class="max-w-5xl mx-auto px-6 py-24 text-center fade-in">
+    
+    <!-- 标签 -->
+    <div class="inline-flex items-center gap-2 mb-8 px-4 py-2 rounded-full bg-white/10 border border-white/20 text-sm font-semibold text-indigo-200">
+      <span>🌐</span>
+      <span class="ja">日中クロスボーダー IT コラボレーション基盤</span>
+      <span class="zh">中日跨境 IT 协作中台</span>
+      <span class="en">Cross-Border JP–CN IT Collaboration Platform</span>
+    </div>
+
+    <!-- 主标题 -->
+    <h1 class="text-4xl md:text-6xl font-black text-white tracking-tight leading-tight mb-6">
+      <span class="ja">内部ツールから<br><span class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-300 to-violet-400">SaaS プラットフォーム</span>へ</span>
+      <span class="zh">从内部提效工具<br>到<span class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-300 to-violet-400">双语资产协作 SaaS 平台</span></span>
+      <span class="en">From Internal Tool to<br><span class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-300 to-violet-400">Bilingual SaaS Platform</span></span>
+    </h1>
+
+    <!-- 副标题 -->
+    <p class="text-lg md:text-xl text-indigo-200 max-w-3xl mx-auto leading-relaxed mb-12">
+      <span class="ja">日中間の情報非対称を解消し、意思決定スピードを加速。Frontia および最終顧客に対して、クロスボーダー IT プロジェクトの中核エコシステム価値を提示します。</span>
+      <span class="zh">旨在消除中日跨境协作中的信息不对称，加速决策速度。打动 Frontia（上游公司）及其最终客户，展现跨境 IT 项目的核心生态价值。</span>
+      <span class="en">Eliminating information asymmetry in Japan–China IT collaboration, accelerating decision-making, and demonstrating core ecosystem value to Frontia and its end clients.</span>
+    </p>
+
+    <!-- 核心数字 -->
+    <div class="inline-flex flex-col items-center bg-white/10 border border-white/15 rounded-2xl px-10 py-8 backdrop-blur-sm">
+      <p class="text-xs font-bold text-cyan-300 uppercase tracking-widest mb-3">
+        <span class="ja">1案件あたりの核心価値</span>
+        <span class="zh">单条线索核心价值</span>
+        <span class="en">Core Value per Lead</span>
+      </p>
+      <div class="stat-num">¥80,000</div>
+      <p class="text-indigo-300 text-sm mt-3 max-w-xs">
+        <span class="ja">AI が高コスト案件を最速・最精度でスクリーニングし、流通させます</span>
+        <span class="zh">AI 确保每条高成本线索得到最精准、最高效的流转与评估</span>
+        <span class="en">AI ensures every high-cost lead receives the most precise, efficient screening and routing</span>
+      </p>
+    </div>
+
+    <!-- 向下箭头 -->
+    <div class="mt-16 text-white/40 text-3xl animate-bounce">↓</div>
+  </div>
+</section>
+
+
+<!-- ============================================================ SLIDE 2: PROBLEM -->
+<section id="slide-problem" class="slide bg-problem">
+  <div class="max-w-5xl mx-auto px-6 py-24 fade-in">
+    
+    <div class="text-center mb-16">
+      <div class="inline-block mb-3 px-3 py-1 rounded-full bg-red-900/60 text-red-300 text-xs font-bold uppercase tracking-widest">
+        <span class="ja">課題の定義</span>
+        <span class="zh">问题定义</span>
+        <span class="en">Problem Statement</span>
+      </div>
+      <h2 class="text-3xl md:text-4xl font-black text-white mb-4">
+        <span class="ja">クロスボーダー IT 協業の「見えない壁」</span>
+        <span class="zh">跨境 IT 协作中"看不见的墙"</span>
+        <span class="en">The "Invisible Wall" in Cross-Border IT</span>
+      </h2>
+      <p class="text-slate-400 text-lg max-w-2xl mx-auto">
+        <span class="ja">日中 IT プロジェクトにおける3つの根本的課題</span>
+        <span class="zh">中日 IT 项目协作中的三大根本痛点</span>
+        <span class="en">Three fundamental pain points in Japan–China IT project collaboration</span>
+      </p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <!-- 痛点1 -->
+      <div class="card-hover bg-white/5 border border-white/10 rounded-2xl p-7">
+        <div class="text-4xl mb-5">🗣️</div>
+        <h3 class="text-lg font-bold text-white mb-3">
+          <span class="ja">言語コスト</span>
+          <span class="zh">语言成本</span>
+          <span class="en">Language Cost</span>
+        </h3>
+        <p class="text-slate-400 text-sm leading-relaxed">
+          <span class="ja">日本語の RFP・要件定義書を中国開発チームへ正確に伝えるには多大な翻訳コストと誤解リスクが伴う。</span>
+          <span class="zh">日文 RFP、需求文档传递给中国开发团队时，翻译成本高且存在严重的误解风险。</span>
+          <span class="en">Translating Japanese RFPs and requirement documents for Chinese dev teams carries high costs and misunderstanding risks.</span>
+        </p>
+      </div>
+      <!-- 痛点2 -->
+      <div class="card-hover bg-white/5 border border-white/10 rounded-2xl p-7">
+        <div class="text-4xl mb-5">⏳</div>
+        <h3 class="text-lg font-bold text-white mb-3">
+          <span class="ja">意思決定の遅延</span>
+          <span class="zh">决策延误</span>
+          <span class="en">Decision Delays</span>
+        </h3>
+        <p class="text-slate-400 text-sm leading-relaxed">
+          <span class="ja">案件評価が属人化し、スクリーニングに時間がかかりすぎる。¥80,000 の価値ある案件を見逃すリスクが高い。</span>
+          <span class="zh">案件评估依赖个人经验，筛选周期过长，错失高价值（¥80,000/件）线索的风险极高。</span>
+          <span class="en">Lead evaluation relies on individual expertise, taking too long and risking missed ¥80,000 high-value opportunities.</span>
+        </p>
+      </div>
+      <!-- 痛点3 -->
+      <div class="card-hover bg-white/5 border border-white/10 rounded-2xl p-7">
+        <div class="text-4xl mb-5">🗂️</div>
+        <h3 class="text-lg font-bold text-white mb-3">
+          <span class="ja">情報の断絶</span>
+          <span class="zh">信息孤岛</span>
+          <span class="en">Information Silos</span>
+        </h3>
+        <p class="text-slate-400 text-sm leading-relaxed">
+          <span class="ja">RFP・図面・メールが分散保管。チームが一か所で案件全体を把握できず、商談前の準備に無駄が生じる。</span>
+          <span class="zh">RFP、图纸、邮件分散存储，团队无法在一处掌握案件全貌，商谈前准备效率低下。</span>
+          <span class="en">RFPs, drawings, and emails scattered across systems; teams can't get a unified view, wasting pre-meeting preparation time.</span>
+        </p>
+      </div>
+    </div>
+
+    <!-- 现状数字 -->
+    <div class="mt-10 grid grid-cols-3 gap-4 text-center">
+      <div class="bg-red-900/30 border border-red-800/40 rounded-xl p-5">
+        <div class="text-2xl font-black text-red-300">手動</div>
+        <div class="text-xs text-slate-400 mt-1">
+          <span class="ja">従来の案件管理方法</span>
+          <span class="zh">传统案件管理方式</span>
+          <span class="en">Traditional lead management</span>
+        </div>
+      </div>
+      <div class="bg-red-900/30 border border-red-800/40 rounded-xl p-5">
+        <div class="text-2xl font-black text-red-300">
+          <span class="ja">数時間</span>
+          <span class="zh">数小时</span>
+          <span class="en">Hours</span>
+        </div>
+        <div class="text-xs text-slate-400 mt-1">
+          <span class="ja">1案件の手動評価時間</span>
+          <span class="zh">单案手动评估耗时</span>
+          <span class="en">Per-lead manual evaluation time</span>
+        </div>
+      </div>
+      <div class="bg-red-900/30 border border-red-800/40 rounded-xl p-5">
+        <div class="text-2xl font-black text-red-300">
+          <span class="ja">漏れあり</span>
+          <span class="zh">有遗漏</span>
+          <span class="en">Leakage</span>
+        </div>
+        <div class="text-xs text-slate-400 mt-1">
+          <span class="ja">メール案件の見逃しリスク</span>
+          <span class="zh">邮件线索遗漏风险</span>
+          <span class="en">Email lead miss risk</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ============================================================ SLIDE 3: SOLUTION -->
+<section id="slide-solution" class="slide bg-solution">
+  <div class="max-w-6xl mx-auto px-6 py-24 fade-in">
+
+    <div class="text-center mb-14">
+      <div class="inline-block mb-3 px-3 py-1 rounded-full bg-teal-100 text-teal-800 text-xs font-bold uppercase tracking-widest">
+        <span class="ja">システムソリューション</span>
+        <span class="zh">系统解决方案</span>
+        <span class="en">System Solution</span>
+      </div>
+      <h2 class="text-3xl md:text-4xl font-black text-slate-900 mb-4">
+        <span class="ja">AI 駆動の案件協業プラットフォーム</span>
+        <span class="zh">AI 驱动的线索协作中台</span>
+        <span class="en">AI-Driven Lead Collaboration Platform</span>
+      </h2>
+      <p class="text-slate-500 text-lg max-w-3xl mx-auto">
+        <span class="ja">Ready Crew LMS V8.5 は4つの核心モジュールで、案件のライフサイクル全体を自動化・双言語化します。</span>
+        <span class="zh">Ready Crew LMS V8.5 通过四大核心模块，将案件全生命周期自动化与双语化。</span>
+        <span class="en">Ready Crew LMS V8.5 automates and bilingualizes the full lead lifecycle through four core modules.</span>
+      </p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <!-- 模块1: 案件获取 -->
+      <div class="card-hover bg-white border-2 border-teal-100 rounded-2xl p-7 shadow-sm">
+        <div class="flex items-center gap-3 mb-4">
+          <span class="text-3xl">🎣</span>
+          <div>
+            <h3 class="font-bold text-slate-900 text-lg">
+              <span class="ja">案件リード取込</span>
+              <span class="zh">案件线索获取</span>
+              <span class="en">Lead Intake</span>
+            </h3>
+            <p class="text-xs text-teal-600 font-semibold uppercase">Lead Intake Module</p>
+          </div>
+        </div>
+        <ul class="space-y-2 text-sm text-slate-600">
+          <li class="flex items-start gap-2"><span class="text-teal-500 mt-0.5">▶</span>
+            <span class="ja">Gmail Agent が15分毎に自動スキャン・解析</span>
+            <span class="zh">Gmail Agent 每15分钟自动扫描解析</span>
+            <span class="en">Gmail Agent auto-scans every 15 minutes</span>
+          </li>
+          <li class="flex items-start gap-2"><span class="text-teal-500 mt-0.5">▶</span>
+            <span class="ja">手動貼付でも AI が20+ フィールドを瞬時抽出</span>
+            <span class="zh">手动粘贴时 AI 瞬间提取20+核心字段</span>
+            <span class="en">Manual paste: AI extracts 20+ fields instantly</span>
+          </li>
+          <li class="flex items-start gap-2"><span class="text-teal-500 mt-0.5">▶</span>
+            <span class="ja">法人情報・予算・決定権者を自動識別</span>
+            <span class="zh">自动识别法人信息、预算、决策链</span>
+            <span class="en">Auto-identifies company info, budget, decision chain</span>
+          </li>
+        </ul>
+      </div>
+
+      <!-- 模块2: AI引擎 -->
+      <div class="card-hover bg-white border-2 border-indigo-100 rounded-2xl p-7 shadow-sm">
+        <div class="flex items-center gap-3 mb-4">
+          <span class="text-3xl">🧠</span>
+          <div>
+            <h3 class="font-bold text-slate-900 text-lg">
+              <span class="ja">AI インテリジェンスエンジン</span>
+              <span class="zh">AI 智能引擎</span>
+              <span class="en">AI Intelligence Engine</span>
+            </h3>
+            <p class="text-xs text-indigo-600 font-semibold uppercase">Intelligence Engine</p>
+          </div>
+        </div>
+        <ul class="space-y-2 text-sm text-slate-600">
+          <li class="flex items-start gap-2"><span class="text-indigo-400 mt-0.5">▶</span>
+            <span class="ja">シニアアーキテクト視点で技術実現性を自動評価</span>
+            <span class="zh">以资深架构师视角自动评估技术可行性</span>
+            <span class="en">Evaluates technical feasibility as a senior architect</span>
+          </li>
+          <li class="flex items-start gap-2"><span class="text-indigo-400 mt-0.5">▶</span>
+            <span class="ja">日中双言語の技術レポートを自動生成</span>
+            <span class="zh">自动生成中日双语技术分析报告</span>
+            <span class="en">Auto-generates bilingual JP/CN technical reports</span>
+          </li>
+          <li class="flex items-start gap-2"><span class="text-indigo-400 mt-0.5">▶</span>
+            <span class="ja">リスク・難点を事前予測し、商談前に共有</span>
+            <span class="zh">预测风险与难点，商谈前共享给团队</span>
+            <span class="en">Pre-predicts risks and shares before client meetings</span>
+          </li>
+        </ul>
+      </div>
+
+      <!-- 模块3: 文件自动化 -->
+      <div class="card-hover bg-white border-2 border-orange-100 rounded-2xl p-7 shadow-sm">
+        <div class="flex items-center gap-3 mb-4">
+          <span class="text-3xl">⚙️</span>
+          <div>
+            <h3 class="font-bold text-slate-900 text-lg">
+              <span class="ja">ファイル・業務自動化</span>
+              <span class="zh">文件与商务自动化</span>
+              <span class="en">Workflow Automation</span>
+            </h3>
+            <p class="text-xs text-orange-600 font-semibold uppercase">Workflow Automation</p>
+          </div>
+        </div>
+        <ul class="space-y-2 text-sm text-slate-600">
+          <li class="flex items-start gap-2"><span class="text-orange-400 mt-0.5">▶</span>
+            <span class="ja">案件登録と同時に Google Drive フォルダを自動作成</span>
+            <span class="zh">案件入库同时自动创建 Google Drive 专属文件夹</span>
+            <span class="en">Auto-creates Google Drive folder upon lead registration</span>
+          </li>
+          <li class="flex items-start gap-2"><span class="text-orange-400 mt-0.5">▶</span>
+            <span class="ja">RFP・CAD 図面を案件フォルダへ自動同期</span>
+            <span class="zh">RFP、CAD 图纸自动同步至案件文件夹</span>
+            <span class="en">Syncs RFPs and CAD drawings to project folder automatically</span>
+          </li>
+          <li class="flex items-start gap-2"><span class="text-orange-400 mt-0.5">▶</span>
+            <span class="ja">商談前に「資料準備完了」をリアルタイム通知</span>
+            <span class="zh">商谈前实时提醒"资料已在 Drive 就绪"</span>
+            <span class="en">Real-time alert "materials ready" before client meetings</span>
+          </li>
+        </ul>
+      </div>
+
+      <!-- 模块4: 安全管控 -->
+      <div class="card-hover bg-white border-2 border-slate-200 rounded-2xl p-7 shadow-sm">
+        <div class="flex items-center gap-3 mb-4">
+          <span class="text-3xl">🛡️</span>
+          <div>
+            <h3 class="font-bold text-slate-900 text-lg">
+              <span class="ja">監視とセキュリティ管控</span>
+              <span class="zh">监控与企业管控</span>
+              <span class="en">Ops & Security</span>
+            </h3>
+            <p class="text-xs text-slate-500 font-semibold uppercase">Ops & Security</p>
+          </div>
+        </div>
+        <ul class="space-y-2 text-sm text-slate-600">
+          <li class="flex items-start gap-2"><span class="text-slate-400 mt-0.5">▶</span>
+            <span class="ja">企業ドメインロック（社外アカウントは完全遮断）</span>
+            <span class="zh">企业域名锁（非公司账号强行拦截）</span>
+            <span class="en">Corporate domain lock (external accounts fully blocked)</span>
+          </li>
+          <li class="flex items-start gap-2"><span class="text-slate-400 mt-0.5">▶</span>
+            <span class="ja">Agent 全実行ログを専用パネルに記録</span>
+            <span class="zh">Agent 全量运行日志记录于专属面板</span>
+            <span class="en">Full Agent execution logs stored in dedicated panel</span>
+          </li>
+          <li class="flex items-start gap-2"><span class="text-slate-400 mt-0.5">▶</span>
+            <span class="ja">ノーコード設定パネルで AI 動作を柔軟に制御</span>
+            <span class="zh">零代码配置面板灵活控制 AI 行为</span>
+            <span class="en">No-code config panel for flexible AI behavior control</span>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ============================================================ SLIDE 4: WORKFLOW -->
+<section id="slide-workflow" class="slide bg-workflow">
+  <div class="max-w-5xl mx-auto px-6 py-24 fade-in">
+
+    <div class="text-center mb-14">
+      <div class="inline-block mb-3 px-3 py-1 rounded-full bg-white/20 text-white text-xs font-bold uppercase tracking-widest">
+        <span class="ja">標準オペレーション</span>
+        <span class="zh">标准操作流程</span>
+        <span class="en">Standard Operation</span>
+      </div>
+      <h2 class="text-3xl md:text-4xl font-black text-white mb-4">
+        <span class="ja">4ステップの協業クローズドループ</span>
+        <span class="zh">四步协同闭环流程</span>
+        <span class="en">4-Step Collaboration Closed Loop</span>
+      </h2>
+      <p class="text-teal-100 text-lg max-w-2xl mx-auto">
+        <span class="ja">線索取込から商談推進まで、すべてのステップが自動化とデータで支援されます。</span>
+        <span class="zh">从线索入库到商务推进，每一步都有自动化与数据支撑。</span>
+        <span class="en">From lead intake to business development, every step is powered by automation and data.</span>
+      </p>
+    </div>
+
+    <div class="space-y-5">
+      <!-- Step 1 -->
+      <div class="card-hover flex items-start gap-5 bg-white/15 border border-white/20 rounded-2xl p-6 backdrop-blur-sm">
+        <div class="step-number">1</div>
+        <div class="flex-1">
+          <h3 class="font-bold text-white text-lg mb-1">
+            <span class="ja">📥 案件リード入庫</span>
+            <span class="zh">📥 线索入库</span>
+            <span class="en">📥 Lead Intake</span>
+          </h3>
+          <p class="text-teal-100 text-sm">
+            <span class="ja">Gmail Agent が自動スキャン または チームが WebApp に貼付 → AI が20+ フィールドを瞬時に構造化・データベース保存</span>
+            <span class="zh">Gmail Agent 自动扫描 或 团队在 WebApp 手动粘贴 → AI 瞬间结构化提取20+字段，写入数据库</span>
+            <span class="en">Gmail Agent auto-scan OR team pastes into WebApp → AI instantly extracts 20+ fields into the database</span>
+          </p>
+        </div>
+        <div class="flex-shrink-0 text-xs text-white/60 bg-white/10 rounded-lg px-3 py-2 text-center">
+          <div class="font-bold text-white">15 min</div>
+          <div class="ja">自動監視</div>
+          <div class="zh">自动监视</div>
+          <div class="en">Auto-watch</div>
+        </div>
+      </div>
+
+      <!-- Step 2 -->
+      <div class="card-hover flex items-start gap-5 bg-white/15 border border-white/20 rounded-2xl p-6 backdrop-blur-sm">
+        <div class="step-number">2</div>
+        <div class="flex-1">
+          <h3 class="font-bold text-white text-lg mb-1">
+            <span class="ja">🧠 深度調査・AI 分析</span>
+            <span class="zh">🧠 深度查阅与 AI 分析</span>
+            <span class="en">🧠 Deep Review & AI Analysis</span>
+          </h3>
+          <p class="text-teal-100 text-sm">
+            <span class="ja">評審ページで AI 生成の日中双言語技術分析を確認。Drive に自動同期された RFP・図面をワンクリックで参照。</span>
+            <span class="zh">在评审页查看 AI 生成的中日双语技术分析，一键调取 Drive 自动同步的 RFP、图纸原件。</span>
+            <span class="en">Review AI-generated bilingual tech analysis on the review page; one-click access to auto-synced RFPs and drawings in Drive.</span>
+          </p>
+        </div>
+        <div class="flex-shrink-0 text-xs text-white/60 bg-white/10 rounded-lg px-3 py-2 text-center">
+          <div class="font-bold text-white">JP + CN</div>
+          <div class="ja">双言語対応</div>
+          <div class="zh">双语对照</div>
+          <div class="en">Bilingual</div>
+        </div>
+      </div>
+
+      <!-- Step 3 -->
+      <div class="card-hover flex items-start gap-5 bg-white/15 border border-white/20 rounded-2xl p-6 backdrop-blur-sm">
+        <div class="step-number">3</div>
+        <div class="flex-1">
+          <h3 class="font-bold text-white text-lg mb-1">
+            <span class="ja">⚖️ チーム合意形成・投票</span>
+            <span class="zh">⚖️ 团队决策投票</span>
+            <span class="en">⚖️ Team Decision Vote</span>
+          </h3>
+          <p class="text-teal-100 text-sm">
+            <span class="ja">メンバーが「ポジティブ / ニュートラル / ネガティブ」の意見とコメントを記録。全決議はシステムに改ざん防止で保管。</span>
+            <span class="zh">成员提交"正面/中立/负面"意见及评估理由，所有决策数据防篡改记录于系统底层。</span>
+            <span class="en">Members submit Positive / Neutral / Negative votes with reasoning; all decisions stored tamper-proof in the system.</span>
+          </p>
+        </div>
+        <div class="flex-shrink-0 text-xs text-white/60 bg-white/10 rounded-lg px-3 py-2 text-center">
+          <div class="font-bold text-white">🔒</div>
+          <div class="ja">記録保全</div>
+          <div class="zh">防篡改</div>
+          <div class="en">Tamper-proof</div>
+        </div>
+      </div>
+
+      <!-- Step 4 -->
+      <div class="card-hover flex items-start gap-5 bg-white/15 border border-white/20 rounded-2xl p-6 backdrop-blur-sm">
+        <div class="step-number">4</div>
+        <div class="flex-1">
+          <h3 class="font-bold text-white text-lg mb-1">
+            <span class="ja">📊 BI 看板・商談推進</span>
+            <span class="zh">📊 BI 看板驱动商务推进</span>
+            <span class="en">📊 BI Dashboard-Driven Business Development</span>
+          </h3>
+          <p class="text-teal-100 text-sm">
+            <span class="ja">多次元 BI 看板（業種・月別・マッチング度）でリソースを最優先案件に集中。Zoom 商談・提案フォローを迅速化。</span>
+            <span class="zh">多维 BI 看板（行业/月份/匹配度）引导商务团队将资源聚焦高质量案件，加速 Zoom 商谈及方案跟进。</span>
+            <span class="en">Multi-dimensional BI dashboard (industry/month/match score) focuses team resources on top-quality leads for faster Zoom meetings and proposals.</span>
+          </p>
+        </div>
+        <div class="flex-shrink-0 text-xs text-white/60 bg-white/10 rounded-lg px-3 py-2 text-center">
+          <div class="font-bold text-white">BI</div>
+          <div class="ja">リアルタイム</div>
+          <div class="zh">实时看板</div>
+          <div class="en">Real-time</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ============================================================ SLIDE 5: ROADMAP -->
+<section id="slide-roadmap" class="slide bg-roadmap">
+  <div class="max-w-5xl mx-auto px-6 py-24 fade-in">
+
+    <div class="text-center mb-14">
+      <div class="inline-block mb-3 px-3 py-1 rounded-full bg-indigo-900 text-indigo-300 text-xs font-bold uppercase tracking-widest">
+        <span class="ja">SaaS 進化ロードマップ</span>
+        <span class="zh">SaaS 演进路线图</span>
+        <span class="en">SaaS Evolution Roadmap</span>
+      </div>
+      <h2 class="text-3xl md:text-4xl font-black text-white mb-4">
+        <span class="ja">3フェーズの進化計画</span>
+        <span class="zh">三阶段演进规划</span>
+        <span class="en">3-Phase Evolution Plan</span>
+      </h2>
+      <p class="text-slate-400 text-lg max-w-2xl mx-auto">
+        <span class="ja">基盤構築から業界全体への展開まで、段階的に価値を拡大します。</span>
+        <span class="zh">从基础底座建设到覆盖全行业，分阶段持续扩大价值。</span>
+        <span class="en">From foundation-building to industry-wide deployment, expanding value step by step.</span>
+      </p>
+    </div>
+
+    <div class="space-y-6">
+      <!-- Phase 1 -->
+      <div class="phase-card p-6 pl-8 card-hover">
+        <div class="flex flex-col md:flex-row md:items-center gap-4 mb-4">
+          <div class="flex items-center gap-3">
+            <span class="text-2xl">🌐</span>
+            <div>
+              <span class="text-xs font-bold text-indigo-400 uppercase tracking-wider">
+                <span class="ja">フェーズ 1 ▸ 現在進行中</span>
+                <span class="zh">第一阶段 ▸ 当前方向</span>
+                <span class="en">Phase 1 ▸ Current</span>
+              </span>
+              <h3 class="font-bold text-white text-xl">
+                <span class="ja">プロダクト化の基盤</span>
+                <span class="zh">产品化基石</span>
+                <span class="en">Product Foundation</span>
+              </h3>
+            </div>
+          </div>
+          <span class="md:ml-auto inline-block text-xs bg-teal-900 text-teal-300 px-3 py-1 rounded-full font-semibold">
+            <span class="ja">社内利用 → 内部提効</span>
+            <span class="zh">内部自用 → 提效降本</span>
+            <span class="en">Internal Use → Efficiency</span>
+          </span>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div class="bg-white/5 rounded-xl p-4">
+            <h4 class="text-sm font-bold text-indigo-300 mb-1">
+              <span class="ja">🔧 スマート双言語 UI</span>
+              <span class="zh">🔧 智能双语自适应 UI</span>
+              <span class="en">🔧 Smart Bilingual Adaptive UI</span>
+            </h4>
+            <p class="text-xs text-slate-400">
+              <span class="ja">ブラウザ言語を自動検出し、日本語・中国語インターフェースをシームレスに切替。</span>
+              <span class="zh">自动检测浏览器语言，中日文界面无缝切换。</span>
+              <span class="en">Auto-detects browser language for seamless JP/CN interface switching.</span>
+            </p>
+          </div>
+          <div class="bg-white/5 rounded-xl p-4">
+            <h4 class="text-sm font-bold text-indigo-300 mb-1">
+              <span class="ja">📄 双言語コンテンツ生成</span>
+              <span class="zh">📄 内容双语化存储与生成</span>
+              <span class="en">📄 Bilingual Content Storage & Generation</span>
+            </h4>
+            <p class="text-xs text-slate-400">
+              <span class="ja">AI が日中対照フィールドを生成。PDF「案件プロフィール簡報」をワンクリックで作成。</span>
+              <span class="zh">AI 生成中日双语对照字段，一键生成 PDF 案件画像简报。</span>
+              <span class="en">AI generates bilingual paired fields; one-click PDF "Case Profile Brief" export.</span>
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Phase 2 -->
+      <div class="phase-card border-violet-600 p-6 pl-8 card-hover">
+        <div class="flex flex-col md:flex-row md:items-center gap-4 mb-4">
+          <div class="flex items-center gap-3">
+            <span class="text-2xl">🗺️</span>
+            <div>
+              <span class="text-xs font-bold text-violet-400 uppercase tracking-wider">
+                <span class="ja">フェーズ 2 ▸ 中期目標</span>
+                <span class="zh">第二阶段 ▸ 中期目标</span>
+                <span class="en">Phase 2 ▸ Mid-Term</span>
+              </span>
+              <h3 class="font-bold text-white text-xl">
+                <span class="ja">SaaS プロトタイプ</span>
+                <span class="zh">SaaS 原型</span>
+                <span class="en">SaaS Prototype</span>
+              </h3>
+            </div>
+          </div>
+          <span class="md:ml-auto inline-block text-xs bg-violet-900 text-violet-300 px-3 py-1 rounded-full font-semibold">
+            <span class="ja">Frontia 専用版 → 賃貸料収益</span>
+            <span class="zh">Frontia 专用版 → 管理费收入</span>
+            <span class="en">Frontia Edition → License Revenue</span>
+          </span>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div class="bg-white/5 rounded-xl p-4">
+            <h4 class="text-sm font-bold text-violet-300 mb-1">
+              <span class="ja">🏭 自動化リード工場</span>
+              <span class="zh">🏭 自动化线索工厂</span>
+              <span class="en">🏭 Automated Lead Factory</span>
+            </h4>
+            <p class="text-xs text-slate-400">
+              <span class="ja">マルチチャンネル（メール・プラグイン・API）取込と AI クレンジング。過去案件データベースからの技術スコアリング。</span>
+              <span class="zh">多渠道（邮件、插件、API）抓取与 AI 智能清洗，基于历史项目库技术可行性评分。</span>
+              <span class="en">Multi-channel intake (email, plugin, API) with AI cleansing and historical project-based technical scoring.</span>
+            </p>
+          </div>
+          <div class="bg-white/5 rounded-xl p-4">
+            <h4 class="text-sm font-bold text-violet-300 mb-1">
+              <span class="ja">🤝 マルチパーティ協業空間</span>
+              <span class="zh">🤝 多方协作评审空间</span>
+              <span class="en">🤝 Multi-Party Collaboration Space</span>
+            </h4>
+            <p class="text-xs text-slate-400">
+              <span class="ja">Frontia・開発会社・顧客が権限別ビューで共同評審。書類クラウド保管。</span>
+              <span class="zh">Frontia、开发公司、客户在受限视图下共同协作评审，资料云端归档。</span>
+              <span class="en">Frontia, dev companies, and clients collaborate in permission-scoped views with cloud document archiving.</span>
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Phase 3 -->
+      <div class="phase-card border-cyan-500 p-6 pl-8 card-hover">
+        <div class="flex flex-col md:flex-row md:items-center gap-4 mb-4">
+          <div class="flex items-center gap-3">
+            <span class="text-2xl">🚀</span>
+            <div>
+              <span class="text-xs font-bold text-cyan-400 uppercase tracking-wider">
+                <span class="ja">フェーズ 3 ▸ 長期ビジョン</span>
+                <span class="zh">第三阶段 ▸ 长期愿景</span>
+                <span class="en">Phase 3 ▸ Long-Term Vision</span>
+              </span>
+              <h3 class="font-bold text-white text-xl">
+                <span class="ja">業界 SaaS エコシステム</span>
+                <span class="zh">全行业 SaaS 生态</span>
+                <span class="en">Industry SaaS Ecosystem</span>
+              </h3>
+            </div>
+          </div>
+          <span class="md:ml-auto inline-block text-xs bg-cyan-900 text-cyan-300 px-3 py-1 rounded-full font-semibold">
+            <span class="ja">全業者 SaaS → 席数・手数料収益</span>
+            <span class="zh">全行业 SaaS → 席位费 + 抽佣</span>
+            <span class="en">All Vendors SaaS → Seats + Commission</span>
+          </span>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div class="bg-white/5 rounded-xl p-4">
+            <h4 class="text-sm font-bold text-cyan-300 mb-1">
+              <span class="ja">📊 マーケット BI ダッシュボード</span>
+              <span class="zh">📊 市场级 BI 看板</span>
+              <span class="en">📊 Market-Level BI Dashboard</span>
+            </h4>
+            <p class="text-xs text-slate-400">
+              <span class="ja">越境データを集計し、日本市場全体の技術ニーズトレンドを可視化。業界マクロ意思決定の根拠を提供。</span>
+              <span class="zh">聚合跨企业数据，洞察日本市场整体技术需求热点，提供行业宏观决策依据。</span>
+              <span class="en">Aggregates cross-company data to reveal Japan market tech demand trends and provide macro industry insights.</span>
+            </p>
+          </div>
+          <div class="bg-white/5 rounded-xl p-4">
+            <h4 class="text-sm font-bold text-cyan-300 mb-1">
+              <span class="ja">🎯 リバースマッチング配信</span>
+              <span class="zh">🎯 反向匹配分发系统</span>
+              <span class="en">🎯 Reverse Matching Distribution</span>
+            </h4>
+            <p class="text-xs text-slate-400">
+              <span class="ja">開発会社の「手挙げ記録」から得意分野を分析し、新案件を自動でターゲット配信。業界上下流を再定義。</span>
+              <span class="zh">分析开发公司"举手记录"挖掘技术擅长点，新案件进入时定向推送，重塑上下游关系。</span>
+              <span class="en">Analyzes dev company "raised-hand" records to match and push new leads to the most suitable vendors, reshaping the supply chain.</span>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ============================================================ SLIDE 6: VALUE PROPOSITION -->
+<section id="slide-value" class="slide bg-value">
+  <div class="max-w-5xl mx-auto px-6 py-24 fade-in">
+
+    <div class="text-center mb-14">
+      <div class="inline-block mb-3 px-3 py-1 rounded-full bg-white/15 text-indigo-200 text-xs font-bold uppercase tracking-widest">
+        <span class="ja">価値提案 & 差別化</span>
+        <span class="zh">商业价值与差异化</span>
+        <span class="en">Value Proposition & Differentiation</span>
+      </div>
+      <h2 class="text-3xl md:text-4xl font-black text-white mb-4">
+        <span class="ja">なぜ Ready Crew LMS なのか</span>
+        <span class="zh">为什么选择 Ready Crew LMS</span>
+        <span class="en">Why Ready Crew LMS</span>
+      </h2>
+    </div>
+
+    <!-- 商业模式表格 -->
+    <div class="bg-white/10 border border-white/15 rounded-2xl overflow-hidden mb-10 backdrop-blur-sm">
+      <div class="overflow-x-auto">
+        <table class="w-full text-sm">
+          <thead>
+            <tr class="border-b border-white/20">
+              <th class="px-5 py-4 text-left text-indigo-200 font-bold">
+                <span class="ja">フェーズ</span><span class="zh">阶段</span><span class="en">Phase</span>
+              </th>
+              <th class="px-5 py-4 text-left text-indigo-200 font-bold">
+                <span class="ja">対象ユーザー</span><span class="zh">目标用户</span><span class="en">Target User</span>
+              </th>
+              <th class="px-5 py-4 text-left text-indigo-200 font-bold">
+                <span class="ja">ビジネスモデル</span><span class="zh">商业模式</span><span class="en">Business Model</span>
+              </th>
+              <th class="px-5 py-4 text-left text-indigo-200 font-bold">
+                <span class="ja">核心機能</span><span class="zh">核心功能</span><span class="en">Core Features</span>
+              </th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-white/10">
+            <tr class="hover:bg-white/5 transition-colors">
+              <td class="px-5 py-4 font-bold text-white">
+                <span class="ja">短期（Beta）</span><span class="zh">短期（Beta）</span><span class="en">Short (Beta)</span>
+              </td>
+              <td class="px-5 py-4 text-indigo-200">
+                <span class="ja">自社チーム</span><span class="zh">团队内部</span><span class="en">Internal Team</span>
+              </td>
+              <td class="px-5 py-4 text-indigo-300">
+                <span class="ja">内部提効・評価コスト削減</span><span class="zh">内部提效，降低评估成本</span><span class="en">Internal efficiency, reduce eval cost</span>
+              </td>
+              <td class="px-5 py-4 text-teal-300 font-medium">
+                <span class="ja">AI 解析 + 双言語 UI + メール取込</span>
+                <span class="zh">自动解析 + 双语 UI + 邮件抓取</span>
+                <span class="en">AI parse + Bilingual UI + Email intake</span>
+              </td>
+            </tr>
+            <tr class="hover:bg-white/5 transition-colors">
+              <td class="px-5 py-4 font-bold text-white">
+                <span class="ja">中期（Partner）</span><span class="zh">中期（Partner）</span><span class="en">Mid (Partner)</span>
+              </td>
+              <td class="px-5 py-4 text-indigo-200">
+                <span class="ja">Frontia 専用版</span><span class="zh">Frontia 专用版</span><span class="en">Frontia Edition</span>
+              </td>
+              <td class="px-5 py-4 text-indigo-300">
+                <span class="ja">上流支援・賃貸/管理費収益</span><span class="zh">赋能上游，收取出租费或管理费</span><span class="en">Empower upstream, license/mgmt fee</span>
+              </td>
+              <td class="px-5 py-4 text-teal-300 font-medium">
+                <span class="ja">ライフサイクル管理 + 複数社協業評審</span>
+                <span class="zh">生命周期管理 + 多公司协同评审</span>
+                <span class="en">Lifecycle mgmt + Multi-company review</span>
+              </td>
+            </tr>
+            <tr class="hover:bg-white/5 transition-colors">
+              <td class="px-5 py-4 font-bold text-white">
+                <span class="ja">長期（Market）</span><span class="zh">长期（Market）</span><span class="en">Long (Market)</span>
+              </td>
+              <td class="px-5 py-4 text-indigo-200">
+                <span class="ja">業界全体 SaaS</span><span class="zh">全行业 SaaS</span><span class="en">Industry-wide SaaS</span>
+              </td>
+              <td class="px-5 py-4 text-indigo-300">
+                <span class="ja">全業者向け販売・席数/手数料</span><span class="zh">向所有供应商销售，席位费+抽佣</span><span class="en">All vendors, seat fee + commission</span>
+              </td>
+              <td class="px-5 py-4 text-teal-300 font-medium">
+                <span class="ja">スマートマッチング + 越境 PM + 翻訳資産</span>
+                <span class="zh">智能匹配 + 跨境项目管理 + 翻译资产库</span>
+                <span class="en">Smart match + Cross-border PM + Translation assets</span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- 护城河 / 競争優位 -->
+    <h3 class="text-center text-xl font-bold text-white mb-6">
+      <span class="ja">🏰 システムの競争優位（護城河）</span>
+      <span class="zh">🏰 系统护城河</span>
+      <span class="en">🏰 System Moat & Competitive Advantages</span>
+    </h3>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+      <div class="card-hover bg-white/10 border border-white/15 rounded-xl p-5 text-center">
+        <div class="text-3xl mb-3">🔒</div>
+        <h4 class="font-bold text-white mb-2">
+          <span class="ja">エンタープライズ管控</span>
+          <span class="zh">企业级管控</span>
+          <span class="en">Enterprise Governance</span>
+        </h4>
+        <p class="text-indigo-300 text-xs">
+          <span class="ja">ドメインロック・ゼロコード設定・完全監査ログで商業機密を保護</span>
+          <span class="zh">域名锁 + 零代码配置 + 完整审计日志，保护商业机密</span>
+          <span class="en">Domain lock + no-code config + full audit logs protect business secrets</span>
+        </p>
+      </div>
+      <div class="card-hover bg-white/10 border border-white/15 rounded-xl p-5 text-center">
+        <div class="text-3xl mb-3">🌐</div>
+        <h4 class="font-bold text-white mb-2">
+          <span class="ja">日中ゼロフリクション</span>
+          <span class="zh">中日零摩擦协作</span>
+          <span class="en">JP-CN Zero-Friction</span>
+        </h4>
+        <p class="text-indigo-300 text-xs">
+          <span class="ja">唯一の日中双言語特化 IT コラボ SaaS。Prompt を業界標準として蓄積</span>
+          <span class="zh">唯一聚焦中日双语的 IT 协作 SaaS，沉淀行业标准 Prompt</span>
+          <span class="en">Only JP-CN bilingual IT collaboration SaaS; accumulating industry-standard Prompts</span>
+        </p>
+      </div>
+      <div class="card-hover bg-white/10 border border-white/15 rounded-xl p-5 text-center">
+        <div class="text-3xl mb-3">🏗️</div>
+        <h4 class="font-bold text-white mb-2">
+          <span class="ja">将来拡張設計</span>
+          <span class="zh">未来架构设计</span>
+          <span class="en">Future-Ready Architecture</span>
+        </h4>
+        <p class="text-indigo-300 text-xs">
+          <span class="ja">マルチテナント構造・標準 API 開口・Prompt ブランド化で、SaaS 移行コストを最小化</span>
+          <span class="zh">多租户架构 + 标准 API 开放 + Prompt 品牌化，SaaS 迁移成本最低</span>
+          <span class="en">Multi-tenancy + open standard API + branded Prompts minimize SaaS migration costs</span>
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ============================================================ SLIDE 7: CLOSING -->
+<section id="slide-closing" class="slide bg-closing">
+  <div class="max-w-4xl mx-auto px-6 py-24 text-center fade-in">
+
+    <div class="text-5xl mb-8">🌐</div>
+
+    <h2 class="text-3xl md:text-5xl font-black text-white mb-6 leading-tight">
+      <span class="ja">Ready Crew LMS<br><span class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-300 to-violet-400">日中 IT エコシステムを再定義</span></span>
+      <span class="zh">Ready Crew LMS<br><span class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-300 to-violet-400">重新定义中日 IT 生态协作</span></span>
+      <span class="en">Ready Crew LMS<br><span class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-300 to-violet-400">Redefining JP–CN IT Ecosystem</span></span>
+    </h2>
+
+    <p class="text-lg text-slate-400 max-w-2xl mx-auto mb-12">
+      <span class="ja">単なる社内ツールを超え、Frontia とそのクライアントが越境 IT プロジェクトで成功するための「翻訳官」であり「触媒」となるプラットフォームを目指します。</span>
+      <span class="zh">不止于内部工具，致力于成为 Frontia 及其客户在跨境 IT 项目中成功的"翻译官"与"催化剂"。</span>
+      <span class="en">Beyond an internal tool — becoming the "translator" and "catalyst" that helps Frontia and its clients succeed in cross-border IT projects.</span>
+    </p>
+
+    <!-- 三个关键词 -->
+    <div class="flex flex-col md:flex-row justify-center gap-6 mb-14">
+      <div class="flex flex-col items-center">
+        <div class="text-4xl font-black text-transparent bg-clip-text bg-gradient-to-b from-cyan-300 to-teal-500">AI</div>
+        <div class="text-sm text-slate-400 mt-1">
+          <span class="ja">自動化 & 分析</span>
+          <span class="zh">自动化与分析</span>
+          <span class="en">Automation & Analysis</span>
+        </div>
+      </div>
+      <div class="text-slate-600 text-2xl flex items-center">×</div>
+      <div class="flex flex-col items-center">
+        <div class="text-4xl font-black text-transparent bg-clip-text bg-gradient-to-b from-violet-300 to-indigo-500">
+          <span class="ja">双言語</span><span class="zh">双语</span><span class="en">Bilingual</span>
+        </div>
+        <div class="text-sm text-slate-400 mt-1">
+          <span class="ja">日本語 + 中国語</span>
+          <span class="zh">日文 + 中文</span>
+          <span class="en">Japanese + Chinese</span>
+        </div>
+      </div>
+      <div class="text-slate-600 text-2xl flex items-center">×</div>
+      <div class="flex flex-col items-center">
+        <div class="text-4xl font-black text-transparent bg-clip-text bg-gradient-to-b from-orange-300 to-pink-500">SaaS</div>
+        <div class="text-sm text-slate-400 mt-1">
+          <span class="ja">エコシステム展開</span>
+          <span class="zh">生态化扩展</span>
+          <span class="en">Ecosystem Scale</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 版本标注 -->
+    <div class="inline-flex items-center gap-3 bg-white/5 border border-white/10 rounded-full px-6 py-3">
+      <span class="text-slate-500 text-sm">Ready Crew LMS</span>
+      <span class="text-slate-700">|</span>
+      <span class="text-indigo-400 font-bold text-sm">V8.5</span>
+      <span class="text-slate-700">|</span>
+      <span class="text-slate-500 text-sm">2026.04</span>
+    </div>
+
+  </div>
+</section>
+
+<!-- ============================================================ FOOTER -->
+<footer class="bg-slate-950 py-6 text-center border-t border-white/5">
+  <p class="text-slate-600 text-xs">
+    Ready Crew LMS — Trilingual Presentation /
+    <span class="ja">三言語版プレゼンテーション</span>
+    <span class="zh">三语介绍资料</span>
+    <span class="en">Trilingual Presentation</span>
+    · 2026-04-14
+  </p>
+</footer>
+
+<!-- ============================================================ JS -->
+<script>
+  function setLang(lang) {
+    // 更新 body 类
+    document.body.className = document.body.className.replace(/lang-\w+/, '');
+    document.body.classList.add('lang-' + lang);
+
+    // 更新按钮状态
+    ['ja', 'zh', 'en'].forEach(l => {
+      const btn = document.getElementById('btn-' + l);
+      btn.classList.toggle('active', l === lang);
+    });
+
+    // 更新 html lang 属性
+    document.documentElement.lang = lang === 'zh' ? 'zh-CN' : lang === 'en' ? 'en' : 'ja';
+  }
+
+  // 初始化：默认日语
+  document.addEventListener('DOMContentLoaded', () => {
+    setLang('ja');
+  });
+</script>
+
+</body>
+</html>
