@@ -193,6 +193,7 @@
         <a href="#solution">ソリューション</a>
         <a href="#knowledge">ナレッジ</a>
         <a href="#preparation">案件準備</a>
+        <a href="#biz-intel">Biz Intel</a>
         <a href="#winrate">勝率向上</a>
         <a href="#crm">CRM 連携</a>
         <a href="#results">成果</a>
@@ -357,21 +358,51 @@
 <section class="section section--dark" id="ai-engine">
   <div class="container">
     <div class="eyebrow">🤖 AI 需要分析エージェント</div>
-    <h2 style="color:#f1f5f9">案件を「読む」だけでなく、<br/>「理解」して組織に届ける</h2>
+    <h2 style="color:#f1f5f9">技術要件だけでなく、<br/>ビジネス文脈ごと「読み解く」</h2>
     <div class="bar"></div>
-    <p style="max-width:600px">AI LMS の中核は、<strong>案件の表面的な情報だけでなく、顧客の真の課題・意思決定構造・期待値を読み解く需要分析エージェント</strong>です。大規模言語モデルと業種別プロンプトを組み合わせ、ベテラン営業が数時間かけて行う案件読解を、数分で実行します。</p>
+    <p style="max-width:680px">AI LMS の需要分析エージェントは、<strong>案件の技術要件にとどまらず、顧客企業のビジネス情報・組織構造・意思決定フロー・業界における立ち位置・担当者の役職と影響力・さらには公開情報に込められた意図まで</strong>を多角的に解析します。ベテラン営業が数日かけて調査・推論する「案件の全体像把握」を、受信から数分で実現します。</p>
     <div class="engine-grid">
       <div class="engine-card">
         <div class="engine-tag">Requirement Analysis</div>
         <div class="engine-icon">🎯</div>
         <h3>要件・課題の多次元構造化</h3>
-        <p>相談内容・現状課題・解決ゴール・期待 ROI など 20 以上のフィールドを自動抽出。「何が欲しいか」だけでなく「なぜ今この課題が発生しているか」まで解析します。</p>
+        <p>相談内容・現状課題・解決ゴール・期待 ROI など 20 以上のフィールドを自動抽出。「何が欲しいか」だけでなく「なぜ今この課題が発生しているか」まで深く解析します。</p>
+      </div>
+      <div class="engine-card">
+        <div class="engine-tag">Business Scale &amp; Context</div>
+        <div class="engine-icon">🏗️</div>
+        <h3>顧客企業の規模・業界ポジション分析</h3>
+        <p>企業規模・売上・従業員数・業界内の立ち位置・成長フェーズを分析。この案件が「戦略的に重要な顧客か」「今後の拡大余地があるか」を判断する根拠を自動提示します。</p>
       </div>
       <div class="engine-card">
         <div class="engine-tag">Decision Structure</div>
         <div class="engine-icon">🏢</div>
-        <h3>意思決定構造の把握</h3>
-        <p>予算感・決裁フロー・関与部門・タイムラインを文脈から読み取り、「この案件の優先度と実現可能性」をスコアリング。アプローチ戦略を AI が提案します。</p>
+        <h3>意思決定フロー・決裁構造の把握</h3>
+        <p>予算感・決裁階層・承認フロー・関与部門・最終決裁者の役職を文脈から読み取り、「誰に・どのタイミングで・どのメッセージで」アプローチすべきかを AI が提案します。</p>
+      </div>
+      <div class="engine-card">
+        <div class="engine-tag">Contact &amp; Department Influence</div>
+        <div class="engine-icon">👤</div>
+        <h3>沟通対象の役職・部門影響力の評価</h3>
+        <p>問い合わせ担当者の役職・所属部門・その部門が社内で持つ予算権限・影響力を推定。「窓口担当者が決裁者か・推進力があるか」を早期に判断し、アプローチ戦略を最適化します。</p>
+      </div>
+      <div class="engine-card">
+        <div class="engine-tag">Demand Representativeness</div>
+        <div class="engine-icon">📊</div>
+        <h3>ニーズの代表性・市場再現性の評価</h3>
+        <p>この案件の要件が業界内で一般的なニーズかを評価。「横展開できる案件か・自社のソリューションで複数社に応用可能か」を判断する視点を AI が提供し、戦略的な案件選択を支援します。</p>
+      </div>
+      <div class="engine-card">
+        <div class="engine-tag">Timeline &amp; Urgency</div>
+        <div class="engine-icon">📅</div>
+        <h3>プロジェクトタイムライン・緊急度分析</h3>
+        <p>着手希望時期・予算確定時期・稟議スケジュール・競合状況を文脈から読み取り、「今すぐ動くべきか・タイミングを見るべきか」を判断。優先順位付けの根拠を自動提示します。</p>
+      </div>
+      <div class="engine-card">
+        <div class="engine-tag">Public Info Intent Analysis</div>
+        <div class="engine-icon">🔍</div>
+        <h3>公開情報の意図推論・背景分析</h3>
+        <p>IR 情報・プレスリリース・採用情報・業界ニュースなど公開情報に込められた<strong>「言葉の裏にある意図・戦略的背景・経営課題」</strong>を AI が推論。顧客の本音ニーズを先読みします。</p>
       </div>
       <div class="engine-card">
         <div class="engine-tag">Consistency</div>
@@ -380,22 +411,124 @@
         <p>AI が一定のフレームワークで分析するため担当者によるばらつきを排除。新人でもベテランと同水準の案件理解と初期対応が可能になります。</p>
       </div>
       <div class="engine-card">
-        <div class="engine-tag">Industry Templates</div>
-        <div class="engine-icon">📐</div>
-        <h3>業種・業務別プロンプト管理</h3>
-        <p>製造業・IT・物流など業種別の解析プロンプトをノーコードで管理。担当チームが分析フレームを自由にチューニングでき、精度を継続的に向上させられます。</p>
-      </div>
-      <div class="engine-card">
-        <div class="engine-tag">Rapid Response</div>
-        <div class="engine-icon">⚡</div>
-        <h3>受信から数分での初期分析</h3>
-        <p>案件着信から数分以内に構造化分析を完了しチームに通知。競合より早い初回レスポンスで顧客の信頼形成フェーズをリードします。</p>
-      </div>
-      <div class="engine-card">
         <div class="engine-tag">Continuous Learning</div>
-        <div class="engine-icon">🔄</div>
+        <div class="engine-icon">�</div>
         <h3>判断ログによる継続的精度向上</h3>
         <p>チームの裁決結果・コメント・会議結論がすべてログとして蓄積。プロンプトの改善フィードバックループが自動形成され、使えば使うほど精度が上がります。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ビジネスインテリジェンス詳細分析 -->
+<section class="section" id="biz-intel">
+  <div class="container">
+    <div class="eyebrow">🔬 ビジネスインテリジェンス分析</div>
+    <h2>「要件書」の奥にある<br/>本質的な商務情報を AI が読む</h2>
+    <div class="bar"></div>
+    <p style="max-width:680px">ソリューション営業で勝敗を分けるのは、<strong>技術要件への回答精度ではなく、顧客のビジネス文脈・組織力学・意思決定の本質を理解した提案ができるか</strong>です。AI LMS は、受信した案件情報と公開データを統合し、多角的なビジネスインテリジェンスとして提示します。</p>
+
+    <div style="margin-top:56px;display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:start">
+      <!-- 左列：分析項目一覧 -->
+      <div>
+        <div style="font-size:.7rem;font-weight:800;letter-spacing:.13em;text-transform:uppercase;color:#2563eb;margin-bottom:20px">AI が自動分析する商務インテリジェンス項目</div>
+        <div style="display:flex;flex-direction:column;gap:12px">
+          <div style="background:#f8fafc;border:1.5px solid #e2e8f0;border-radius:14px;padding:18px 20px;display:flex;gap:14px;align-items:flex-start">
+            <div style="font-size:1.4rem;flex-shrink:0;margin-top:2px">🏗️</div>
+            <div>
+              <div style="font-weight:700;font-size:.93rem;color:#0f172a;margin-bottom:4px">企業規模・業界内ポジション</div>
+              <div style="font-size:.83rem;color:#64748b">売上規模・従業員数・市場シェア・成長性・同業他社との競合状況から、この顧客の「戦略的重要度」を評価</div>
+            </div>
+          </div>
+          <div style="background:#f8fafc;border:1.5px solid #e2e8f0;border-radius:14px;padding:18px 20px;display:flex;gap:14px;align-items:flex-start">
+            <div style="font-size:1.4rem;flex-shrink:0;margin-top:2px">🗂️</div>
+            <div>
+              <div style="font-weight:700;font-size:.93rem;color:#0f172a;margin-bottom:4px">意思決定フロー・決裁プロセス</div>
+              <div style="font-size:.83rem;color:#64748b">稟議の階層・予算承認経路・キーパーソンの所在・社内政治的な文脈を読み取り、提案の通し方を示唆</div>
+            </div>
+          </div>
+          <div style="background:#f8fafc;border:1.5px solid #e2e8f0;border-radius:14px;padding:18px 20px;display:flex;gap:14px;align-items:flex-start">
+            <div style="font-size:1.4rem;flex-shrink:0;margin-top:2px">👤</div>
+            <div>
+              <div style="font-weight:700;font-size:.93rem;color:#0f172a;margin-bottom:4px">沟通窓口の役職・部門の社内影響力</div>
+              <div style="font-size:.83rem;color:#64748b">担当者の役職レベル・所属部門の予算権限・社内推進力を評価。「この担当者で提案が通るか」を早期判断</div>
+            </div>
+          </div>
+          <div style="background:#f8fafc;border:1.5px solid #e2e8f0;border-radius:14px;padding:18px 20px;display:flex;gap:14px;align-items:flex-start">
+            <div style="font-size:1.4rem;flex-shrink:0;margin-top:2px">📊</div>
+            <div>
+              <div style="font-weight:700;font-size:.93rem;color:#0f172a;margin-bottom:4px">ニーズの代表性・横展開可能性</div>
+              <div style="font-size:.83rem;color:#64748b">この要件が業界内の典型ニーズか個別ニーズかを判断。他社への横展開やパターン化による効率受注を評価</div>
+            </div>
+          </div>
+          <div style="background:#f8fafc;border:1.5px solid #e2e8f0;border-radius:14px;padding:18px 20px;display:flex;gap:14px;align-items:flex-start">
+            <div style="font-size:1.4rem;flex-shrink:0;margin-top:2px">📅</div>
+            <div>
+              <div style="font-weight:700;font-size:.93rem;color:#0f172a;margin-bottom:4px">プロジェクトの具体的タイムライン</div>
+              <div style="font-size:.83rem;color:#64748b">着手時期・稟議締切・本番稼働目標・予算期末を読み取り、「今動くべきか・次のタイミングを待つべきか」を判断</div>
+            </div>
+          </div>
+          <div style="background:#f8fafc;border:1.5px solid #e2e8f0;border-radius:14px;padding:18px 20px;display:flex;gap:14px;align-items:flex-start">
+            <div style="font-size:1.4rem;flex-shrink:0;margin-top:2px">🔍</div>
+            <div>
+              <div style="font-weight:700;font-size:.93rem;color:#0f172a;margin-bottom:4px">公開情報の意図推論・背景分析</div>
+              <div style="font-size:.83rem;color:#64748b">IR・採用情報・プレスリリース・業界ニュースから経営方針・組織変革・戦略的課題を推論。「言葉の裏にある本音」を先読み</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 右列：分析例イメージ -->
+      <div style="display:flex;flex-direction:column;gap:16px">
+        <div style="font-size:.7rem;font-weight:800;letter-spacing:.13em;text-transform:uppercase;color:#64748b;margin-bottom:4px">分析レポートイメージ</div>
+
+        <div style="background:#fff;border:1.5px solid #e2e8f0;border-radius:16px;padding:22px;box-shadow:0 2px 12px rgba(0,0,0,.04)">
+          <div style="font-size:.68rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:#2563eb;margin-bottom:14px">📋 AI 商務インテリジェンスレポート（サンプル）</div>
+          <div style="display:flex;flex-direction:column;gap:10px">
+            <div style="display:flex;align-items:flex-start;gap:10px;padding:10px 12px;background:#f8fafc;border-radius:10px">
+              <span style="font-size:.72rem;font-weight:800;color:#fff;background:#2563eb;padding:2px 8px;border-radius:4px;flex-shrink:0;margin-top:1px">規模</span>
+              <span style="font-size:.84rem;color:#1e293b">従業員 800 名・売上 120 億規模。DX 推進部門を新設しており<strong>今期中の導入決定が濃厚</strong></span>
+            </div>
+            <div style="display:flex;align-items:flex-start;gap:10px;padding:10px 12px;background:#f8fafc;border-radius:10px">
+              <span style="font-size:.72rem;font-weight:800;color:#fff;background:#7c3aed;padding:2px 8px;border-radius:4px;flex-shrink:0;margin-top:1px">決裁</span>
+              <span style="font-size:.84rem;color:#1e293b">問い合わせ元はIT部門課長。<strong>最終決裁は経営企画部長</strong>が担う可能性が高い。経営層への訴求資料が必要</span>
+            </div>
+            <div style="display:flex;align-items:flex-start;gap:10px;padding:10px 12px;background:#f8fafc;border-radius:10px">
+              <span style="font-size:.72rem;font-weight:800;color:#fff;background:#ea580c;padding:2px 8px;border-radius:4px;flex-shrink:0;margin-top:1px">期限</span>
+              <span style="font-size:.84rem;color:#1e293b">3月末が予算期末。<strong>稟議は1月中旬に提出予定</strong>との文脈あり。12月中の提案書提出が必須</span>
+            </div>
+            <div style="display:flex;align-items:flex-start;gap:10px;padding:10px 12px;background:#f0f9ff;border-radius:10px;border:1px solid #bae6fd">
+              <span style="font-size:.72rem;font-weight:800;color:#fff;background:#0284c7;padding:2px 8px;border-radius:4px;flex-shrink:0;margin-top:1px">公開情報</span>
+              <span style="font-size:.84rem;color:#1e293b">直近採用で「営業DX推進マネージャー」を複数名募集中。<strong>営業生産性向上が今期の最重要経営課題</strong>と推測</span>
+            </div>
+            <div style="display:flex;align-items:flex-start;gap:10px;padding:10px 12px;background:#f0fdf4;border-radius:10px;border:1px solid #bbf7d0">
+              <span style="font-size:.72rem;font-weight:800;color:#fff;background:#16a34a;padding:2px 8px;border-radius:4px;flex-shrink:0;margin-top:1px">判定</span>
+              <span style="font-size:.84rem;color:#1e293b"><strong>GO 推奨</strong>。意思決定権限者へのアクセス確保と経営課題訴求型提案書の準備を優先推奨</span>
+            </div>
+          </div>
+        </div>
+
+        <div style="background:linear-gradient(135deg,#1e3a8a,#2563eb);border-radius:16px;padding:22px;color:#fff">
+          <div style="font-size:.7rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:#93c5fd;margin-bottom:14px">なぜこの分析が勝率を上げるのか</div>
+          <div style="display:flex;flex-direction:column;gap:10px">
+            <div style="display:flex;gap:10px;align-items:flex-start">
+              <span style="color:#60a5fa;font-weight:800;flex-shrink:0">01</span>
+              <span style="font-size:.85rem;color:#e2e8f0">「要件に応える」だけでなく「経営課題に応える」提案ができる</span>
+            </div>
+            <div style="display:flex;gap:10px;align-items:flex-start">
+              <span style="color:#60a5fa;font-weight:800;flex-shrink:0">02</span>
+              <span style="font-size:.85rem;color:#e2e8f0">キーパーソンへのアプローチタイミングと訴求軸が明確になる</span>
+            </div>
+            <div style="display:flex;gap:10px;align-items:flex-start">
+              <span style="color:#60a5fa;font-weight:800;flex-shrink:0">03</span>
+              <span style="font-size:.85rem;color:#e2e8f0">タイムライン把握で「スピード」という競争優位を生み出せる</span>
+            </div>
+            <div style="display:flex;gap:10px;align-items:flex-start">
+              <span style="color:#60a5fa;font-weight:800;flex-shrink:0">04</span>
+              <span style="font-size:.85rem;color:#e2e8f0">公開情報の意図推論で「言われる前に」提案できる先手力が生まれる</span>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -623,6 +756,11 @@
         <h3>ナレッジの累積・活用</h3>
         <p>蓄積された案件・判断ログ・提案書は組織資産として永続。使えば使うほど対応品質が向上する複利型の知的インフラです。</p>
       </div>
+      <div class="result-card">
+        <div class="result-num">30<sup>+</sup></div>
+        <h3>商務インテリジェンス分析軸</h3>
+        <p>企業規模・決裁構造・担当者役職・部門影響力・タイムライン・公開情報意図推論など 30 以上の商務判断軸を自動解析します。</p>
+      </div>
     </div>
   </div>
 </section>
@@ -654,6 +792,14 @@
         <div class="faq-q">自動生成されるドキュメントはそのまま使えますか？</div>
         <div class="faq-a">AI は案件情報・ナレッジベース・過去事例を統合して生成します。生成物は必ず担当者が確認・編集する設計で、品質を担保しつつ準備時間を大幅短縮できます。</div>
       </div>
+      <div class="faq-item">
+        <div class="faq-q">顧客の公開情報（IR・採用情報・ニュース）はどのように分析に活用されますか？</div>
+        <div class="faq-a">AI が公開情報のテキストを解析し、経営方針・組織変革の兆候・戦略的課題を推論します。例えば「特定職種の大量採用＝その領域が経営課題」「IR で言及された課題＝予算化される可能性が高い」といった意図推論を自動的に行い、案件分析レポートに統合します。</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">担当者の役職や部門の重要性はどう判断しますか？</div>
+        <div class="faq-a">メール・問い合わせ本文・署名情報から担当者の役職・所属部門・肩書きを抽出し、業種ごとの組織構造モデルと照合して「この担当者が最終決裁者か・推進力があるか・上位への橋渡しが必要か」を推定します。判断に自信度スコアも付与するため、営業担当者が適切なアプローチを選択できます。</div>
+      </div>
     </div>
   </div>
 </section>
@@ -679,6 +825,9 @@
       <a href="#solution">ソリューション</a>
       <a href="#knowledge">ナレッジ</a>
       <a href="#preparation">案件準備</a>
+      <a href="#biz-intel">Biz Intel</a>
+      <a href="#winrate">勝率向上</a>
+      <a href="#crm">CRM 連携</a>
       <a href="#contact">お問い合わせ</a>
     </p>
     <p>© 2026 All rights reserved.</p>
