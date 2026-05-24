@@ -1,16 +1,16 @@
-# Ready Crew CRM — 開発コンテキスト (2026-04-29)
+# Ready Crew CRM — 開発コンテキスト (2026-05-24 更新 / V10.5.1)
 
 ## ■ プロジェクト基本情報
 
 | 項目 | 値 |
 |---|---|
 | システム名 | Ready Crew CRM |
-| 現バージョン | V9.9.8（フロント＋バックエンド） |
+| 現バージョン | V10.5.1（フロント＋バックエンド） |
 | AI エンジン | DeepSeek-V3-2（Volces Ark API） |
 | 認証アカウント | sulei@terabox.jp |
 | GAS Script ID | `1NlFunDOzIMiSSPqp1OObbFyd9YXVNRldFVTOnFD2f1oycBnlXc_ySMep` |
-| 固定デプロイ ID | `AKfycbwH0WFyPu-gdLyLDRkB4sqw0TtnhS35aebzpoNNFevz2RMoDPfF_qwxGv065OkWxCvq` |
-| 最終デプロイ | @142（V9.9.8 — Yeeflow CRM 一括同期機能追加） |
+| 固定デプロイ ID | `AKfycbwH0WFyPu-gdLyLDRkB4sqw0TtnhS35aebzpoNNFevz2RMoDpfF_qwxGv065OkWxCvq` |
+| 最終デプロイ | V10.5.1（2026-05-16 — API キー Script Properties 移行） |
 | プロジェクトDir | `/Users/raysu/Documents/Terabox/VScode/AIProject-DM-platform/projects/LMS` |
 
 ### デプロイコマンド（毎回共通）
@@ -78,14 +78,18 @@ src/
 
 ```javascript
 // ── 設定 ──
-Script Properties で ARK_* / YEEFLOW_* / ALLOWED_DOMAIN 等を管理。`CONFIG` はゲッターで参照（コード内にキーを書かない）
+// Script Properties で ARK_* / YEEFLOW_* / ALLOWED_DOMAIN 等を管理。CONFIG はゲッターで参照（コード内にキーを書かない）
+// ローカル設定: config/local.settings.json → scripts/sync-secrets-to-gas.sh（clasp run）
 FALLBACK_PARSE_PROMPT  // AI解析用 System Prompt（Prompt_Config B2 が優先）
 
 // ── シート管理 ──
 getSheetSafe(name)     // シートがなければヘッダー付きで自動作成
 
+// ── バージョン情報 ──
+getVersionInfo()       // { version, buildDate, changelog[] } → フロントのチェンジログモーダル用
+
 // ── Dashboard ──
-getDashboardData()     // Case_infor + Agent_Logs → { projects[], logs[] }
+getDashboardData()     // Case_infor + Agent_Logs → { projects[], logs[] }（yeeflowSynced も含む）
 getStatisticsData()    // 分類/業界/AI话题 の集計 → { byCategory, byIndustry, byAITopic, total }
 
 // ── 案件保存 ──
@@ -126,7 +130,33 @@ deleteDuplicates(target)       // "buffer"|"caseInfor"|"both"
 // ── Todo / Meeting / Knowledge ──
 getTodos(caseId) / addTodo(caseId, todo) / updateTodoStatus(caseId, todoIdx, done)
 getMeetingConclusion(caseId) / saveMeetingConclusion(caseId, data)
+saveMeetingRecord(caseId, data)  // 会議結論保存 + Case_infor AF列 自動ステータス反映（V10.5.0〜）
 getProjectDiscussions() / addProjectDiscussion(data) / deleteProjectDiscussion(rowNum)
+
+// ── AI メール生成 ──
+generateOutreachEmail(caseId, action, templateType)
+  // action: 'Go'|'Hold' / templateType: 'initial_contact'|'hold_check'
+  // Case_infor + Meeting_Records + 原始メール本文を統合して AI 生成（V10.4.0〜）
+  // Prompt_Config B11（初回）/ B12（二次確認）で管理（V10.3.1〜）
+getOriginalEmailByCaseId(caseId)  // Archive 詳細「原始メール」タブ用（V10.1.0〜）
+
+// ── Yeeflow CRM 連携（V10.5.0〜）──
+syncToYeeflow()                   // 未同期案件を Yeeflow CRM へ一括 POST
+_yeeflowFindItem(caseId)          // Yeeflow 既存レコード検索
+resetYeeflowSyncFlag(caseId)      // 同期フラグリセット（再同期用）
+// Case_infor AG列（col33）に 同期タイムスタンプ自動記録
+
+// ── 会議ステータス補正（V10.5.0〜）──
+backfillMeetingStatus()           // Meeting_Records → Case_infor AF列 历史データ補正
+
+// ── メール送信時刻バックフィル（V9.9.1〜）──
+getReviewBufferList()             // dateSource(MAIL/SYNC/UNKNOWN)・dateRaw を付加して返す
+backfillMailDate(dryRun, limit)   // dry-run または書き戻し
+runBackfillDryRun_writeToSheet(limit)  // dry-run 結果を Backfill_Debug シートへ書き出し
+backfillMailDateExecute(limit, batchSize, retries)  // 分批書き戻し（Backfill_Backup / Backfill_Log 付き）
+
+// ── 機能要望（V9.9.3〜）──
+saveFeatureRequest(d)             // Feature_Request シートに保存（スクリーンショット対応）
 ```
 
 ---
@@ -137,34 +167,58 @@ getProjectDiscussions() / addProjectDiscussion(data) / deleteProjectDiscussion(r
 // ── ナビゲーション ──
 showTab(name)          // 'dashboard'|'review'|'manual'|'knowledge'
 
+// ── バージョン表示 ──
+openChangelogModal()   // チェンジログモーダルを開く（ヘッダーボタン）
+
 // ── Dashboard ──
-refreshDashboard()
-  // withFailureHandler: ステータスバー + テーブルにエラーメッセージ表示（@141強化済み）
+refreshDashboard()     // withFailureHandler: ステータスバー + テーブルにエラーメッセージ表示
 filterArchive(type)    // 'go'|'hold'|'skip'|null → stat カードハイライト + テーブル再描画
-renderArchive()        // window._allProjects を window._archiveFilter で絞り込んで描画
+renderArchive()        // window._allProjects を window._archiveFilter + 検索バー で絞り込んで描画
 _getDecisionFromStatus(statusStr)  // ステータス文字列 → 'GO'|'HOLD'|'SKIP'
+// Case Archive テーブル: Yeeflow 同期バッジ表示（yeeflowSynced 列）
+
+// ── 全文検索（V10.3.0〜）──
+// Archive 上部の検索バーで 会社名・業界・ID・相談内容 等を横断検索（renderArchive 内で処理）
 
 // ── 重複チェックパネル ──
 runDupCheck()          // getDuplicateReport() → dup-panel-body に結果表示
 execDeleteDup(target)  // 確認ダイアログ → deleteDuplicates(target) 呼び出し
 
 // ── Review Center ──
-loadReviewBuffer()     // Review_Buffer 一覧取得・描画
+loadReviewBuffer()     // Review_Buffer 一覧取得・描画（dateSource バッジ含む）
 openDetail(rowNum)     // 詳細パネルを開く（顧問名自動入力・前回判断復元込み）
 submitFinalDecision()  // submitConsultantDecision() 呼び出し
 filterBuffer(status)   // 'Pending'|'AUDITED'|'all'
 
 // ── Todo（詳細パネル内） ──
-loadDetTodos(caseId) / addDetTodo() / toggleTodo(caseId, idx, done)
+loadDetTodos(caseId) / addDetTodo() / toggleTodoItem(rowNum, newStatus, prefix, caseId)
 
 // ── Meeting 結論 ──
 loadDetMeeting(caseId) / saveDetMeetingConclusion()
 
+// ── AI メール草稿（V10.0.0〜）──
+generateDraftEmail()          // Review 詳細パネル内：AI メール生成（generateOutreachEmail 呼び出し）
+generateArchiveDraftEmail()   // Archive 詳細パネル内：AI メール生成
+copyDraftEmail() / copyArchiveDraftEmail()
+openGmailDraft() / openArchiveGmailDraft()
+loadAdEmail(caseId)           // Archive 詳細「原始メール」タブのメール本文ロード
+copuOriginalEmail()           // 原始メールをクリップボードにコピー
+
+// ── Yeeflow 同期（V10.5.0〜）──
+runYeeflowSync()              // Admin パネル「Yeeflow 同期」タブから一括同期実行
+
+// ── バックフィルコントロール（V9.9.1〜）──
+// Admin パネルに Dry-run / Execute ボタン、結果を backfill-results に表示
+
 // ── Knowledge ──
 loadKnowledge() / saveKnowledge() / deleteKnowledge(rowNum)
 
+// ── 機能要望 ──
+submitFeatureRequest()        // Feature_Request シートへ送信
+
 // ── ユーティリティ ──
 setStatus(msg, color) / escHtml(s) / renderBarChart(id, data, colors)
+getCurrentUserName()          // セッションユーザー名取得（ヘッダー表示・顧問名自動入力）
 ```
 
 ---
@@ -172,42 +226,63 @@ setStatus(msg, color) / escHtml(s) / renderBarChart(id, data, colors)
 ## ■ UI 構成
 
 ### Dashboard タブ
-1. **統計カード**（4枚）: Total / BID SENT / ON HOLD / REVIEWED SKIP（クリックでフィルタリング）
-2. **Case Archive テーブル**（5列）: Corp/ID | 業界 | Decision | Status | Category
-3. **統計グラフ**（3本）: 案件分類 / 業界分布 / AIシステム種別（横棒）
-4. **重複チェックパネル**: スキャン → 一覧表示 → 削除
+1. **Agent Pipeline バー**（V10.1.0〜）: Inbox → Parse → Gate → Consult → GO の処理ステージ可視化
+2. **統計カード**（4枚）: Total / BID SENT / ON HOLD / REVIEWED SKIP（クリックでフィルタリング）
+3. **Case Archive テーブル**（6列）: Corp/ID | 業界 | Decision | Status | Category | Yeeflow
+   - 全文検索バー（V10.3.0〜）: 会社名・業界・ID・相談内容 等の横断検索
+   - Yeeflow 同期バッジ表示（V10.5.0〜）
+   - Todo バッジ表示（V10.1.0〜）
+4. **統計グラフ**（3本）: 案件分類 / 業界分布 / AIシステム種別（横棒）
+5. **重複チェックパネル**: スキャン → 一覧表示 → 削除
+6. **最終同期日時 + 同期間隔 UI**（V10.2.0〜）
 
 ### Review Center タブ
 - **一覧ビュー**（7列）: Date | Case ID | Corp | Subject | AI判定 | Action | Buttons
   - コンテナ幅 max-w-[1500px]、操作列 172px、ホバープレビューカード付き
-- **詳細パネル**（サブタブ4つ）:
+  - dateSource バッジ（MAIL/SYNC/UNKNOWN）表示
+- **詳細パネル**（サブタブ5つ）:
   1. **顧問裁決**: 顧問名 + GO/HOLD/SKIP + 理由 + Commit Verdict
   2. **顧問意見一覧**
   3. **会議結論**: 会議日 + 最終判定 + 出席者 + 結論
-  4. **Todo**: アクション追加フォーム + Todo一覧 ← **次期開発対象**
+  4. **Todo**: AI メール草稿パネル（V10.0.0〜）+ アクション追加フォーム + Todo一覧
+  5. **原始メール**: 原始メール本文・件名・Gmail リンク（V10.1.0〜）
+
+### Admin / 管理タブ
+1. **Yeeflow 同期パネル**（V10.5.0〜）: 未同期案件一括送信
+2. **歴史補正パネル**（V10.5.0〜）: backfillMeetingStatus / backfillMailDate
+3. **バックフィルコントロール**: dry-run → 結果プレビュー → 書き戻し実行
+4. **機能要望フォーム**（V9.9.3〜）: スクリーンショット添付対応
 
 ---
 
-## ■ 完了済みバージョン履歴（@135〜@141）
+## ■ 完了済みバージョン履歴
 
-| Ver | 内容 |
-|---|---|
-| @135 | 削除ボタン表示・顧問名自動入力・重複防止・前回判断復元 |
-| @136 | UIコンテナ1500px・操作列172px |
-| @137 | Case Archive Decision列・統計カードフィルター機能 |
-| @138 | HOLD/SKIP絵文字文字化け修正（`&#9208;`/`&#9197;`） |
-| @139 | 重複検出3段階強化（MsgID+CaseID+Subject）・Gmail取得100件 |
-| @140 | Dashboard 重複チェックパネル追加 |
-| @141 | データ読込エラー表示強化（withFailureHandler 改善） |
-| @142 | AI 自動メール下書き機能追加（generateOutreachEmail / Todo タブ先頭パネル） |
+| Ver（コード） | 日付 | 内容 |
+|---|---|---|
+| @135 / 以前 | — | 削除ボタン・顧問名自動入力・重複防止・前回判断復元・1500px UI・Archive Decision列・統計カードフィルター |
+| V9.8.9 | — | safeJsonParse・parseBodyToStructured 正規表現兜底・Prompt_Config B2 動態取得・Re-parse ボタン |
+| V9.9.0 | 2026-04-11 | AI Chat 統合ナレッジ対話・AI 日語出力 |
+| V9.9.1 | 2026-04-13 | mail-sent time 表示・dateSource バッジ・backfillMailDate 系関数・フロント Backfill コントロール |
+| V9.9.2 | 2026-04-15 | 顧問名ログインユーザー自動入力・多顧問意見汇総・会議結論・Todo 管理・Archive ステータス可視化 |
+| V9.9.3 | 2026-04-16 | バージョン管理・チェンジログ表示・Hold ステータス追加・機能要望フォーム |
+| V10.0.0 | 2026-04-19 | AI 自動メール下書き（generateOutreachEmail）・Todo タブ AI パネル |
+| V10.1.0 | 2026-04-19 | Agent Pipeline バー・Archive Todo バッジ・最終同期 UI・Archive 原始メールタブ（getOriginalEmailByCaseId） |
+| V10.2.0 | 2026-04-20 | 案件詳細モーダル大型化・同期間隔設定（saveSyncInterval） |
+| V10.3.0 | 2026-04-21 | Case Archive 全文検索バー・Archive Todo タブ AI メール助理パネル |
+| V10.3.1 | 2026-04-21 | メールプロンプト Prompt_Config B11/B12 管理・テラボックス担当デフォルト変更 |
+| V10.4.0 | 2026-04-22 | メール生成強化：原始メール本文・顧問コメント統合・重複質問排除 |
+| V10.4.1 | 2026-04-26 | メール生成に会議結論（Meeting_Records）統合・HOLD→SKIP バグ修正 |
+| V10.5.0 | 2026-04-28 | Yeeflow CRM 直接 API シンク・AG列同期タイムスタンプ・会議結論→AF列自動反映・backfillMeetingStatus |
+| V10.5.1 | 2026-05-16 | API キーを Script Properties へ完全移行・ローカル sync-secrets-to-gas.sh 整備 |
 
 ---
 
-## ■ 次期開発機能：AI自動メール下書き（@142予定）
+## ■ 実装済み主要機能：AI自動メール下書き（V10.0.0〜 / V10.4.x 強化済み）
 
-### 背景・目的
-顧問が案件を GO/HOLD 判断した後、**正式対応前に顧客の反応を確認**するため、
-**Todo サブタブ内**に AI が自動生成する顧客確認メールの下書き機能を追加する。
+### 概要
+顧問が案件を GO/HOLD 判断した後、**正式対応前に顧客の反応を確認**するための
+**AI メール草稿生成機能**。Review 詳細パネルの Todo サブタブ と Archive 詳細パネル の両方に実装済み。
+V10.4.0 以降は原始メール本文・顧問コメント・会議結論を統合して AI が生成する。
 
 ### フロー
 ```
