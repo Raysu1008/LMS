@@ -9,44 +9,51 @@
     html { scroll-behavior: smooth; }
     body {
       font-family: "Hiragino Kaku Gothic ProN","Hiragino Sans","Noto Sans JP",Meiryo,-apple-system,BlinkMacSystemFont,sans-serif;
-      color: #1e293b; background: #fff; line-height: 1.8;
+      color: #1a2332; background: #fff; line-height: 1.85;
+      font-feature-settings: "palt";
+      -webkit-font-smoothing: antialiased;
     }
     a { color: inherit; text-decoration: none; }
-    .container { max-width: 1100px; margin: 0 auto; padding: 0 28px; }
+    .container { max-width: 1100px; margin: 0 auto; padding: 0 32px; }
     .section { padding: 96px 0; }
-    .section--gray   { background: #f8fafc; }
-    .section--dark   { background: #0f172a; color: #f1f5f9; }
-    .section--indigo { background: linear-gradient(140deg,#1e3a8a 0%,#2563eb 100%); color:#fff; }
+    .section--gray   { background: #f4f6f9; }
+    .section--dark   { background: #0f1c30; color: #e8edf4; }
+    .section--indigo { background: linear-gradient(140deg,#1a3470 0%,#1d4ed8 100%); color:#fff; }
     .eyebrow {
       display: inline-flex; align-items: center; gap: 6px;
       font-size: 11px; font-weight: 800; letter-spacing: .14em; text-transform: uppercase;
-      color: #2563eb; background: #eff6ff;
-      padding: 4px 14px; border-radius: 999px; margin-bottom: 18px;
+      color: #1d4ed8; background: #eef2ff;
+      padding: 5px 16px; border-radius: 999px; margin-bottom: 20px;
     }
-    .section--dark   .eyebrow { color: #93c5fd; background: rgba(147,197,253,.12); }
-    .section--indigo .eyebrow { color: #bfdbfe; background: rgba(191,219,254,.12); }
+    .section--dark   .eyebrow { color: #93c5fd; background: rgba(147,197,253,.14); }
+    .section--indigo .eyebrow { color: #bfdbfe; background: rgba(191,219,254,.14); }
     h1 { font-size: clamp(2.1rem,4.5vw,3.2rem); font-weight: 900; line-height: 1.18; letter-spacing: -.02em; }
-    h2 { font-size: clamp(1.65rem,3.2vw,2.3rem); font-weight: 800; line-height: 1.25; letter-spacing: -.01em; margin-bottom: 14px; }
-    h3 { font-size: 1.08rem; font-weight: 700; margin-bottom: 8px; line-height: 1.4; }
-    p  { font-size: .96rem; color: #475569; }
-    .section--dark   p { color: #94a3b8; }
-    .section--indigo p { color: #bfdbfe; }
+    h2 { font-size: clamp(1.65rem,3.2vw,2.3rem); font-weight: 800; line-height: 1.28; letter-spacing: -.01em; margin-bottom: 14px; color: #0f1c30; }
+    h3 { font-size: 1.06rem; font-weight: 700; margin-bottom: 8px; line-height: 1.5; color: #0f1c30; }
+    /* 本文テキストを濃く — 40-50代が読みやすい濃度 */
+    p  { font-size: .96rem; color: #374151; line-height: 1.85; }
+    .section--dark   p { color: #b0bec8; }
+    .section--indigo p { color: #c7d9f0; }
+    .section--dark   h2 { color: #e8edf4; }
+    .section--dark   h3 { color: #d4dce6; }
     .bar { width: 44px; height: 4px; background: #2563eb; border-radius: 2px; margin: 18px 0 38px; }
     .section--indigo .bar { background: #93c5fd; }
     .section--dark   .bar { background: #3b82f6; }
     /* header */
     .site-header {
       position: sticky; top: 0; z-index: 100;
-      background: rgba(255,255,255,.92); backdrop-filter: blur(14px);
-      border-bottom: 1px solid #e2e8f0;
+      background: rgba(255,255,255,.98); backdrop-filter: blur(16px);
+      border-bottom: 2px solid #e2e8f0;
+      box-shadow: 0 2px 8px rgba(0,0,0,.06);
     }
-    .header-inner { display: flex; align-items: center; justify-content: space-between; height: 64px; }
-    .logo { font-size: .95rem; font-weight: 900; color: #1e293b; }
-    .logo em { font-style: normal; color: #2563eb; }
-    nav a { font-size: .84rem; font-weight: 600; color: #64748b; margin-left: 28px; transition: color .2s; }
-    nav a:hover { color: #2563eb; }
-    .btn-nav { margin-left: 24px; padding: 8px 20px; background: #2563eb; color: #fff; border-radius: 8px; font-size: .84rem; font-weight: 700; transition: background .2s; }
-    .btn-nav:hover { background: #1d4ed8; }
+    .header-inner { display: flex; align-items: center; justify-content: space-between; height: 68px; }
+    .logo { font-size: 1rem; font-weight: 900; color: #0f1c30; letter-spacing: -.01em; }
+    .logo em { font-style: normal; color: #1d4ed8; }
+    /* ナビテキストを確実に読める色に */
+    nav a { font-size: .86rem; font-weight: 600; color: #334155; margin-left: 24px; transition: color .2s; white-space: nowrap; }
+    nav a:hover { color: #1d4ed8; }
+    .btn-nav { margin-left: 20px; padding: 9px 22px; background: #1d4ed8; color: #fff; border-radius: 8px; font-size: .86rem; font-weight: 700; transition: background .2s, box-shadow .2s; box-shadow: 0 2px 8px rgba(29,78,216,.3); }
+    .btn-nav:hover { background: #1e3a8a; box-shadow: 0 4px 14px rgba(29,78,216,.4); }
     /* hero */
     .hero {
       background: linear-gradient(155deg,#0f172a 0%,#1e3a8a 55%,#2563eb 100%);
@@ -83,11 +90,17 @@
     .d-sub   { font-size: .72rem; color: #64748b; margin-top: 1px; }
     .d-arrow { color: #3b82f6; text-align: center; font-size: .9rem; margin: 2px 0; }
     /* pain */
+    /* pain-grid: 課題セクションを新レイアウトに対応 */
     .pain-grid { display: grid; grid-template-columns: repeat(auto-fit,minmax(260px,1fr)); gap: 24px; margin-top: 52px; }
-    .pain-card { background: #fff; border: 1.5px solid #e2e8f0; border-radius: 18px; padding: 28px; transition: box-shadow .3s,transform .3s; }
-    .pain-card:hover { box-shadow: 0 10px 36px rgba(0,0,0,.07); transform: translateY(-4px); }
-    .pain-icon { font-size: 1.7rem; margin-bottom: 14px; width: 50px; height: 50px; border-radius: 12px; background: #f0f9ff; display: flex; align-items: center; justify-content: center; }
-    .pain-card h3 { color: #0f172a; }
+    .pain-card { background: #fff; border: 1.5px solid #d1d9e6; border-radius: 16px; padding: 28px; transition: box-shadow .3s,transform .3s; }
+    .pain-card:hover { box-shadow: 0 8px 28px rgba(0,0,0,.08); transform: translateY(-3px); }
+    .pain-icon { font-size: 1.7rem; margin-bottom: 14px; width: 50px; height: 50px; border-radius: 12px; background: #f0f4ff; display: flex; align-items: center; justify-content: center; }
+    .pain-card h3 { color: #0f1c30; }
+    /* 課題セクションのグリッドレイアウト レスポンシブ対応 */
+    @media (max-width: 840px) {
+      #challenges .container > div { grid-template-columns: 1fr !important; }
+      #challenges .container > div > div:first-child { position: static !important; }
+    }
     /* solution */
     .sol-intro { display: grid; grid-template-columns: 1fr 1fr; gap: 72px; align-items: start; margin-bottom: 80px; }
     .sol-text p { margin-bottom: 16px; }
@@ -168,12 +181,40 @@
     .cta-inner p  { margin-bottom: 38px; }
     /* footer */
     .site-footer { background: #0f172a; color: #475569; padding: 40px 0; text-align: center; font-size: .82rem; }
-    .site-footer a { color: #64748b; margin: 0 10px; }
-    .site-footer a:hover { color: #cbd5e1; }
+    .site-footer a { color: #94a3b8; margin: 0 10px; }
+    .site-footer a:hover { color: #e2e8f0; }
+    /* フロースステップの文字色を濃く */
+    .flow-step h3 { font-size: .92rem; color: #0f1c30; margin-bottom: 6px; font-weight: 700; }
+    .flow-step p  { font-size: .8rem; color: #374151; }
+    .flow-step:hover { background: #eef2ff; }
+    /* engine-cardのサブテキストを可読性向上 */
+    .engine-card p { font-size: .88rem; color: #b8c4cf; }
+    .engine-card h3 { color: #e8edf4; font-size: 1rem; }
+    /* loop / prep の文字色 */
+    .loop-text li { color: #374151; }
+    .loop-item-label { color: #0f1c30; }
+    .loop-item-sub   { color: #4b5563; }
+    .prep-card h3 { color: #0f1c30; }
+    .prep-card p  { color: #374151; font-size: .88rem; }
+    /* compare表の文字色 */
+    .compare-table td { color: #374151; }
+    /* 結果カード */
+    .result-card h3 { color: #0f1c30; }
+    .result-card p  { color: #374151; font-size: .88rem; }
+    /* faq */
+    .faq-q { color: #0f1c30; font-size: .97rem; }
+    .faq-a { color: #374151; font-size: .92rem; }
+    /* sol-text */
+    .sol-text p { color: #374151; }
+    .kb-item-sub { color: #4b5563; }
     /* responsive */
     @media (max-width: 820px) {
       .hero-layout, .sol-intro, .loop-layout { grid-template-columns: 1fr; }
       .flow-grid { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 840px) {
+      #challenges .container > div { grid-template-columns: 1fr !important; }
+      #challenges .container > div > div:first-child { position: static !important; }
     }
     @media (max-width: 640px) {
       nav { display: none; }
@@ -264,33 +305,60 @@
 </section>
 
 <!-- 課題 -->
-<section class="section section--gray" id="challenges">
+<section class="section" id="challenges" style="background:#f4f6f9;border-top:1px solid #e4e8ef">
   <div class="container">
-    <div class="eyebrow">⚠ お客様の課題</div>
-    <h2>ソリューション営業チームが<br/>直面する 4 つの構造的問題</h2>
-    <div class="bar"></div>
-    <p style="max-width:600px">「同じ情報を受け取っても、メンバーによって分析の深さも判断も異なる。」<br/>
-    これは個人の能力差ではなく、<strong>ナレッジが組織として共有・活用されていない</strong>ことが根本原因です。</p>
-    <div class="pain-grid">
-      <div class="pain-card">
-        <div class="pain-icon">🧩</div>
-        <h3>判断基準のばらつき</h3>
-        <p>案件の優先度・対応可否の判断が担当者ごとに異なり、ベテランの判断ロジックが組織に継承されていません。同じ要件でも結論が割れることで、機会損失と品質劣化が生じます。</p>
+    <div style="display:grid;grid-template-columns:1fr 1.6fr;gap:72px;align-items:start">
+
+      <!-- 左列: 見出し・本質一言 -->
+      <div style="position:sticky;top:88px">
+        <div class="eyebrow">⚠ お客様の課題</div>
+        <h2 style="font-size:clamp(1.6rem,2.8vw,2.1rem);margin-bottom:20px">ソリューション営業が<br/>勝てない本当の理由は<br/><span style="color:#1d4ed8">「3つの構造的欠陪」</span><br/>に集約される</h2>
+        <div class="bar"></div>
+        <p style="font-size:.95rem;color:#374151;line-height:1.9">「同じ情報を受け取っても、メンバーによって判断が違う。」<br/><br/>これは個人の能力差ではなく、「<strong>判断基準」「知識資産」「準備自動化」の 3 つが朚不している組織構造の問題</strong>です。</p>
+        <div style="margin-top:28px;padding:18px 22px;background:#fff;border:1.5px solid #d1d9e6;border-radius:12px">
+          <div style="font-size:.72rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:#64748b;margin-bottom:10px">なぜ 4 つでなく 3 つなのか</div>
+          <p style="font-size:.85rem;color:#374151;line-height:1.8">「高コストな人的対応」は上記 3 つの「結果」に過ぎないため、根本要因に絞り込むことで問題構造をより明確に小組できます。</p>
+        </div>
       </div>
-      <div class="pain-card">
-        <div class="pain-icon">💸</div>
-        <h3>高コストな人的対応</h3>
-        <p>着信案件の読み込み・分類・社内共有・返信準備にベテラン社員が毎日数時間を費やしており、本来の提案活動・顧客対応に集中できていません。</p>
-      </div>
-      <div class="pain-card">
-        <div class="pain-icon">🗃️</div>
-        <h3>ナレッジの分散・未活用</h3>
-        <p>過去の提案書・成功事例・製品資料・ワークフロー図が個人フォルダやメールに散在し、新規案件に活かされないまま埋もれています。退職・異動で暗黙知が失われます。</p>
-      </div>
-      <div class="pain-card">
-        <div class="pain-icon">⏳</div>
-        <h3>商談前準備の遅延と属人化</h3>
-        <p>アジェンダ・ヒアリングシート・デモ資料の準備が担当者任せで、品質もスピードも安定しない。初回接触までのリードタイムが競合に差をつけられる要因になっています。</p>
+
+      <!-- 右列: 3枚カード縦並 -->
+      <div style="display:flex;flex-direction:column;gap:20px">
+        <!-- CARD 1 -->
+        <div style="background:#fff;border:1.5px solid #d1d9e6;border-radius:16px;padding:30px 28px;position:relative;overflow:hidden">
+          <div style="position:absolute;top:0;left:0;width:4px;height:100%;background:linear-gradient(180deg,#1d4ed8,#3b82f6)"></div>
+          <div style="display:flex;align-items:flex-start;gap:16px">
+            <div style="width:48px;height:48px;background:#eef2ff;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:1.5rem;flex-shrink:0">🧩</div>
+            <div>
+              <div style="font-size:.7rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:#1d4ed8;margin-bottom:6px">課題 01 · 判断基準</div>
+              <h3 style="font-size:1.05rem;margin-bottom:8px">案件評価の「正解」が人によって分かれる</h3>
+              <p style="font-size:.9rem;color:#374151;line-height:1.8">案件の優先度・対応可否の判断が担当者の経験値と直感に依存し、同じ要件でも結論が割れる。<strong>ベテランの判断ロジックが組織に継承されず、機会損失が続く。</strong></p>
+            </div>
+          </div>
+        </div>
+        <!-- CARD 2 -->
+        <div style="background:#fff;border:1.5px solid #d1d9e6;border-radius:16px;padding:30px 28px;position:relative;overflow:hidden">
+          <div style="position:absolute;top:0;left:0;width:4px;height:100%;background:linear-gradient(180deg,#0891b2,#06b6d4)"></div>
+          <div style="display:flex;align-items:flex-start;gap:16px">
+            <div style="width:48px;height:48px;background:#ecfeff;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:1.5rem;flex-shrink:0">🗃️</div>
+            <div>
+              <div style="font-size:.7rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:#0891b2;margin-bottom:6px">課題 02 · 知識資産</div>
+              <h3 style="font-size:1.05rem;margin-bottom:8px">過去の成功体験が山を越えると消える</h3>
+              <p style="font-size:.9rem;color:#374151;line-height:1.8">提案書・成功事例・製品資料が個人フォルダに散在し、新規案件に活かされないまま失われる。<strong>退職・異動のたびに経験知識がリセットされ、組織は常にゼロから学び直す。</strong></p>
+            </div>
+          </div>
+        </div>
+        <!-- CARD 3 -->
+        <div style="background:#fff;border:1.5px solid #d1d9e6;border-radius:16px;padding:30px 28px;position:relative;overflow:hidden">
+          <div style="position:absolute;top:0;left:0;width:4px;height:100%;background:linear-gradient(180deg,#d97706,#f59e0b)"></div>
+          <div style="display:flex;align-items:flex-start;gap:16px">
+            <div style="width:48px;height:48px;background:#fffbeb;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:1.5rem;flex-shrink:0">⚡</div>
+            <div>
+              <div style="font-size:.7rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:#d97706;margin-bottom:6px">課題 03 · 準備自動化</div>
+              <h3 style="font-size:1.05rem;margin-bottom:8px">商談準備の〜 2 時間が毎回まるごと発生する</h3>
+              <p style="font-size:.9rem;color:#374151;line-height:1.8">アジェンダ・ヒアリングシート・デモ資料の準備が担当者任せになり、<strong>品質・スピード共に不安定。初回接触までのリードタイムが競合との差を生む。</strong></p>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
